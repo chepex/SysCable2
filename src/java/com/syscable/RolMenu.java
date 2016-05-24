@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RolMenu.findAll", query = "SELECT r FROM RolMenu r"),
-    @NamedQuery(name = "RolMenu.findByIdrolMenu", query = "SELECT r FROM RolMenu r WHERE r.rolIdrol.idrol = :rol"),
+    @NamedQuery(name = "RolMenu.findByIdrolMenu", query = "SELECT r FROM RolMenu r WHERE r.rolIdrol.idrol = :rol order by r.menuIdmenu.submenu , r.menuIdmenu.correlativo "),
     @NamedQuery(name = "RolMenu.findByActivo", query = "SELECT r FROM RolMenu r WHERE r.activo = :activo"),
     @NamedQuery(name = "RolMenu.findByUserCreate", query = "SELECT r FROM RolMenu r WHERE r.userCreate = :userCreate"),
     @NamedQuery(name = "RolMenu.findByDateCreate", query = "SELECT r FROM RolMenu r WHERE r.dateCreate = :dateCreate"),

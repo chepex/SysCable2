@@ -15,14 +15,14 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="ClienteListForm">             
-                    <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B" />                     
-                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=":ClienteListForm" />                            
-                    <p:commandButton id="saveButton"   icon="ui-icon-pencil" value="F7" actionListener="#{clienteController.create}" disabled="#{empty clienteController.selected}"/>
-                    <p:commandButton id="editButton"   icon="ui-icon-disk" value="F8" actionListener="#{clienteController.update}" disabled="#{empty clienteController.selected}"/>
-                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="F9" actionListener="#{clienteController.destroy}"  disabled="#{empty clienteController.selected}"/>
-                    
-               
+            <h:form id="ClienteBtnForm">             
+                    <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B"   disabled="#{clienteController.selected!=null}"/>                     
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=":ClienteListForm :ClienteBtnForm"   disabled ="#{clienteController.selected!=null}" />                            
+                    <p:commandButton id="saveButton"   icon="ui-icon-pencil" value="F7" actionListener="#{clienteController.create}" update=":ClienteListForm :ClienteBtnForm" rendered="#{clienteController.selected==null}"  disabled="#{empty clienteController.selected}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-disk" value="F8" actionListener="#{clienteController.update}" update=":ClienteListForm :ClienteBtnForm" rendered="#{clienteController.selected!=null}"  disabled="#{empty clienteController.selected}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="F9" actionListener="#{clienteController.limpiar()}"  disabled="#{empty clienteController.selected}" update=":ClienteListForm :ClienteBtnForm"/>
+            </h:form>
+            <h:form id="ClienteListForm">     
                 <p:panel header="Cliente" >
                     <p:panel header="Datos Personales"  >                        
                         <p:panelGrid columns="6"    layout="grid"  rendered="#{clienteController.selected != null}">

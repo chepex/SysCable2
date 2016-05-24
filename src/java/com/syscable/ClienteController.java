@@ -155,5 +155,12 @@ public class ClienteController implements Serializable {
         }
 
     }
+    
+    
+   public void limpiar() {        
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        
+    }    
 
 }
