@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MenuViewDlg" widgetVar="MenuViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMenuTitle}">
+            <h:form id="MenuViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{menuController.selected != null}">
+                        <h:outputText value="#{bundle.ViewMenuLabel_idmenu}"/>
+                        <h:outputText value="#{menuController.selected.idmenu}" title="#{bundle.ViewMenuTitle_idmenu}"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_menu}"/>
+                        <h:outputText value="#{menuController.selected.menu}" title="#{bundle.ViewMenuTitle_menu}"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_activo}"/>
+                        <h:outputText value="#{menuController.selected.activo}" title="#{bundle.ViewMenuTitle_activo}"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_userCreate}"/>
+                        <h:outputText value="#{menuController.selected.userCreate}" title="#{bundle.ViewMenuTitle_userCreate}"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_dateCreate}"/>
+                        <h:outputText value="#{menuController.selected.dateCreate}" title="#{bundle.ViewMenuTitle_dateCreate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMenuLabel_userMod}"/>
+                        <h:outputText value="#{menuController.selected.userMod}" title="#{bundle.ViewMenuTitle_userMod}"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_dateMod}"/>
+                        <h:outputText value="#{menuController.selected.dateMod}" title="#{bundle.ViewMenuTitle_dateMod}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewMenuLabel_url}"/>
+                        <h:outputText value="#{menuController.selected.url}" title="#{bundle.ViewMenuTitle_url}"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_submenu}"/>
+                        <h:outputText value="#{menuController.selected.submenu}" title="#{bundle.ViewMenuTitle_submenu}"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_correlativo}"/>
+                        <h:outputText value="#{menuController.selected.correlativo}" title="#{bundle.ViewMenuTitle_correlativo}"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_principal}"/>
+                        <p:selectBooleanCheckbox value="#{menuController.selected.principal}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewMenuLabel_moduloIdmodulo}"/>
+                        <h:outputText value="#{menuController.selected.moduloIdmodulo}" title="#{bundle.ViewMenuTitle_moduloIdmodulo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="MenuViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ClienteViewDlg" widgetVar="ClienteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewClienteTitle}">
+            <h:form id="ClienteViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{clienteController.selected != null}">
+                        <h:outputText value="#{bundle.ViewClienteLabel_idcliente}"/>
+                        <h:outputText value="#{clienteController.selected.idcliente}" title="#{bundle.ViewClienteTitle_idcliente}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_nombres}"/>
+                        <h:outputText value="#{clienteController.selected.nombres}" title="#{bundle.ViewClienteTitle_nombres}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_apellidos}"/>
+                        <h:outputText value="#{clienteController.selected.apellidos}" title="#{bundle.ViewClienteTitle_apellidos}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_dui}"/>
+                        <h:outputText value="#{clienteController.selected.dui}" title="#{bundle.ViewClienteTitle_dui}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_nit}"/>
+                        <h:outputText value="#{clienteController.selected.nit}" title="#{bundle.ViewClienteTitle_nit}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_telefono}"/>
+                        <h:outputText value="#{clienteController.selected.telefono}" title="#{bundle.ViewClienteTitle_telefono}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_lugarTrabajo}"/>
+                        <h:outputText value="#{clienteController.selected.lugarTrabajo}" title="#{bundle.ViewClienteTitle_lugarTrabajo}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_dirTrabajo}"/>
+                        <h:outputText value="#{clienteController.selected.dirTrabajo}" title="#{bundle.ViewClienteTitle_dirTrabajo}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_telTrabajo}"/>
+                        <h:outputText value="#{clienteController.selected.telTrabajo}" title="#{bundle.ViewClienteTitle_telTrabajo}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_nombreConyugue}"/>
+                        <h:outputText value="#{clienteController.selected.nombreConyugue}" title="#{bundle.ViewClienteTitle_nombreConyugue}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_trabajoConyugue}"/>
+                        <h:outputText value="#{clienteController.selected.trabajoConyugue}" title="#{bundle.ViewClienteTitle_trabajoConyugue}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_telTrabajoConyugue}"/>
+                        <h:outputText value="#{clienteController.selected.telTrabajoConyugue}" title="#{bundle.ViewClienteTitle_telTrabajoConyugue}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_dirInstalacion}"/>
+                        <h:outputText value="#{clienteController.selected.dirInstalacion}" title="#{bundle.ViewClienteTitle_dirInstalacion}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_fechaNacimiento}"/>
+                        <h:outputText value="#{clienteController.selected.fechaNacimiento}" title="#{bundle.ViewClienteTitle_fechaNacimiento}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewClienteLabel_estado}"/>
+                        <p:selectBooleanCheckbox value="#{clienteController.selected.estado}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_email}"/>
+                        <h:outputText value="#{clienteController.selected.email}" title="#{bundle.ViewClienteTitle_email}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_userCreate}"/>
+                        <h:outputText value="#{clienteController.selected.userCreate}" title="#{bundle.ViewClienteTitle_userCreate}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_dateCreate}"/>
+                        <h:outputText value="#{clienteController.selected.dateCreate}" title="#{bundle.ViewClienteTitle_dateCreate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewClienteLabel_userMod}"/>
+                        <h:outputText value="#{clienteController.selected.userMod}" title="#{bundle.ViewClienteTitle_userMod}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_dateMod}"/>
+                        <h:outputText value="#{clienteController.selected.dateMod}" title="#{bundle.ViewClienteTitle_dateMod}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewClienteLabel_dirTrabajoConyugue}"/>
+                        <h:outputText value="#{clienteController.selected.dirTrabajoConyugue}" title="#{bundle.ViewClienteTitle_dirTrabajoConyugue}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_profesionIdprofesion}"/>
+                        <h:outputText value="#{clienteController.selected.profesionIdprofesion}" title="#{bundle.ViewClienteTitle_profesionIdprofesion}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_nacionalidadIdnacionalidad}"/>
+                        <h:outputText value="#{clienteController.selected.nacionalidadIdnacionalidad}" title="#{bundle.ViewClienteTitle_nacionalidadIdnacionalidad}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_municipioIdmunicipio}"/>
+                        <h:outputText value="#{clienteController.selected.municipioIdmunicipio}" title="#{bundle.ViewClienteTitle_municipioIdmunicipio}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_departamentoIddepartamento}"/>
+                        <h:outputText value="#{clienteController.selected.departamentoIddepartamento}" title="#{bundle.ViewClienteTitle_departamentoIddepartamento}"/>
+                        <h:outputText value="#{bundle.ViewClienteLabel_coloniaIdcolonia}"/>
+                        <h:outputText value="#{clienteController.selected.coloniaIdcolonia}" title="#{bundle.ViewClienteTitle_coloniaIdcolonia}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ClienteViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

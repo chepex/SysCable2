@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ColoniaViewDlg" widgetVar="ColoniaViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewColoniaTitle}">
+            <h:form id="ColoniaViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{coloniaController.selected != null}">
+                        <h:outputText value="#{bundle.ViewColoniaLabel_idcolonia}"/>
+                        <h:outputText value="#{coloniaController.selected.idcolonia}" title="#{bundle.ViewColoniaTitle_idcolonia}"/>
+                        <h:outputText value="#{bundle.ViewColoniaLabel_nombre}"/>
+                        <h:outputText value="#{coloniaController.selected.nombre}" title="#{bundle.ViewColoniaTitle_nombre}"/>
+                        <h:outputText value="#{bundle.ViewColoniaLabel_municipioIdmunicipio}"/>
+                        <h:outputText value="#{coloniaController.selected.municipioIdmunicipio}" title="#{bundle.ViewColoniaTitle_municipioIdmunicipio}"/>
+                        <h:outputText value="#{bundle.ViewColoniaLabel_departamentoIddepartamento}"/>
+                        <h:outputText value="#{coloniaController.selected.departamentoIddepartamento}" title="#{bundle.ViewColoniaTitle_departamentoIddepartamento}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ColoniaViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

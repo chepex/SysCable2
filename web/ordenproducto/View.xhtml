@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrdenproductoViewDlg" widgetVar="OrdenproductoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewOrdenproductoTitle}">
+            <h:form id="OrdenproductoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ordenproductoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewOrdenproductoLabel_idordenProducto}"/>
+                        <h:outputText value="#{ordenproductoController.selected.idordenProducto}" title="#{bundle.ViewOrdenproductoTitle_idordenProducto}"/>
+                        <h:outputText value="#{bundle.ViewOrdenproductoLabel_ordenProductocol}"/>
+                        <h:outputText value="#{ordenproductoController.selected.ordenProductocol}" title="#{bundle.ViewOrdenproductoTitle_ordenProductocol}"/>
+                        <h:outputText value="#{bundle.ViewOrdenproductoLabel_precio}"/>
+                        <h:outputText value="#{ordenproductoController.selected.precio}" title="#{bundle.ViewOrdenproductoTitle_precio}"/>
+                        <h:outputText value="#{bundle.ViewOrdenproductoLabel_productoIdproducto}"/>
+                        <h:outputText value="#{ordenproductoController.selected.productoIdproducto}" title="#{bundle.ViewOrdenproductoTitle_productoIdproducto}"/>
+                        <h:outputText value="#{bundle.ViewOrdenproductoLabel_ordenTrabajoidordenTrabajo}"/>
+                        <h:outputText value="#{ordenproductoController.selected.ordenTrabajoidordenTrabajo}" title="#{bundle.ViewOrdenproductoTitle_ordenTrabajoidordenTrabajo}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="OrdenproductoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

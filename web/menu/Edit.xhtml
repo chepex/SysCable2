@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MenuEditDlg" widgetVar="MenuEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMenuTitle}">
+            <h:form id="MenuEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{menuController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMenuLabel_idmenu}" for="idmenu" />
+                        <p:inputText id="idmenu" value="#{menuController.selected.idmenu}" title="#{bundle.EditMenuTitle_idmenu}" required="true" requiredMessage="#{bundle.EditMenuRequiredMessage_idmenu}"/>
+                        <p:outputLabel value="#{bundle.EditMenuLabel_menu}" for="menu" />
+                        <p:inputText id="menu" value="#{menuController.selected.menu}" title="#{bundle.EditMenuTitle_menu}" />
+                        <p:outputLabel value="#{bundle.EditMenuLabel_activo}" for="activo" />
+                        <p:inputText id="activo" value="#{menuController.selected.activo}" title="#{bundle.EditMenuTitle_activo}" />
+                        <p:outputLabel value="#{bundle.EditMenuLabel_userCreate}" for="userCreate" />
+                        <p:inputText id="userCreate" value="#{menuController.selected.userCreate}" title="#{bundle.EditMenuTitle_userCreate}" />
+                        <p:outputLabel value="#{bundle.EditMenuLabel_dateCreate}" for="dateCreate" />
+                        <p:calendar id="dateCreate" pattern="MM/dd/yyyy" value="#{menuController.selected.dateCreate}" title="#{bundle.EditMenuTitle_dateCreate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMenuLabel_userMod}" for="userMod" />
+                        <p:inputText id="userMod" value="#{menuController.selected.userMod}" title="#{bundle.EditMenuTitle_userMod}" />
+                        <p:outputLabel value="#{bundle.EditMenuLabel_dateMod}" for="dateMod" />
+                        <p:calendar id="dateMod" pattern="MM/dd/yyyy" value="#{menuController.selected.dateMod}" title="#{bundle.EditMenuTitle_dateMod}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditMenuLabel_url}" for="url" />
+                        <p:inputText id="url" value="#{menuController.selected.url}" title="#{bundle.EditMenuTitle_url}" />
+                        <p:outputLabel value="#{bundle.EditMenuLabel_submenu}" for="submenu" />
+                        <p:inputText id="submenu" value="#{menuController.selected.submenu}" title="#{bundle.EditMenuTitle_submenu}" />
+                        <p:outputLabel value="#{bundle.EditMenuLabel_correlativo}" for="correlativo" />
+                        <p:inputText id="correlativo" value="#{menuController.selected.correlativo}" title="#{bundle.EditMenuTitle_correlativo}" />
+                        <p:outputLabel value="#{bundle.EditMenuLabel_principal}" for="principal" />
+                        <p:selectBooleanCheckbox id="principal" value="#{menuController.selected.principal}" />
+                        <p:outputLabel value="#{bundle.EditMenuLabel_moduloIdmodulo}" for="moduloIdmodulo" />
+                        <p:selectOneMenu id="moduloIdmodulo" value="#{menuController.selected.moduloIdmodulo}" required="true" requiredMessage="#{bundle.EditMenuRequiredMessage_moduloIdmodulo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{moduloController.itemsAvailableSelectOne}"
+                                           var="moduloIdmoduloItem"
+                                           itemValue="#{moduloIdmoduloItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{menuController.update}" value="#{bundle.Save}" update="display,:MenuListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MenuEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MenuEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

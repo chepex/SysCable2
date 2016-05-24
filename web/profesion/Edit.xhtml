@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProfesionEditDlg" widgetVar="ProfesionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditProfesionTitle}">
+            <h:form id="ProfesionEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{profesionController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditProfesionLabel_idprofesion}" for="idprofesion" />
+                        <p:inputText id="idprofesion" value="#{profesionController.selected.idprofesion}" title="#{bundle.EditProfesionTitle_idprofesion}" required="true" requiredMessage="#{bundle.EditProfesionRequiredMessage_idprofesion}"/>
+                        <p:outputLabel value="#{bundle.EditProfesionLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{profesionController.selected.nombre}" title="#{bundle.EditProfesionTitle_nombre}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{profesionController.update}" value="#{bundle.Save}" update="display,:ProfesionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ProfesionEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ProfesionEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

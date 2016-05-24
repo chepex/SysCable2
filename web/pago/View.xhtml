@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PagoViewDlg" widgetVar="PagoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPagoTitle}">
+            <h:form id="PagoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{pagoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewPagoLabel_idpagos}"/>
+                        <h:outputText value="#{pagoController.selected.idpagos}" title="#{bundle.ViewPagoTitle_idpagos}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_fecha}"/>
+                        <h:outputText value="#{pagoController.selected.fecha}" title="#{bundle.ViewPagoTitle_fecha}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_valor}"/>
+                        <h:outputText value="#{pagoController.selected.valor}" title="#{bundle.ViewPagoTitle_valor}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_numCuota}"/>
+                        <h:outputText value="#{pagoController.selected.numCuota}" title="#{bundle.ViewPagoTitle_numCuota}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_userCreate}"/>
+                        <h:outputText value="#{pagoController.selected.userCreate}" title="#{bundle.ViewPagoTitle_userCreate}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_dateCreate}"/>
+                        <h:outputText value="#{pagoController.selected.dateCreate}" title="#{bundle.ViewPagoTitle_dateCreate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewPagoLabel_userMod}"/>
+                        <h:outputText value="#{pagoController.selected.userMod}" title="#{bundle.ViewPagoTitle_userMod}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_dateMod}"/>
+                        <h:outputText value="#{pagoController.selected.dateMod}" title="#{bundle.ViewPagoTitle_dateMod}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewPagoLabel_descripcion}"/>
+                        <h:outputText value="#{pagoController.selected.descripcion}" title="#{bundle.ViewPagoTitle_descripcion}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_descuento}"/>
+                        <h:outputText value="#{pagoController.selected.descuento}" title="#{bundle.ViewPagoTitle_descuento}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_total}"/>
+                        <h:outputText value="#{pagoController.selected.total}" title="#{bundle.ViewPagoTitle_total}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_ordenTrabajoidordenTrabajo}"/>
+                        <h:outputText value="#{pagoController.selected.ordenTrabajoidordenTrabajo}" title="#{bundle.ViewPagoTitle_ordenTrabajoidordenTrabajo}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_contratoIdcontrato}"/>
+                        <h:outputText value="#{pagoController.selected.contratoIdcontrato}" title="#{bundle.ViewPagoTitle_contratoIdcontrato}"/>
+                        <h:outputText value="#{bundle.ViewPagoLabel_clienteIdcliente}"/>
+                        <h:outputText value="#{pagoController.selected.clienteIdcliente}" title="#{bundle.ViewPagoTitle_clienteIdcliente}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="PagoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

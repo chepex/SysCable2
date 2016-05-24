@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoordenEditDlg" widgetVar="TipoordenEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTipoordenTitle}">
+            <h:form id="TipoordenEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tipoordenController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTipoordenLabel_idtipoOrden}" for="idtipoOrden" />
+                        <p:inputText id="idtipoOrden" value="#{tipoordenController.selected.idtipoOrden}" title="#{bundle.EditTipoordenTitle_idtipoOrden}" required="true" requiredMessage="#{bundle.EditTipoordenRequiredMessage_idtipoOrden}"/>
+                        <p:outputLabel value="#{bundle.EditTipoordenLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{tipoordenController.selected.nombre}" title="#{bundle.EditTipoordenTitle_nombre}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoordenController.update}" value="#{bundle.Save}" update="display,:TipoordenListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TipoordenEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TipoordenEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

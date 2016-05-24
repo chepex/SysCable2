@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ContratoEditDlg" widgetVar="ContratoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditContratoTitle}">
+            <h:form id="ContratoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{contratoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditContratoLabel_idcontrato}" for="idcontrato" />
+                        <p:inputText id="idcontrato" value="#{contratoController.selected.idcontrato}" title="#{bundle.EditContratoTitle_idcontrato}" required="true" requiredMessage="#{bundle.EditContratoRequiredMessage_idcontrato}"/>
+                        <p:outputLabel value="#{bundle.EditContratoLabel_fecha}" for="fecha" />
+                        <p:inputText id="fecha" value="#{contratoController.selected.fecha}" title="#{bundle.EditContratoTitle_fecha}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{contratoController.selected.estado}" title="#{bundle.EditContratoTitle_estado}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_fechainicio}" for="fechainicio" />
+                        <p:calendar id="fechainicio" pattern="MM/dd/yyyy" value="#{contratoController.selected.fechainicio}" title="#{bundle.EditContratoTitle_fechainicio}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditContratoLabel_fechafin}" for="fechafin" />
+                        <p:calendar id="fechafin" pattern="MM/dd/yyyy" value="#{contratoController.selected.fechafin}" title="#{bundle.EditContratoTitle_fechafin}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditContratoLabel_valorTotal}" for="valorTotal" />
+                        <p:inputText id="valorTotal" value="#{contratoController.selected.valorTotal}" title="#{bundle.EditContratoTitle_valorTotal}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_valorCuota}" for="valorCuota" />
+                        <p:inputText id="valorCuota" value="#{contratoController.selected.valorCuota}" title="#{bundle.EditContratoTitle_valorCuota}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_cuotas}" for="cuotas" />
+                        <p:inputText id="cuotas" value="#{contratoController.selected.cuotas}" title="#{bundle.EditContratoTitle_cuotas}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_saldo}" for="saldo" />
+                        <p:inputText id="saldo" value="#{contratoController.selected.saldo}" title="#{bundle.EditContratoTitle_saldo}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_cuotasPagadas}" for="cuotasPagadas" />
+                        <p:inputText id="cuotasPagadas" value="#{contratoController.selected.cuotasPagadas}" title="#{bundle.EditContratoTitle_cuotasPagadas}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_ultimoPago}" for="ultimoPago" />
+                        <p:calendar id="ultimoPago" pattern="MM/dd/yyyy" value="#{contratoController.selected.ultimoPago}" title="#{bundle.EditContratoTitle_ultimoPago}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditContratoLabel_userCreate}" for="userCreate" />
+                        <p:inputText id="userCreate" value="#{contratoController.selected.userCreate}" title="#{bundle.EditContratoTitle_userCreate}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_dateCreate}" for="dateCreate" />
+                        <p:calendar id="dateCreate" pattern="MM/dd/yyyy" value="#{contratoController.selected.dateCreate}" title="#{bundle.EditContratoTitle_dateCreate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditContratoLabel_userMod}" for="userMod" />
+                        <p:inputText id="userMod" value="#{contratoController.selected.userMod}" title="#{bundle.EditContratoTitle_userMod}" />
+                        <p:outputLabel value="#{bundle.EditContratoLabel_dateMod}" for="dateMod" />
+                        <p:calendar id="dateMod" pattern="MM/dd/yyyy" value="#{contratoController.selected.dateMod}" title="#{bundle.EditContratoTitle_dateMod}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditContratoLabel_clienteIdcliente}" for="clienteIdcliente" />
+                        <p:selectOneMenu id="clienteIdcliente" value="#{contratoController.selected.clienteIdcliente}" required="true" requiredMessage="#{bundle.EditContratoRequiredMessage_clienteIdcliente}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"
+                                           var="clienteIdclienteItem"
+                                           itemValue="#{clienteIdclienteItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{contratoController.update}" value="#{bundle.Save}" update="display,:ContratoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'ContratoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ContratoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

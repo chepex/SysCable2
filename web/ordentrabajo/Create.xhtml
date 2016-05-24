@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrdentrabajoCreateDlg" widgetVar="OrdentrabajoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateOrdentrabajoTitle}">
+            <h:form id="OrdentrabajoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ordentrabajoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_idordenTrabajo}" for="idordenTrabajo" />
+                        <p:inputText id="idordenTrabajo" value="#{ordentrabajoController.selected.idordenTrabajo}" title="#{bundle.CreateOrdentrabajoTitle_idordenTrabajo}" required="true" requiredMessage="#{bundle.CreateOrdentrabajoRequiredMessage_idordenTrabajo}"/>
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{ordentrabajoController.selected.descripcion}" title="#{bundle.CreateOrdentrabajoTitle_descripcion}" />
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_fechaIng}" for="fechaIng" />
+                        <p:calendar id="fechaIng" pattern="MM/dd/yyyy" value="#{ordentrabajoController.selected.fechaIng}" title="#{bundle.EditOrdentrabajoTitle_fechaIng}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_fechaFin}" for="fechaFin" />
+                        <p:calendar id="fechaFin" pattern="MM/dd/yyyy" value="#{ordentrabajoController.selected.fechaFin}" title="#{bundle.EditOrdentrabajoTitle_fechaFin}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_descripcionSolucion}" for="descripcionSolucion" />
+                        <p:inputText id="descripcionSolucion" value="#{ordentrabajoController.selected.descripcionSolucion}" title="#{bundle.CreateOrdentrabajoTitle_descripcionSolucion}" />
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{ordentrabajoController.selected.estado}" title="#{bundle.CreateOrdentrabajoTitle_estado}" />
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_userCreate}" for="userCreate" />
+                        <p:inputText id="userCreate" value="#{ordentrabajoController.selected.userCreate}" title="#{bundle.CreateOrdentrabajoTitle_userCreate}" />
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_dateCreate}" for="dateCreate" />
+                        <p:calendar id="dateCreate" pattern="MM/dd/yyyy" value="#{ordentrabajoController.selected.dateCreate}" title="#{bundle.EditOrdentrabajoTitle_dateCreate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_userMod}" for="userMod" />
+                        <p:inputText id="userMod" value="#{ordentrabajoController.selected.userMod}" title="#{bundle.CreateOrdentrabajoTitle_userMod}" />
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_dateMod}" for="dateMod" />
+                        <p:calendar id="dateMod" pattern="MM/dd/yyyy" value="#{ordentrabajoController.selected.dateMod}" title="#{bundle.EditOrdentrabajoTitle_dateMod}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_valor}" for="valor" />
+                        <p:inputText id="valor" value="#{ordentrabajoController.selected.valor}" title="#{bundle.CreateOrdentrabajoTitle_valor}" />
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_tipoOrdenidtipoOrden}" for="tipoOrdenidtipoOrden" />
+                        <p:selectOneMenu id="tipoOrdenidtipoOrden" value="#{ordentrabajoController.selected.tipoOrdenidtipoOrden}" required="true" requiredMessage="#{bundle.EditOrdentrabajoRequiredMessage_tipoOrdenidtipoOrden}">
+                            <f:selectItems value="#{tipoordenController.itemsAvailableSelectOne}"
+                                           var="tipoOrdenidtipoOrdenItem"
+                                           itemValue="#{tipoOrdenidtipoOrdenItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_tecnicoIdtecnico}" for="tecnicoIdtecnico" />
+                        <p:selectOneMenu id="tecnicoIdtecnico" value="#{ordentrabajoController.selected.tecnicoIdtecnico}" required="true" requiredMessage="#{bundle.EditOrdentrabajoRequiredMessage_tecnicoIdtecnico}">
+                            <f:selectItems value="#{tecnicoController.itemsAvailableSelectOne}"
+                                           var="tecnicoIdtecnicoItem"
+                                           itemValue="#{tecnicoIdtecnicoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateOrdentrabajoLabel_clienteIdcliente}" for="clienteIdcliente" />
+                        <p:selectOneMenu id="clienteIdcliente" value="#{ordentrabajoController.selected.clienteIdcliente}" required="true" requiredMessage="#{bundle.EditOrdentrabajoRequiredMessage_clienteIdcliente}">
+                            <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"
+                                           var="clienteIdclienteItem"
+                                           itemValue="#{clienteIdclienteItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ordentrabajoController.create}" value="#{bundle.Save}" update="display,:OrdentrabajoListForm:datalist,:growl" oncomplete="handleSubmit(args,'OrdentrabajoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="OrdentrabajoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
