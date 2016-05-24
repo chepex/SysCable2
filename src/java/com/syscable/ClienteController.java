@@ -49,13 +49,19 @@ public class ClienteController implements Serializable {
 
     public Cliente prepareCreate() {
         selected = new Cliente();
+        selected.setIdcliente(0);
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
+        System.out.println("---------------------");
+        System.out.println("---------------------");
+        System.out.println("---------------------");
+        
+        System.out.println("select --->"+selected);
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ClienteCreated"));
-        if (!JsfUtil.isValidationFailed()) {
+      if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
@@ -85,7 +91,8 @@ public class ClienteController implements Serializable {
             try {
                 if (persistAction != PersistAction.DELETE) {
                     getFacade().edit(selected);
-                } else {
+                }               
+                else {
                     getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
@@ -96,7 +103,7 @@ public class ClienteController implements Serializable {
                     msg = cause.getLocalizedMessage();
                 }
                 if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
+                    JsfUtil.addErrorMessage("Surgio un error grave  "+msg);
                 } else {
                     JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
                 }

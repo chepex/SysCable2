@@ -69,10 +69,10 @@ public class Cliente implements Serializable {
     @Size(max = 45)
     @Column(name = "apellidos")
     private String apellidos;
-    @Size(max = 45)
+     @Size(max = 14)
     @Column(name = "dui")
     private String dui;
-    @Size(max = 45)
+     @Size(max = 14)
     @Column(name = "nit")
     private String nit;
     @Size(max = 45)
@@ -191,6 +191,12 @@ public class Cliente implements Serializable {
     public void setNit(String nit) {
         this.nit = nit;
     }
+
+
+
+
+
+ 
 
     public String getTelefono() {
         return telefono;

@@ -17,12 +17,11 @@
         <ui:define name="body">
             <h:form id="ClienteBtnForm">             
                     <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B"   disabled="#{clienteController.selected!=null}"/>                     
-                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=":ClienteListForm :ClienteBtnForm"   disabled ="#{clienteController.selected!=null}" />                            
-                    <p:commandButton id="saveButton"   icon="ui-icon-pencil" value="F7" actionListener="#{clienteController.create}" update=":ClienteListForm :ClienteBtnForm" rendered="#{clienteController.selected==null}"  disabled="#{empty clienteController.selected}"/>
-                    <p:commandButton id="editButton"   icon="ui-icon-disk" value="F8" actionListener="#{clienteController.update}" update=":ClienteListForm :ClienteBtnForm" rendered="#{clienteController.selected!=null}"  disabled="#{empty clienteController.selected}"/>
-                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="F9" actionListener="#{clienteController.limpiar()}"  disabled="#{empty clienteController.selected}" update=":ClienteListForm :ClienteBtnForm"/>
-            </h:form>
-            <h:form id="ClienteListForm">     
+                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl"   disabled ="#{clienteController.selected!=null}" />                            
+                    <p:commandButton id="saveButton"   icon="ui-icon-disk" value="F7" actionListener="#{clienteController.create}" update=" :ClienteBtnForm :growl," rendered="#{clienteController.selected!=null}"  disabled="#{empty clienteController.selected}"/>
+                    <p:commandButton id="editButton"   icon="ui-icon-pencil" value="F8" actionListener="#{clienteController.update}" update=" :ClienteBtnForm :growl" rendered="#{clienteController.selected==null}"  disabled="#{empty clienteController.selected}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="F9" actionListener="#{clienteController.limpiar()}"  disabled="#{empty clienteController.selected}" update=" :ClienteBtnForm :growl"/>
+              
                 <p:panel header="Cliente" >
                     <p:panel header="Datos Personales"  >                        
                         <p:panelGrid columns="6"    layout="grid"  rendered="#{clienteController.selected != null}">
@@ -42,6 +41,7 @@
                         <p:selectOneMenu id="nacionalidadIdnacionalidad" value="#{clienteController.selected.nacionalidadIdnacionalidad}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_nacionalidadIdnacionalidad}">
                             <f:selectItems value="#{nacionalidadController.itemsAvailableSelectOne}"
                                            var="nacionalidadIdnacionalidadItem"
+                                             itemLabel="#{nacionalidadIdnacionalidadItem.nombre}"
                                            itemValue="#{nacionalidadIdnacionalidadItem}"/>
                         </p:selectOneMenu>                        
 
@@ -49,6 +49,7 @@
                         <p:selectOneMenu id="profesionIdprofesion" value="#{clienteController.selected.profesionIdprofesion}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_profesionIdprofesion}">
                             <f:selectItems value="#{profesionController.itemsAvailableSelectOne}"
                                            var="profesionIdprofesionItem"
+                                           itemLabel="#{profesionIdprofesionItem.nombre}"
                                            itemValue="#{profesionIdprofesionItem}"/>
                         </p:selectOneMenu>
                         
@@ -123,6 +124,7 @@
                         <p:selectOneMenu id="coloniaIdcolonia" value="#{clienteController.selected.coloniaIdcolonia}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_coloniaIdcolonia}">
                             <f:selectItems value="#{coloniaController.itemsAvailableSelectOne}"
                                            var="coloniaIdcoloniaItem"
+                                           itemLabel="#{coloniaIdcoloniaItem.nombre}"
                                            itemValue="#{coloniaIdcoloniaItem}"/>
                         </p:selectOneMenu>                        
                          </p:panelGrid>
