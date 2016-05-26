@@ -131,6 +131,70 @@
                     </p:panel>
                             
                 </p:panel>
+                <p:panelGrid columns="2"    layout="grid"  rendered="#{clienteController.selected != null}">
+                <p:panel header="Contratos "  >  
+                     <p:dataTable id="datalist" value="#{contratoController.items}" var="item"
+                                 selectionMode="single" selection="#{contratoController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idcontrato}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListContratoTitle_idcontrato}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idcontrato}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListContratoTitle_fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListContratoTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.estado}"/>
+                        </p:column>
+                     </p:dataTable>                    
+                
+                </p:panel>
+                <p:panel header="Ordenes de Trabajo "  >  
+                      <p:dataTable id="datalistOT" value="#{ordentrabajoController.items}" var="item"
+                                 selectionMode="single" selection="#{ordentrabajoController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idordenTrabajo}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+                            <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrdentrabajoTitle_idordenTrabajo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idordenTrabajo}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrdentrabajoTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrdentrabajoTitle_fechaIng}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaIng}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                      </p:dataTable>
+                
+                </p:panel>                    
+                </p:panelGrid>        
+                    
+                    
             </h:form>
 
             
