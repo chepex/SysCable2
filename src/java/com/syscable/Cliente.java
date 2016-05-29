@@ -96,7 +96,7 @@ public class Cliente implements Serializable {
     @Size(max = 45)
     @Column(name = "tel_trabajo_conyugue")
     private String telTrabajoConyugue;
-    @Size(max = 45)
+    @Size(max = 250)
     @Column(name = "dirInstalacion")
     private String dirInstalacion;
     @Column(name = "fechaNacimiento")

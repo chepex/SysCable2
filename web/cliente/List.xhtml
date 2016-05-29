@@ -7,7 +7,6 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition template="/template.xhtml">
-
  
         
         
@@ -16,137 +15,224 @@
         </ui:define>
 
         <ui:define name="body">
+            
+            <div class="container-fluid">
+
+                </div>
             <h:form id="ClienteBtnForm">             
                     <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B"   disabled="#{clienteController.selected!=null}"/>                     
-                    <p:commandButton id="createButton" icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl"   disabled ="#{clienteController.selected!=null}" />                            
+                    <p:commandButton id="createButton"  icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl"   disabled ="#{clienteController.selected!=null}" />                            
                     <p:commandButton id="saveButton"   icon="ui-icon-disk" value="F7" actionListener="#{clienteController.create}" update=" :ClienteBtnForm :growl," rendered="#{clienteController.selected!=null}"  disabled="#{empty clienteController.selected}"/>
                     <p:commandButton id="editButton"   icon="ui-icon-pencil" value="F8" actionListener="#{clienteController.update}" update=" :ClienteBtnForm :growl" rendered="#{clienteController.selected==null}"  disabled="#{empty clienteController.selected}"/>
                     <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="F9" actionListener="#{clienteController.limpiar()}"  disabled="#{empty clienteController.selected}" update=" :ClienteBtnForm :growl"/>
               
-                <p:panel header="Cliente" >
-                    <p:panel header="Datos Personales"  >                        
-                        <p:panelGrid columns="6"    layout="grid"  rendered="#{clienteController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_idcliente}" for="idcliente" />
-                        <p:inputText  id="idcliente" readonly="true" value="#{clienteController.selected.idcliente}" title="#{bundle.CreateClienteTitle_idcliente}" required="true" requiredMessage="#{bundle.CreateClienteRequiredMessage_idcliente}"/>
+                    <p:panel header="Cliente"  >
+                    <p:panel header="Datos Personales"  rendered="#{clienteController.selected!=null}">                        
                         
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_nombres}" for="nombres" />
-                        <p:inputText id="nombres" value="#{clienteController.selected.nombres}" title="#{bundle.CreateClienteTitle_nombres}" />
-                        
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_apellidos}" for="apellidos" />
-                        <p:inputText id="apellidos" value="#{clienteController.selected.apellidos}" title="#{bundle.CreateClienteTitle_apellidos}" />
-                        
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_fechaNacimiento}" for="fechaNacimiento" />
-                        <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{clienteController.selected.fechaNacimiento}" title="#{bundle.EditClienteTitle_fechaNacimiento}"  showOn="button"/>
-                        
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_nacionalidadIdnacionalidad}" for="nacionalidadIdnacionalidad" />
-                        <p:selectOneMenu id="nacionalidadIdnacionalidad" value="#{clienteController.selected.nacionalidadIdnacionalidad}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_nacionalidadIdnacionalidad}">
-                            <f:selectItems value="#{nacionalidadController.itemsAvailableSelectOne}"
-                                           var="nacionalidadIdnacionalidadItem"
-                                             itemLabel="#{nacionalidadIdnacionalidadItem.nombre}"
-                                           itemValue="#{nacionalidadIdnacionalidadItem}"/>
-                        </p:selectOneMenu>                        
-
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_profesionIdprofesion}" for="profesionIdprofesion" />
-                        <p:selectOneMenu id="profesionIdprofesion" value="#{clienteController.selected.profesionIdprofesion}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_profesionIdprofesion}">
-                            <f:selectItems value="#{profesionController.itemsAvailableSelectOne}"
-                                           var="profesionIdprofesionItem"
-                                           itemLabel="#{profesionIdprofesionItem.nombre}"
-                                           itemValue="#{profesionIdprofesionItem}"/>
-                        </p:selectOneMenu>
-                        
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_dui}" for="dui" />
+                        <div class="row">
+                            <div class="col-md-2">                                
+                                <p:outputLabel value="#{bundle.CreateClienteLabel_idcliente}" for="idcliente" />
+                            </div>
+                                <div class="col-md-2">   
+                                <p:inputText  id="idcliente" readonly="true" value="#{clienteController.selected.idcliente}" title="#{bundle.CreateClienteTitle_idcliente}" required="true" requiredMessage="#{bundle.CreateClienteRequiredMessage_idcliente}"/>                        
+                            </div>
+                            <div class="col-md-2">
+                                <p:outputLabel value="#{bundle.CreateClienteLabel_nombres}" for="nombres" />
+                            </div>
+                                <div class="col-md-2">                                   
+                                <p:inputText id="nombres" value="#{clienteController.selected.nombres}" title="#{bundle.CreateClienteTitle_nombres}" />                                
+                            </div>
+                            <div class="col-md-2">
+                                <p:outputLabel value="#{bundle.CreateClienteLabel_apellidos}" for="apellidos" />
+                            </div>
+                            <div class="col-md-2">                                   
+                                <p:inputText id="apellidos" value="#{clienteController.selected.apellidos}" title="#{bundle.CreateClienteTitle_apellidos}" />                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">  
+                                <p:outputLabel value="#{bundle.CreateClienteLabel_fechaNacimiento}" for="fechaNacimiento" />
+                            </div>
+                            <div class="col-md-2">                                    
+                                <p:calendar id="fechaNacimiento" pattern="MM/dd/yyyy" value="#{clienteController.selected.fechaNacimiento}" title="#{bundle.EditClienteTitle_fechaNacimiento}"  showOn="button"/>                                                       
+                            </div>
+                            <div class="col-md-2">    
+                                <p:outputLabel value="Nacionalidad" for="nacionalidadIdnacionalidad" />
+                            </div>
+                            <div class="col-md-2">                                    
+                                <p:selectOneMenu id="nacionalidadIdnacionalidad" value="#{clienteController.selected.nacionalidadIdnacionalidad}" filter="true" filterMatchMode="contains" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_nacionalidadIdnacionalidad}">
+                                    <f:selectItems value="#{nacionalidadController.itemsAvailableSelectOne}"
+                                                   var="nacionalidadIdnacionalidadItem"
+                                                     itemLabel="#{nacionalidadIdnacionalidadItem.nombre}"
+                                                   itemValue="#{nacionalidadIdnacionalidadItem}"/>
+                                </p:selectOneMenu>  
+                                <p:commandButton id="addNacionalidad" icon="ui-icon-plus"  oncomplete="PF('nacionalidadDialog').show()"    update=" :ClienteBtnForm :growl"   style ="top:-7px;" />                                                            
+                            </div>
+                            <div class="col-md-2">   
+                                <p:outputLabel value="Profesion" for="profesionIdprofesion" />
+                                
+                            </div>
+                                <div class="col-md-2">                                    
+                                <p:selectOneMenu id="profesionIdprofesion" value="#{clienteController.selected.profesionIdprofesion}"  filter="true" filterMatchMode="contains"  required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_profesionIdprofesion}">
+                                    <f:selectItems value="#{profesionController.itemsAvailableSelectOne}"
+                                                   var="profesionIdprofesionItem"
+                                                   itemLabel="#{profesionIdprofesionItem.nombre}"
+                                                   itemValue="#{profesionIdprofesionItem}"/>
+                                </p:selectOneMenu>
+                                <p:commandButton id="addProfesion" icon="ui-icon-plus"  oncomplete="PF('profesionDialog').show()"    update=" :ClienteBtnForm :growl"   style ="top:-7px;" />                            
+                            </div>
+                        </div>
+                          <div class="row">
+                            <div class="col-md-2">  
+                                <p:outputLabel value="#{bundle.CreateClienteLabel_dui}" for="dui" />
+                            </div>
+                            <div class="col-md-2"> 
                         <p:inputText id="dui" value="#{clienteController.selected.dui}" title="#{bundle.CreateClienteTitle_dui}" />
-                        
+                          </div>
+                            <div class="col-md-2"> 
                         <p:outputLabel value="#{bundle.CreateClienteLabel_nit}" for="nit" />
+                          </div>
+                            <div class="col-md-2"> 
                         <p:inputText id="nit" value="#{clienteController.selected.nit}" title="#{bundle.CreateClienteTitle_nit}" />
-                        
+                            </div>
+                            <div class="col-md-2"> 
                         <p:outputLabel value="#{bundle.CreateClienteLabel_telefono}" for="telefono" />
+                          </div>
+                            <div class="col-md-2"> 
                         <p:inputText id="telefono" value="#{clienteController.selected.telefono}" title="#{bundle.CreateClienteTitle_telefono}" />
-                        
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_nombreConyugue}" for="nombreConyugue" />
+                         </div>
+                            
+                              </div>
+                        <div class="row">
+                        <div class="col-md-2">  
+                            <p:outputLabel value="#{bundle.CreateClienteLabel_nombreConyugue}" for="nombreConyugue" />
+                        </div>
+                            <div class="col-md-2">  
                         <p:inputText id="nombreConyugue" value="#{clienteController.selected.nombreConyugue}" title="#{bundle.CreateClienteTitle_nombreConyugue}" />
-                        
+                          </div>
+                            <div class="col-md-2">  
                         <p:outputLabel value="#{bundle.CreateClienteLabel_email}" for="email" />
+                        </div>
+                            <div class="col-md-2">  
                         <p:inputText id="email" value="#{clienteController.selected.email}" title="#{bundle.CreateClienteTitle_email}" />                        
-                        
+                        </div>
+                            <div class="col-md-2">  
    
                         <p:outputLabel value="#{bundle.CreateClienteLabel_estado}" for="estado" />
+                        </div>
+                            <div class="col-md-2">  
                         <p:inputText id="estado" value="#{clienteController.selected.estado}" title="#{bundle.CreateClienteTitle_estado}" />
-                                               
-                        </p:panelGrid>
+                                   </div>
+                            
+                            </div>
+                        
                     </p:panel>
-                        <p:panel header="Datos Referencia "  >                        
-                        <p:panelGrid columns="6"    layout="grid"  rendered="#{clienteController.selected != null}">
+                        <p:panel header="Datos Referencia " rendered="#{clienteController.selected!=null}" >                        
+                            <div class="row">
+                        <div class="col-md-2">  
                                 
                         <p:outputLabel value="#{bundle.CreateClienteLabel_lugarTrabajo}" for="lugarTrabajo" />
+                        </div>
+                            <div class="col-md-2">  
                         <p:inputText id="lugarTrabajo" value="#{clienteController.selected.lugarTrabajo}" title="#{bundle.CreateClienteTitle_lugarTrabajo}" />
-                        
+                        </div>
+                            <div class="col-md-2">  
                         <p:outputLabel value="#{bundle.CreateClienteLabel_dirTrabajo}" for="dirTrabajo" />
+                        </div>
+                            <div class="col-md-2">  
                         <p:inputText id="dirTrabajo" value="#{clienteController.selected.dirTrabajo}" title="#{bundle.CreateClienteTitle_dirTrabajo}" />
-                        
+                        </div>
+                            <div class="col-md-2">  
                         <p:outputLabel value="Tel.  Trabajo " for="telTrabajo" />
+                        </div>
+                            <div class="col-md-2">  
                         <p:inputText id="telTrabajo" value="#{clienteController.selected.telTrabajo}" title="#{bundle.CreateClienteTitle_dirTrabajo}" />
-                                                
-                       
+                                                </div>
+                            </div>
+                        <div class="row">
+                        <div class="col-md-2">  
                         <p:outputLabel value="Conyugue Lug.Trab." for="conylugarTrabajo" />
+                          </div>
+                            <div class="col-md-2">  
                         <p:inputText id="conylugarTrabajo" value="#{clienteController.selected.trabajoConyugue}" title="#{bundle.CreateClienteTitle_lugarTrabajo}" />
+                          </div>
+                            <div class="col-md-2">  
                         
                         <p:outputLabel value=" Conyugue Dir Trab." for="dirTrabajoCony" />
+                          </div>
+                            <div class="col-md-2">  
                         <p:inputText id="dirTrabajoCony" value="#{clienteController.selected.dirTrabajoConyugue}" title="#{bundle.CreateClienteTitle_dirTrabajo}" />
-                        
+                          </div>
+                            <div class="col-md-2">  
                         <p:outputLabel value="Conyugue Tel.  Trab." for="conyuTelTrabajo" />
+                          </div>
+                            <div class="col-md-2">  
                         <p:inputText id="conyuTelTrabajo" value="#{clienteController.selected.telTrabajoConyugue}" title="#{bundle.CreateClienteTitle_dirTrabajo}" />
-                                   
-                        
+                                  </div>
+                        </div>   
+                           <div class="row">
+                        <div class="col-md-2">  
                         <p:outputLabel value="#{bundle.CreateClienteLabel_dirInstalacion}" for="dirInstalacion" />
-                        <p:inputText id="dirInstalacion" value="#{clienteController.selected.dirInstalacion}" title="#{bundle.CreateClienteTitle_dirInstalacion}" />
-                        
+                        </div>
+                              
+                            <div class="col-md-10">  
+                                <p:inputText id="dirInstalacion" class="form-control input-sm " value="#{clienteController.selected.dirInstalacion}" title="#{bundle.CreateClienteTitle_dirInstalacion}" />
+                        </div>
+                                  </div>
+                                 <div class="row">
+                            <div class="col-md-2">  
                         
                     
                      
                    
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_departamentoIddepartamento}" for="departamentoIddepartamento" />
+                        <p:outputLabel value="Departamento" for="departamentoIddepartamento" />
+                        </div>
+                            <div class="col-md-2">  
                         <p:selectOneMenu id="departamentoIddepartamento" value="#{clienteController.selected.departamentoIddepartamento}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_departamentoIddepartamento}">
                             <f:selectItems value="#{departamentoController.itemsAvailableSelectOne}"
                                            var="departamentoIddepartamentoItem"
                                            itemLabel="#{departamentoIddepartamentoItem.nombre}"
                                            itemValue="#{departamentoIddepartamentoItem}"/>
+                            <p:ajax listener="#{clienteController.actualizaMunicipio()}" update="municipioIdmunicipio" />
                         </p:selectOneMenu>
-                       
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_municipioIdmunicipio}" for="municipioIdmunicipio" />
+                       </div>
+                            <div class="col-md-2">  
+                        <p:outputLabel value="Municipio" for="municipioIdmunicipio" />
+                        </div>
+                            <div class="col-md-2">  
                         <p:selectOneMenu id="municipioIdmunicipio" filter="true" value="#{clienteController.selected.municipioIdmunicipio}" required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_municipioIdmunicipio}">
-                            <f:selectItems value="#{municipioController.itemsAvailableSelectOne}"
+                            <f:selectItems value="#{clienteController.lmunicipios}"
                                            var="municipioIdmunicipioItem"
                                             itemLabel="#{municipioIdmunicipioItem.nombre}"
                                            itemValue="#{municipioIdmunicipioItem}"/>
+                            <p:ajax listener="#{clienteController.actualizaColonia()}" update="coloniaIdcolonia" />
                         </p:selectOneMenu>
-                      
-                       
-                        
-                         </p:panelGrid>
-                            
-                            <p:panelGrid style="margin-top:20px" rendered="#{clienteController.selected != null}"  >
-                                <p:row>
-                                    <p:column colspan="1">
-                                        <p:outputLabel value="#{bundle.CreateClienteLabel_coloniaIdcolonia}" for="coloniaIdcolonia" />
-                                    </p:column>
-                                    <p:column colspan="2">
-                                        <p:selectOneMenu id="coloniaIdcolonia" value="#{clienteController.selected.coloniaIdcolonia}"  required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_coloniaIdcolonia}">
-                                            <f:selectItems value="#{coloniaController.itemsAvailableSelectOne}"
+                      </div>
+                            <div class="col-md-2">  
+                       <p:outputLabel value="Colonia" for="coloniaIdcolonia"   />
+                       </div>
+                            <div class="col-md-2">  
+                                 
+                           <p:selectOneMenu  id="coloniaIdcolonia" value="#{clienteController.selected.coloniaIdcolonia}"  required="true" requiredMessage="#{bundle.EditClienteRequiredMessage_coloniaIdcolonia}">
+                               <f:selectItems value="#{clienteController.lcolonia}"
                                                            var="coloniaIdcoloniaItem"
                                                            itemLabel="#{coloniaIdcoloniaItem.nombre}"
                                                            itemValue="#{coloniaIdcoloniaItem}"/>
                                         </p:selectOneMenu> 
-                                         <p:commandButton id="createButton2" icon="ui-icon-plus"  style="    bottom: 6px;"  class=" " actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl"    />                            
-                                    </p:column>
-                                </p:row>
-                            </p:panelGrid>
+                                <p:commandButton id="addColonia" icon="ui-icon-plus"  oncomplete="PF('coloniaDialog').show()"    update=" :ClienteBtnForm :growl"   style ="top:-7px;" />                            
+                                
+                            </div>
+                               </div>
+                         
+                            
+                         
                     </p:panel>
                             
                 </p:panel>
             </h:form>
-
-            
+            <ui:include src="Colonia.xhtml"/>
+            <ui:include src="Profesion.xhtml"/>
+             <ui:include src="Nacionalidad.xhtml"/>    
         </ui:define>
     </ui:composition>
 

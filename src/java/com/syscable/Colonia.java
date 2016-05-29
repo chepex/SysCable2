@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Colonia.findAll", query = "SELECT c FROM Colonia c"),
     @NamedQuery(name = "Colonia.findByIdcolonia", query = "SELECT c FROM Colonia c WHERE c.idcolonia = :idcolonia"),
+    @NamedQuery(name = "Colonia.findByDeptoMuni", query = "SELECT c FROM Colonia c WHERE c.departamentoIddepartamento.iddepartamento = :iddepartamento and c.municipioIdmunicipio.idmunicipio = :idmunicipio"),
     @NamedQuery(name = "Colonia.findByNombre", query = "SELECT c FROM Colonia c WHERE c.nombre = :nombre")})
 public class Colonia implements Serializable {
     private static final long serialVersionUID = 1L;
