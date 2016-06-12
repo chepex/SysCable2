@@ -4,7 +4,7 @@ import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -39,10 +39,20 @@ public class ClienteController implements Serializable {
     private String vnacionalidad;   
     private List<Municipio> lmunicipios;
     private List<Colonia> lcolonia;    
+    private Contrato vcontrato;
 
     public ClienteController() {
     }
 
+    public Contrato getVcontrato() {
+        return vcontrato;
+    }
+
+    public void setVcontrato(Contrato vcontrato) {
+        this.vcontrato = vcontrato;
+    }
+
+    
     public List<Colonia> getLcolonia() {
         return lcolonia;
     }
@@ -282,5 +292,19 @@ public class ClienteController implements Serializable {
               this.lcolonia  =  coloniaFacade.findByDeptoMuni(selected.getDepartamentoIddepartamento().getIddepartamento(),selected.getMunicipioIdmunicipio().getIdmunicipio());
           }
     }    
+    
+    
+    public void precreateContrato(){
+        Contrato c= new Contrato(0);
+        c.setClienteIdcliente(selected);
+        this.vcontrato = c;
+        
+    
+    }
+    
+    public void creaContrato(){
+        
+    
+    }
 
 }
