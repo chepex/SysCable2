@@ -260,6 +260,7 @@ public class OrdentrabajoController implements Serializable {
     }
     
     public void historialOrden() {
+        items = new ArrayList<>();
         if (clienteId != null && !clienteId.isEmpty()) {
             items = ejbFacade.findByCliente(clienteId);
             if (items.isEmpty()) {
@@ -272,4 +273,5 @@ public class OrdentrabajoController implements Serializable {
         
     }
     //</editor-fold>
+    
 }
