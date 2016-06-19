@@ -35,12 +35,17 @@
                     <p:outputLabel value="Tel&eacute;fono:"/>
                     <p:outputLabel id="telefono" value="#{ordentrabajoController.telefono}"/>
                     <p:outputLabel value="Falla:"/>
-                    <p:inputTextarea rows="6" cols="25" scrollHeight="true" value="#{ordentrabajoController.falla}"/>
+                    <p:inputTextarea id="falla" rows="6" cols="25" scrollHeight="true" value="#{ordentrabajoController.falla}"/>
+                    <p:outputLabel value="Vitacora:"/>
+                    <h:panelGrid>
+                        <p:inputTextarea id="vitacora" rows="6" cols="25" scrollHeight="true" value="#{ordentrabajoController.vitacora}"/>
+                        <p:commandButton id="cmbGuardarVitacora" icon="icon-floppy" title="Guardar vitacora" update=":growl" actionListener="#{ordentrabajoController.guardarVitacoraCliente()}"/>
+                    </h:panelGrid>
                 </p:panelGrid><br/>
                 <p:panelGrid columns="2">
                     <p:commandButton id="cmdGuardar" icon="icon-floppy" value="Guardar" update=":OrdentrabajoListForm:datalist :growl" actionListener="#{ordentrabajoController.guardarOrdenTrabajo()}"/>
-                    <p:commandButton id="cmdImprimir" icon="icon-print" value="Imprimir Orden" ajax="false"/>
-                    <p:commandButton id="cmdHistorial" value="Historial Ordenes" update=":OrdentrabajoListForm:datalist :growl" actionListener="#{ordentrabajoController.historialOrden()}"/>
+                    <p:commandButton id="cmdImprimir" icon="icon-print" value="Imprimir Orden" ajax="false" actionListener="#{ordentrabajoController.rptOrdenTrabajo()}" disabled="#{empty ordentrabajoController.items}"/>
+                    <p:commandButton id="cmdHistorial" value="Historial Ordenes" update=":OrdentrabajoListForm :OrdentrabajoListForm:datalist :growl" actionListener="#{ordentrabajoController.historialOrden()}"/>
                     <p:commandButton id="cmdOAnonima" value="Orden Anonima"/>
                     <p:commandButton id="cmdLimpiar" value="Limpiar" update=":OrdentrabajoListForm" actionListener="#{ordentrabajoController.limpiar()}"/>
                 </p:panelGrid><br/>
@@ -52,12 +57,12 @@
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50">
 
-                        <p:ajax event="rowSelect"   update="createButton "/>
-                        <p:ajax event="rowUnselect" update="createButton "/>
+                        <p:ajax event="rowSelect"   update=".OrdentrabajoListForm:vitacora" listener="#{ordentrabajoController.vitocora_x_historialCliente()}"/>
+                        <p:ajax event="rowUnselect" update=":OrdentrabajoListForm:vitacora" />
 
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdentrabajoTitle_fechaIng}"/>
+                                <h:outputText value="Fecha"/>
                             </f:facet>
                             <h:outputText value="#{item.fechaIng}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -99,7 +104,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Falla"/>
                             </f:facet>
-                            <h:outputText value="#{item.descripcionSolucion}"/>
+                            <h:outputText value="#{item.descripcion}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -110,10 +115,6 @@
                     </p:dataTable>
                 </p:panel>
             </h:form>
-
-            <ui:include src="HistorialOrden.xhtml"/>
-            
         </ui:define>
     </ui:composition>
-
 </html>

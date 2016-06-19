@@ -6,9 +6,12 @@
 package com.syscable;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -45,6 +48,24 @@ public class OrdentrabajoFacade extends AbstractFacade<Ordentrabajo> {
                 .setParameter("idcliente", clienteId);
         
         return q.getResultList();
+    }
+    
+     public int findByMaxOrdenId() {
+         int ordenId = 0;
+         Logger logger = Logger.getAnonymousLogger();
+         try {
+             StringBuilder jpql = new StringBuilder();
+             
+             jpql.append("Select IFNULL(idordentrabajo,0) + 1 from orden_trabajo");
+             
+             Query q = em.createNativeQuery(jpql.toString());
+             
+             ordenId = (int) q.getSingleResult();
+             
+         } catch (Exception e) {
+             logger.log(Level.SEVERE,"Error en findByMaxOrdenId", e.getMessage());
+         }
+         return ordenId;
     }
     
 }

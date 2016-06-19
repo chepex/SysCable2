@@ -2,7 +2,6 @@ package com.syscable;
 
 import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
-
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -49,7 +49,6 @@ public class OrdentrabajoController implements Serializable {
     }
     
     public Date getFechaOrden() {
-        fechaOrden = new Date();
         return fechaOrden;
     }
 
@@ -58,9 +57,6 @@ public class OrdentrabajoController implements Serializable {
     }
 
     public String getHoraOrden() {
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
-        Date date = new Date();
-        horaOrden = dateFormat.format(date);
         return horaOrden;
     }
 
@@ -262,15 +258,81 @@ public class OrdentrabajoController implements Serializable {
     public void historialOrden() {
         items = new ArrayList<>();
         if (clienteId != null && !clienteId.isEmpty()) {
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
             items = ejbFacade.findByCliente(clienteId);
             if (items.isEmpty()) {
                 JsfUtil.addErrorMessage("No se encontraron registros.");
+            } else {
+                for (Ordentrabajo item : items) {
+                    this.setFechaOrden(item.getFechaIng());
+                    horaOrden = dateFormat.format(item.getFechaIng());
+                    this.setHoraOrden(horaOrden);
+                    this.setClienteId(String.valueOf(item.getClienteIdcliente().getIdcliente()));
+                    this.setNombCliente(item.getClienteIdcliente().getNombres());
+                    this.setDireccion(item.getClienteIdcliente().getDirInstalacion());
+                    this.setTelefono(item.getClienteIdcliente().getTelefono());
+                    this.setFalla(item.getDescripcion());
+                    this.setVitacora(item.getDescripcionSolucion());
+                }
             }
         }
     }
     
+    public void vitocora_x_historialCliente() {
+        if (selected != null) {
+            this.setVitacora(selected.getDescripcionSolucion());
+        }
+    }
+    
+    public void guardarVitacoraCliente() {
+        if (vitacora != null && !vitacora.isEmpty()) {
+            selected.setDescripcionSolucion(vitacora);
+            ejbFacade.edit(selected);
+        } else {
+            JsfUtil.addErrorMessage("No tiene informacion disponible en la vitacora para guardar.");
+        }
+    }
+    
     public void guardarOrdenTrabajo() {
-        
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
+            fechaOrden = new Date();
+            Ordentrabajo o = new Ordentrabajo();
+            ordenId = String.valueOf(ejbFacade.findByMaxOrdenId());
+            o.setIdordenTrabajo(Integer.parseInt(ordenId));
+            o.setFechaIng(fechaOrden);
+            this.setFechaOrden(fechaOrden);
+            this.setHoraOrden(dateFormat.format(fechaOrden));
+            o.getClienteIdcliente().setIdcliente(Integer.parseInt(clienteId));
+            o.getClienteIdcliente().setNombres(nombCliente);
+            o.getClienteIdcliente().setDirInstalacion(direccion);
+            o.getClienteIdcliente().setTelefono(telefono);
+            o.setDescripcion(falla);
+            o.setEstado("P");
+            o.setDateCreate(new Date());
+            
+            ejbFacade.edit(o);
+            
+            JsfUtil.addSuccessMessage("Orden de trabajo " + ordenId + " guardada correctamente!!!");
+            
+            items = ejbFacade.findByOrdenId(ordenId);
+            
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage("Error", new FacesMessage("Error en guardarOrdenTrabajo " + e.getMessage()));
+        }
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Reportes">
+    public String rptOrdenTrabajo() {
+        try {
+            
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage("Error", new FacesMessage("Error en rptOrdenTrabajo " + e.getMessage()));
+        }
+        return "Ok";
     }
     //</editor-fold>
     
