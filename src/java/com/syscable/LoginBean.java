@@ -74,21 +74,20 @@ public class LoginBean {
      public void login(){       
         try {   
             
-            String pass=  password =JsfUtil.EncriptadorMD5(password);      
+             String pass=JsfUtil.EncriptadorMD5(password);      
             System.out.println("usuario-->"+username.toUpperCase());
             System.out.println("pass-->"+pass);
+            System.out.println("password-->"+password);
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            request.login(username.toUpperCase(), password.toUpperCase());
+            
             request.login(username.toUpperCase(), password);
-            request.login(username.toUpperCase(), pass);
-            request.login(username, password);
-            List<Usuario> lu = usuarioFacade.findByUserName(username.toUpperCase(), pass);
-            if (lu.isEmpty()){
-                Exception ex = new Exception();                
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Usuario invalido", "Usuario o password no valido"));
-            }else{
+            /*request.login(username.toUpperCase(), password);
+            request.login(username.toUpperCase(), pass);*/
+            //request.login(username, password);
+            //List<Usuario> lu = usuarioFacade.findByUserName(username.toUpperCase(), pass);
+           
              FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
-            }
+           // }
             
         } catch (Exception e) {
 	           System.out.println("e:"+e);
