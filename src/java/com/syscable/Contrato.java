@@ -60,9 +60,9 @@ public class Contrato implements Serializable {
     @Basic(optional = false)
     @Column(name = "idcontrato")
     private Integer idcontrato;
-    @Size(max = 45)
     @Column(name = "fecha")
-    private String fecha;
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
     @Size(max = 45)
     @Column(name = "estado")
     private String estado;
@@ -121,13 +121,15 @@ public class Contrato implements Serializable {
         this.idcontrato = idcontrato;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
+  
 
     public String getEstado() {
         return estado;

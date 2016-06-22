@@ -4,6 +4,7 @@ import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -297,6 +298,9 @@ public class ClienteController implements Serializable {
     public void precreateContrato(){
         Contrato c= new Contrato(0);
         c.setClienteIdcliente(selected);
+        Date d = new Date();
+        c.setFecha(d);
+        c.setFechainicio(d);
         this.vcontrato = c;
         
     
