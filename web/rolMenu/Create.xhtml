@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RolMenuCreateDlg" widgetVar="RolMenuCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRolMenuTitle}">
+            <h:form id="RolMenuCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{rolMenuController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateRolMenuLabel_idrolMenu}" for="idrolMenu" />
+                        <p:inputText id="idrolMenu" value="#{rolMenuController.selected.idrolMenu}" title="#{bundle.CreateRolMenuTitle_idrolMenu}" required="true" requiredMessage="#{bundle.CreateRolMenuRequiredMessage_idrolMenu}"/>
+                        <p:outputLabel value="#{bundle.CreateRolMenuLabel_activo}" for="activo" />
+                        <p:inputText id="activo" value="#{rolMenuController.selected.activo}" title="#{bundle.CreateRolMenuTitle_activo}" />
+                        <p:outputLabel value="#{bundle.CreateRolMenuLabel_userCreate}" for="userCreate" />
+                        <p:inputText id="userCreate" value="#{rolMenuController.selected.userCreate}" title="#{bundle.CreateRolMenuTitle_userCreate}" />
+                        <p:outputLabel value="#{bundle.CreateRolMenuLabel_dateCreate}" for="dateCreate" />
+                        <p:calendar id="dateCreate" pattern="MM/dd/yyyy" value="#{rolMenuController.selected.dateCreate}" title="#{bundle.EditRolMenuTitle_dateCreate}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateRolMenuLabel_userMod}" for="userMod" />
+                        <p:inputText id="userMod" value="#{rolMenuController.selected.userMod}" title="#{bundle.CreateRolMenuTitle_userMod}" />
+                        <p:outputLabel value="#{bundle.CreateRolMenuLabel_dateMod}" for="dateMod" />
+                        <p:calendar id="dateMod" pattern="MM/dd/yyyy" value="#{rolMenuController.selected.dateMod}" title="#{bundle.EditRolMenuTitle_dateMod}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.CreateRolMenuLabel_rolIdrol}" for="rolIdrol" />
+                        <p:selectOneMenu id="rolIdrol" value="#{rolMenuController.selected.rolIdrol}" required="true" requiredMessage="#{bundle.EditRolMenuRequiredMessage_rolIdrol}">
+                            <f:selectItems value="#{rolController.itemsAvailableSelectOne}"
+                                           var="rolIdrolItem"
+                                           itemValue="#{rolIdrolItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateRolMenuLabel_menuIdmenu}" for="menuIdmenu" />
+                        <p:selectOneMenu id="menuIdmenu" value="#{rolMenuController.selected.menuIdmenu}" required="true" requiredMessage="#{bundle.EditRolMenuRequiredMessage_menuIdmenu}">
+                            <f:selectItems value="#{menuController.itemsAvailableSelectOne}"
+                                           var="menuIdmenuItem"
+                                           itemValue="#{menuIdmenuItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{rolMenuController.create}" value="#{bundle.Save}" update="display,:RolMenuListForm:datalist,:growl" oncomplete="handleSubmit(args,'RolMenuCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RolMenuCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="OrdenproductoEditDlg" widgetVar="OrdenproductoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditOrdenproductoTitle}">
+            <h:form id="OrdenproductoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ordenproductoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditOrdenproductoLabel_idordenProducto}" for="idordenProducto" />
+                        <p:inputText id="idordenProducto" value="#{ordenproductoController.selected.idordenProducto}" title="#{bundle.EditOrdenproductoTitle_idordenProducto}" required="true" requiredMessage="#{bundle.EditOrdenproductoRequiredMessage_idordenProducto}"/>
+                        <p:outputLabel value="#{bundle.EditOrdenproductoLabel_ordenProductocol}" for="ordenProductocol" />
+                        <p:inputText id="ordenProductocol" value="#{ordenproductoController.selected.ordenProductocol}" title="#{bundle.EditOrdenproductoTitle_ordenProductocol}" />
+                        <p:outputLabel value="#{bundle.EditOrdenproductoLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{ordenproductoController.selected.precio}" title="#{bundle.EditOrdenproductoTitle_precio}" />
+                        <p:outputLabel value="#{bundle.EditOrdenproductoLabel_productoIdproducto}" for="productoIdproducto" />
+                        <p:selectOneMenu id="productoIdproducto" value="#{ordenproductoController.selected.productoIdproducto}" required="true" requiredMessage="#{bundle.EditOrdenproductoRequiredMessage_productoIdproducto}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
+                                           var="productoIdproductoItem"
+                                           itemValue="#{productoIdproductoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditOrdenproductoLabel_ordenTrabajoidordenTrabajo}" for="ordenTrabajoidordenTrabajo" />
+                        <p:selectOneMenu id="ordenTrabajoidordenTrabajo" value="#{ordenproductoController.selected.ordenTrabajoidordenTrabajo}" required="true" requiredMessage="#{bundle.EditOrdenproductoRequiredMessage_ordenTrabajoidordenTrabajo}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ordentrabajoController.itemsAvailableSelectOne}"
+                                           var="ordenTrabajoidordenTrabajoItem"
+                                           itemValue="#{ordenTrabajoidordenTrabajoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ordenproductoController.update}" value="#{bundle.Save}" update="display,:OrdenproductoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'OrdenproductoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="OrdenproductoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

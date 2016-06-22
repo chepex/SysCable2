@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        
+        <p:dialog id="ModuloViewDlg" widgetVar="ModuloViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewModuloTitle}">
+            <h:form id="ModuloViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{moduloController.selected != null}">
+                        <h:outputText value="#{bundle.ViewModuloLabel_idmodulo}"/>
+                        <h:outputText value="#{moduloController.selected.idmodulo}" title="#{bundle.ViewModuloTitle_idmodulo}"/>
+                        <h:outputText value="#{bundle.ViewModuloLabel_modulo}"/>
+                        <h:outputText value="#{moduloController.selected.modulo}" title="#{bundle.ViewModuloTitle_modulo}"/>
+                        <h:outputText value="#{bundle.ViewModuloLabel_activo}"/>
+                        <p:selectBooleanCheckbox value="#{moduloController.selected.activo}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewModuloLabel_userCreate}"/>
+                        <h:outputText value="#{moduloController.selected.userCreate}" title="#{bundle.ViewModuloTitle_userCreate}"/>
+                        <h:outputText value="#{bundle.ViewModuloLabel_dateCreate}"/>
+                        <h:outputText value="#{moduloController.selected.dateCreate}" title="#{bundle.ViewModuloTitle_dateCreate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewModuloLabel_userMod}"/>
+                        <h:outputText value="#{moduloController.selected.userMod}" title="#{bundle.ViewModuloTitle_userMod}"/>
+                        <h:outputText value="#{bundle.ViewModuloLabel_dateMod}"/>
+                        <h:outputText value="#{moduloController.selected.dateMod}" title="#{bundle.ViewModuloTitle_dateMod}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ModuloViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

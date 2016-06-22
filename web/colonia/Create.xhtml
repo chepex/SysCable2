@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        
+        <p:dialog id="ColoniaCreateDlg" widgetVar="ColoniaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateColoniaTitle}">
+            <h:form id="ColoniaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{coloniaController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateColoniaLabel_idcolonia}" for="idcolonia" />
+                        <p:inputText id="idcolonia" value="#{coloniaController.selected.idcolonia}" title="#{bundle.CreateColoniaTitle_idcolonia}" required="true" requiredMessage="#{bundle.CreateColoniaRequiredMessage_idcolonia}"/>
+                        <p:outputLabel value="#{bundle.CreateColoniaLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{coloniaController.selected.nombre}" title="#{bundle.CreateColoniaTitle_nombre}" />
+                        <p:outputLabel value="#{bundle.CreateColoniaLabel_municipioIdmunicipio}" for="municipioIdmunicipio" />
+                        <p:selectOneMenu id="municipioIdmunicipio" value="#{coloniaController.selected.municipioIdmunicipio}" required="true" requiredMessage="#{bundle.EditColoniaRequiredMessage_municipioIdmunicipio}">
+                            <f:selectItems value="#{municipioController.itemsAvailableSelectOne}"
+                                           var="municipioIdmunicipioItem"
+                                           itemValue="#{municipioIdmunicipioItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateColoniaLabel_departamentoIddepartamento}" for="departamentoIddepartamento" />
+                        <p:selectOneMenu id="departamentoIddepartamento" value="#{coloniaController.selected.departamentoIddepartamento}" required="true" requiredMessage="#{bundle.EditColoniaRequiredMessage_departamentoIddepartamento}">
+                            <f:selectItems value="#{departamentoController.itemsAvailableSelectOne}"
+                                           var="departamentoIddepartamentoItem"
+                                           itemValue="#{departamentoIddepartamentoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{coloniaController.create}" value="#{bundle.Save}" update="display,:ColoniaListForm:datalist,:growl" oncomplete="handleSubmit(args,'ColoniaCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="ColoniaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

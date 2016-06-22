@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="OrdenproductoCreateDlg" widgetVar="OrdenproductoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateOrdenproductoTitle}">
+            <h:form id="OrdenproductoCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ordenproductoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateOrdenproductoLabel_idordenProducto}" for="idordenProducto" />
+                        <p:inputText id="idordenProducto" value="#{ordenproductoController.selected.idordenProducto}" title="#{bundle.CreateOrdenproductoTitle_idordenProducto}" required="true" requiredMessage="#{bundle.CreateOrdenproductoRequiredMessage_idordenProducto}"/>
+                        <p:outputLabel value="#{bundle.CreateOrdenproductoLabel_ordenProductocol}" for="ordenProductocol" />
+                        <p:inputText id="ordenProductocol" value="#{ordenproductoController.selected.ordenProductocol}" title="#{bundle.CreateOrdenproductoTitle_ordenProductocol}" />
+                        <p:outputLabel value="#{bundle.CreateOrdenproductoLabel_precio}" for="precio" />
+                        <p:inputText id="precio" value="#{ordenproductoController.selected.precio}" title="#{bundle.CreateOrdenproductoTitle_precio}" />
+                        <p:outputLabel value="#{bundle.CreateOrdenproductoLabel_productoIdproducto}" for="productoIdproducto" />
+                        <p:selectOneMenu id="productoIdproducto" value="#{ordenproductoController.selected.productoIdproducto}" required="true" requiredMessage="#{bundle.EditOrdenproductoRequiredMessage_productoIdproducto}">
+                            <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
+                                           var="productoIdproductoItem"
+                                           itemValue="#{productoIdproductoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateOrdenproductoLabel_ordenTrabajoidordenTrabajo}" for="ordenTrabajoidordenTrabajo" />
+                        <p:selectOneMenu id="ordenTrabajoidordenTrabajo" value="#{ordenproductoController.selected.ordenTrabajoidordenTrabajo}" required="true" requiredMessage="#{bundle.EditOrdenproductoRequiredMessage_ordenTrabajoidordenTrabajo}">
+                            <f:selectItems value="#{ordentrabajoController.itemsAvailableSelectOne}"
+                                           var="ordenTrabajoidordenTrabajoItem"
+                                           itemValue="#{ordenTrabajoidordenTrabajoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ordenproductoController.create}" value="#{bundle.Save}" update="display,:OrdenproductoListForm:datalist,:growl" oncomplete="handleSubmit(args,'OrdenproductoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="OrdenproductoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

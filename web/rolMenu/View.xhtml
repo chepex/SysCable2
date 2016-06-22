@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="RolMenuViewDlg" widgetVar="RolMenuViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewRolMenuTitle}">
+            <h:form id="RolMenuViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{rolMenuController.selected != null}">
+                        <h:outputText value="#{bundle.ViewRolMenuLabel_idrolMenu}"/>
+                        <h:outputText value="#{rolMenuController.selected.idrolMenu}" title="#{bundle.ViewRolMenuTitle_idrolMenu}"/>
+                        <h:outputText value="#{bundle.ViewRolMenuLabel_activo}"/>
+                        <h:outputText value="#{rolMenuController.selected.activo}" title="#{bundle.ViewRolMenuTitle_activo}"/>
+                        <h:outputText value="#{bundle.ViewRolMenuLabel_userCreate}"/>
+                        <h:outputText value="#{rolMenuController.selected.userCreate}" title="#{bundle.ViewRolMenuTitle_userCreate}"/>
+                        <h:outputText value="#{bundle.ViewRolMenuLabel_dateCreate}"/>
+                        <h:outputText value="#{rolMenuController.selected.dateCreate}" title="#{bundle.ViewRolMenuTitle_dateCreate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewRolMenuLabel_userMod}"/>
+                        <h:outputText value="#{rolMenuController.selected.userMod}" title="#{bundle.ViewRolMenuTitle_userMod}"/>
+                        <h:outputText value="#{bundle.ViewRolMenuLabel_dateMod}"/>
+                        <h:outputText value="#{rolMenuController.selected.dateMod}" title="#{bundle.ViewRolMenuTitle_dateMod}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewRolMenuLabel_rolIdrol}"/>
+                        <h:outputText value="#{rolMenuController.selected.rolIdrol}" title="#{bundle.ViewRolMenuTitle_rolIdrol}"/>
+                        <h:outputText value="#{bundle.ViewRolMenuLabel_menuIdmenu}"/>
+                        <h:outputText value="#{rolMenuController.selected.menuIdmenu}" title="#{bundle.ViewRolMenuTitle_menuIdmenu}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="RolMenuViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
