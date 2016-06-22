@@ -5,9 +5,11 @@
  */
 package com.syscable;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -26,5 +28,16 @@ public class MunicipioFacade extends AbstractFacade<Municipio> {
     public MunicipioFacade() {
         super(Municipio.class);
     }
+    
+    public List<Municipio> findByDepartamento(int iddepartamento ) {
+        TypedQuery<Municipio> q;
+        
+        q = em.createNamedQuery("Municipio.findByDepartamento", Municipio.class)                
+                .setParameter("iddepartamento", iddepartamento);
+                
+                
+        
+        return q.getResultList();
+    }        
     
 }
