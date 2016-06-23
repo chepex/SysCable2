@@ -289,7 +289,7 @@ public class OrdentrabajoController implements Serializable {
             selected.setDescripcionSolucion(vitacora);
             ejbFacade.edit(selected);
         } else {
-            JsfUtil.addErrorMessage("No tiene informacion disponible en la vitacora para guardar.");
+            JsfUtil.addErrorMessage("No tiene informacion disponible en la vitacora para guardar. prueba");
         }
     }
     
