@@ -9,18 +9,36 @@
         <h:head>
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-                <title>Systema de cable 2.0</title>
+                <title>Systema de Cable 2.0</title>
                 
             </f:facet>
+            <h:outputStylesheet name="css/bootstrap3.css"/>
+            <h:outputStylesheet name="css/login.css"/>
         </h:head>
 
-        <h:body>
+        <h:body>           
             <p:growl id="mensajes" showDetail="true" life="2000"/>
-        <h:form id="usrForm">                           
-                 <p:inputText id="username" value="#{loginBean.username}" required="true"  style="padding:15px !important;"/>                          
-                 <p:password id="password" value="#{loginBean.password}" required="true" style="padding:15px !important;"/>                          
-                 <p:commandButton id="cmdLog"  action="#{loginBean.login}" ajax="false" update="@all" value="Ingresar" styleClass="RedButton"/>                         
-         </h:form>
+            <div class="container">
+            <div class="row"  id="pwd-container">
+                <div class="col-md-4"></div>    
+                <div class="col-md-4">
+                    <section class="login-form">
+                            <h:form id="usrForm" role="login">
+                                 <img src="http://i.imgur.com/RcmcLv4.png" class="img-responsive" alt="" />
+                                <p:inputText id="username" value="#{loginBean.username}" class="form-control input-lg" placeholder="usuario" required="true" />                          
+                                <p:password id="password" value="#{loginBean.password}" class="form-control input-lg"  placeholder="password" required="true" />  
+                             <p:commandButton id="cmdLog" class="btn btn-lg btn-primary btn-block" action="#{loginBean.login}" ajax="false" update="@all" value="Ingresar"  />
+                            </h:form>
+                        </section>
+                         <div class="form-links">
+                      <a href="#">www.website.com</a>
+                    </div>
+
+                  </div>
+        <div class="col-md-4"></div>
+  </div>
+  
+</div>
 
         </h:body>
 

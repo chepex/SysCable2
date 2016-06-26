@@ -74,13 +74,17 @@ public class LoginBean {
      public void login(){       
         try {   
             
-             String pass=JsfUtil.EncriptadorMD5(password);      
-            System.out.println("usuario-->"+username.toUpperCase());
-            System.out.println("pass-->"+pass);
-            System.out.println("password-->"+password);
+             
+            
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             
+            
+            if(request.getUserPrincipal() == null){
             request.login(username.toUpperCase(), password);
+            }else{
+            FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
+            }
+            
             /*request.login(username.toUpperCase(), password);
             request.login(username.toUpperCase(), pass);*/
             //request.login(username, password);
@@ -90,7 +94,7 @@ public class LoginBean {
            // }
             
         } catch (Exception e) {
-	           System.out.println("e:"+e);
+	           
           FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Su usuario o password no son correctos "+e.getMessage(), null));
          
 
