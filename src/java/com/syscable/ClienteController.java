@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -41,10 +42,23 @@ public class ClienteController implements Serializable {
     private List<Municipio> lmunicipios;
     private List<Colonia> lcolonia;    
     private Contrato vcontrato;
-
+    @ManagedProperty(value="#{ordentrabajoController}")
+    private OrdentrabajoController ordentrabajoController;
+    
+    
     public ClienteController() {
     }
 
+    public OrdentrabajoController getOrdentrabajoController() {
+        return ordentrabajoController;
+    }
+
+    public void setOrdentrabajoController(OrdentrabajoController ordentrabajoController) {
+        this.ordentrabajoController = ordentrabajoController;
+    }
+
+    
+    
     public Contrato getVcontrato() {
         return vcontrato;
     }
@@ -304,6 +318,10 @@ public class ClienteController implements Serializable {
         this.vcontrato = c;
         
     
+    }
+    
+    public void crearOrden(){
+        ordentrabajoController.prepareCreate(selected);
     }
     
     public void creaContrato(){

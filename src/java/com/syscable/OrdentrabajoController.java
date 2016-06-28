@@ -108,9 +108,10 @@ public class OrdentrabajoController implements Serializable {
         return ejbFacade;
     }
 
-    public Ordentrabajo prepareCreate() {
+    public Ordentrabajo prepareCreate(Cliente vcliente) {
         selected = new Ordentrabajo();
         initializeEmbeddableKey();
+        cliente = vcliente;
         return selected;
     }
 

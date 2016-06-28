@@ -261,6 +261,7 @@
                     </p:dataTable>
                     </p:panel>
                         <p:panel header="Ordenes">
+                              <p:commandButton id="createButton3" icon="ui-icon-plus"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.precreateContrato()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
                              <p:dataTable id="datalist" value="#{ordentrabajoController.items}" var="item"
                                  selectionMode="single" selection="#{ordentrabajoController.selected}"
                                   scrollable="true"  
