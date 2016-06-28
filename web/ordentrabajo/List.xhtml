@@ -27,13 +27,13 @@
                 </p:panelGrid>
                 <p:panelGrid columns="6">
                     <p:outputLabel value="C&oacute;digo:"/>
-                    <p:outputLabel id="clienteId" value="#{ordentrabajoController.clienteId}"/>
+                    <p:outputLabel id="clienteId" value="#{ordentrabajoController.cliente.idcliente}"/>
                     <p:outputLabel value="Nombre del Cliente:"/>
-                    <p:outputLabel id="nombre" value="#{ordentrabajoController.nombCliente}"/>
+                    <p:outputLabel id="nombre" value="#{ordentrabajoController.cliente.nombres} #{ordentrabajoController.cliente.apellidos}"/>
                     <p:outputLabel value="Direcci&oacute;n:"/>
-                    <p:outputLabel id="dirCliente" value="#{ordentrabajoController.direccion}"/>
+                    <p:outputLabel id="dirCliente" value="#{ordentrabajoController.cliente.dirInstalacion}"/>
                     <p:outputLabel value="Tel&eacute;fono:"/>
-                    <p:outputLabel id="telefono" value="#{ordentrabajoController.telefono}"/>
+                    <p:outputLabel id="telefono" value="#{ordentrabajoController.cliente.telefono}"/>
                     <p:outputLabel value="Falla:"/>
                     <p:inputTextarea id="falla" rows="6" cols="25" scrollHeight="true" value="#{ordentrabajoController.falla}"/>
                     <p:outputLabel value="Vitacora:"/>
