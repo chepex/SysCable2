@@ -231,9 +231,9 @@
                 </p:panel>
                     
                     <p:panelGrid layout="grid" columns="2">
-                        <p:panel header="Contratos">
+                        <p:panel header="Contratos" rendered="#{clienteController.selected!=null}" >
                      <p:commandButton id="createButton2" icon="ui-icon-plus"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.precreateContrato()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
-                    <p:dataTable id="datalist2" value="#{contratoController.items}" var="item"
+                    <p:dataTable id="datalist2" value="#{clienteController.lcontrato}" var="item"
                                  selectionMode="single" selection="#{contratoController.selected}"                               
                                  rowKey="#{item.idcontrato}"
                                  scrollable="true"                                

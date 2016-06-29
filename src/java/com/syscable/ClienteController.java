@@ -29,6 +29,8 @@ public class ClienteController implements Serializable {
     @EJB
     private com.syscable.OrdentrabajoFacade ordentrabajoFacade;    
     @EJB
+    private com.syscable.ContratoFacade contratoFacade;     
+    @EJB
     private com.syscable.ProfesionFacade profesionFacade;  
     @EJB
     private com.syscable.ColoniaFacade coloniaFacade;  
@@ -38,6 +40,7 @@ public class ClienteController implements Serializable {
     private com.syscable.MunicipioFacade municipioFacade;     
     private List<Cliente> items = null;
     private List<Cliente> lclientesbusqueda = null;
+    private List<Contrato> lcontrato = null;
     private Cliente selected;
     private String vprofesion;
     private String vcolonia;
@@ -52,6 +55,20 @@ public class ClienteController implements Serializable {
     
     public ClienteController() {
     }
+
+    public List<Contrato> getLcontrato() {
+        if(selected!=null){
+        lcontrato=   contratoFacade.findByIdcliente(this.selected.getIdcliente());
+        }
+        
+        return lcontrato;
+    }
+
+    public void setLcontrato(List<Contrato> lcontrato) {
+        this.lcontrato = lcontrato;
+    }
+    
+    
 
     public List<Cliente> getLclientesbusqueda() {
         return lclientesbusqueda;
@@ -219,15 +236,15 @@ public class ClienteController implements Serializable {
     }
 
     public void create() {
-        System.out.println("---------1-----");
-        System.out.println("------------------");
-        System.out.println("---------------------");
-        long vid = this.ejbFacade.GenerateId();
-        this.selected.setIdcliente((int)vid);
+        try{
+            long vid = this.ejbFacade.GenerateId();
+            this.selected.setIdcliente((int)vid);        
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ClienteCreated"));
+        }catch(Exception ex){
+              JsfUtil.addSuccessMessage("Surgio un error "+ex);   
+        }
         
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ClienteCreated"));
-        System.out.println("select --->"+selected);
-        System.out.println("select --->"+selected.getIdcliente());
+    
       if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
@@ -367,8 +384,15 @@ public class ClienteController implements Serializable {
     }
     
     public void creaContrato(){
+        try{
+            vcontrato.setEstado("A");
+            contratoFacade.edit(vcontrato);
+            JsfUtil.addSuccessMessage("Contrato almacenado correctamente");   
+        }catch(Exception ex){
+            JsfUtil.addErrorMessage("Surgio un error "+ex);   
+        }
         
-    
+        
     }
 
 }

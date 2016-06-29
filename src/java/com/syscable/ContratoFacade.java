@@ -5,9 +5,11 @@
  */
 package com.syscable;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -27,4 +29,14 @@ public class ContratoFacade extends AbstractFacade<Contrato> {
         super(Contrato.class);
     }
     
+    
+   public List<Contrato> findByIdcliente(int vidCliente) {
+        TypedQuery<Contrato> q;
+        
+        q = em.createNamedQuery("Contrato.findByIdcliente",Contrato.class)
+                .setParameter("idCliente",  vidCliente);
+                
+        
+        return q.getResultList();
+    }    
 }
