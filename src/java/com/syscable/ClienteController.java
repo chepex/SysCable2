@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,6 +27,8 @@ public class ClienteController implements Serializable {
     @EJB
     private com.syscable.ClienteFacade ejbFacade;
     @EJB
+    private com.syscable.OrdentrabajoFacade ordentrabajoFacade;    
+    @EJB
     private com.syscable.ProfesionFacade profesionFacade;  
     @EJB
     private com.syscable.ColoniaFacade coloniaFacade;  
@@ -34,6 +37,7 @@ public class ClienteController implements Serializable {
     @EJB
     private com.syscable.MunicipioFacade municipioFacade;     
     private List<Cliente> items = null;
+    private List<Cliente> lclientesbusqueda = null;
     private Cliente selected;
     private String vprofesion;
     private String vcolonia;
@@ -41,10 +45,43 @@ public class ClienteController implements Serializable {
     private List<Municipio> lmunicipios;
     private List<Colonia> lcolonia;    
     private Contrato vcontrato;
-
+    private String vbuscar;
+    @ManagedProperty(value="#{ordentrabajoController}")
+    private OrdentrabajoController ordentrabajoController;
+    
+    
     public ClienteController() {
     }
 
+    public List<Cliente> getLclientesbusqueda() {
+        return lclientesbusqueda;
+    }
+
+    public void setLclientesbusqueda(List<Cliente> lclientesbusqueda) {
+        this.lclientesbusqueda = lclientesbusqueda;
+    }
+
+    
+    
+    public String getVbuscar() {
+        return vbuscar;
+    }
+
+    public void setVbuscar(String vbuscar) {
+        this.vbuscar = vbuscar;
+    }
+
+    
+    public OrdentrabajoController getOrdentrabajoController() {
+        return ordentrabajoController;
+    }
+
+    public void setOrdentrabajoController(OrdentrabajoController ordentrabajoController) {
+        this.ordentrabajoController = ordentrabajoController;
+    }
+
+    
+    
     public Contrato getVcontrato() {
         return vcontrato;
     }
@@ -135,7 +172,25 @@ public class ClienteController implements Serializable {
         System.out.println("--<<>>");
     }
     
+    public void buscar(){
     
+    this.lclientesbusqueda= this.ejbFacade.findByNombres(this.vbuscar);
+     
+    
+    }
+    
+    public void selecionar(){
+        System.out.println("cliente--->"+selected);
+    
+    
+    if(ordentrabajoFacade.findByCliente(selected.getIdcliente())!=null){
+        ordentrabajoController.setLordenes(ordentrabajoFacade.findByCliente(selected.getIdcliente()));
+    }
+        
+        
+        System.out.println("lordenes--->"+ordentrabajoController.lordenes);
+    
+    }
     
     public void createColonia() {       
         Colonia c = new Colonia(0);
@@ -304,6 +359,11 @@ public class ClienteController implements Serializable {
         this.vcontrato = c;
         
     
+    }
+    
+    public void crearOrden(){
+        System.out.println("---aqui 1");
+        ordentrabajoController.prepareCreate(selected);
     }
     
     public void creaContrato(){

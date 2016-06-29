@@ -20,7 +20,7 @@
 
                 </div>
             <h:form id="ClienteBtnForm">             
-                    <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B"   disabled="#{clienteController.selected!=null}"/>                     
+                <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"  disabled="#{clienteController.selected!=null}"/>                     
                     <p:commandButton id="createButton"  icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl"   disabled ="#{clienteController.selected!=null}" />                            
                     <p:commandButton id="saveButton"   icon="ui-icon-disk" value="F7" actionListener="#{clienteController.create}" update=" :ClienteBtnForm :growl," rendered="#{clienteController.selected!=null}"  disabled="#{empty clienteController.selected}"/>
                     <p:commandButton id="editButton"   icon="ui-icon-pencil" value="F8" actionListener="#{clienteController.update}" update=" :ClienteBtnForm :growl" rendered="#{clienteController.selected==null}"  disabled="#{empty clienteController.selected}"/>
@@ -232,8 +232,8 @@
                     
                     <p:panelGrid layout="grid" columns="2">
                         <p:panel header="Contratos">
-                            <p:commandButton id="createButton2" icon="ui-icon-plus"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.precreateContrato()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
-                          <p:dataTable id="datalist2" value="#{contratoController.items}" var="item"
+                     <p:commandButton id="createButton2" icon="ui-icon-plus"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.precreateContrato()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
+                    <p:dataTable id="datalist2" value="#{contratoController.items}" var="item"
                                  selectionMode="single" selection="#{contratoController.selected}"                               
                                  rowKey="#{item.idcontrato}"
                                  scrollable="true"                                
@@ -256,14 +256,17 @@
                                 <h:outputText value="ValorCuota"/>
                             </f:facet>
                             <h:outputText value="#{item.valorCuota}"/>
-                        </p:column>
-  
-                    </p:dataTable>
-                    </p:panel>
+                        </p:column>  
+                    </p:dataTable>                        
+                        </p:panel>
                         <p:panel header="Ordenes">
-                             <p:dataTable id="datalist" value="#{ordentrabajoController.items}" var="item"
-                                 selectionMode="single" selection="#{ordentrabajoController.selected}"
+                            <p:commandButton id="createButton3" icon="ui-icon-plus"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.crearOrden()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
+                            <p:dataTable id="datalist" value="#{ordentrabajoController.lordenes}" var="item"
+                                 selectionMode="single" 
+                                 selection="#{ordentrabajoController.selected}"
                                   scrollable="true"  
+                                  rowKey="#{item.idordenTrabajo}"
+                                 
                                  >                        
                         <p:column>
                             <f:facet name="header">
@@ -288,7 +291,8 @@
                         </p:column>
                        
                     </p:dataTable>
-                        </p:panel>
+                        </p:panel>                        
+                        
                     </p:panelGrid>
                     
                     
@@ -298,6 +302,9 @@
             <ui:include src="Profesion.xhtml"/>
             <ui:include src="Nacionalidad.xhtml"/>    
             <ui:include src="/contrato/Create.xhtml"/>   
+            <ui:include src="Buscar.xhtml"/>   
+            
+            
         </ui:define>
     </ui:composition>
 

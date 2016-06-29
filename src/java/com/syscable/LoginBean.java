@@ -80,7 +80,14 @@ public class LoginBean {
             
             
             if(request.getUserPrincipal() == null){
-            request.login(username.toUpperCase(), password);
+                request.getSession().setMaxInactiveInterval(900);
+                request.login(username.toUpperCase(), password);
+                System.out.println("request.getSession().getMaxInactiveInterval()--->"+request.getSession().getMaxInactiveInterval());
+                System.out.println("Principal--->"+request.getUserPrincipal());
+                System.out.println("Principal--->"+request.getSession().getLastAccessedTime());
+                
+                    
+            
             }else{
             FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             }

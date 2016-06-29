@@ -7,10 +7,12 @@ package com.syscable;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -30,14 +32,24 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
         super(Cliente.class);
     }
     
-  public  long GenerateId(){	 	 
-	    
-             long val = ((Number)em.createNativeQuery("select max(idcliente) from syscable.cliente")
+    public  long GenerateId(){	 
+	     long val = ((Number)em.createNativeQuery("select max(idcliente) from syscable.cliente")
                     .getSingleResult()).longValue();
-                
                 
         return val;
     
-    }     
+    }   
+
+    public List<Cliente> findByNombres(String valor) {
+        TypedQuery<Cliente> q;
+        
+        q = em.createNamedQuery("Cliente.findByNombres",Cliente.class)
+                .setParameter("nombres", "%"+valor+"%")
+                .setParameter("apellidos",  "%"+valor+"%")
+                .setParameter("dui", "%"+valor+"%")
+                .setParameter("nit", "%"+valor+"%");
+        
+        return q.getResultList();
+    }
     
 }

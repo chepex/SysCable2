@@ -12,7 +12,11 @@
         </ui:define>
 
         <ui:define name="body">
+            
             INICIO
+            <h:form>
+            <p:inputText value="prueba--->" rendered="#{request.getUserPrincipal() != null}"/>
+            </h:form>
        </ui:define>
     </ui:composition>
 

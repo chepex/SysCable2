@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ClienteBuscaDlg" widgetVar="clienteBuscaDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar Cliente">
+            <h:form id="ClienteBuscaForm">
+                <p:panelGrid columns="3">
+                <p:outputLabel value="Nombre/Nit/Dui" for="vbuscar" />
+                <p:inputText id="vbuscar" value="#{clienteController.vbuscar}" title="buscar" required="true" requiredMessage="buscar"/>
+                <p:commandButton actionListener="#{clienteController.buscar()}" value="Buscar"  update="@form :growl"   />
+                </p:panelGrid>
+                
+                <p:panel header="Clientes">
+                    
+                    <p:dataTable id="datalistClientes" value="#{clienteController.lclientesbusqueda}" var="item"
+                                 selectionMode="single" 
+                                 selection="#{clienteController.selected}"                               
+                                 rowKey="#{item.idcliente}"
+                                  scrollable="true"  
+                                 >        
+                        <p:ajax event="rowDblselect"  listener="#{clienteController.selecionar}" update="@all" global="false"  oncomplete="clienteBuscaDialog.hide()"/>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="nombres"/>
+                            </f:facet>
+                            <h:outputText value="#{item.nombres}"/>
+                        </p:column>
+                       <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="apellidos"/>
+                            </f:facet>
+                            <h:outputText value="#{item.apellidos}"/>
+                        </p:column>  
+                       <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="dui"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dui}"/>
+                        </p:column>                             
+                    </p:dataTable>
+                </p:panel>                
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
