@@ -81,7 +81,7 @@ public class LoginBean {
             
             if(request.getUserPrincipal() == null){
                 request.getSession().setMaxInactiveInterval(900);
-                request.login(username.toUpperCase(), password);
+             // request.login(username.toUpperCase(), password);
                 System.out.println("request.getSession().getMaxInactiveInterval()--->"+request.getSession().getMaxInactiveInterval());
                 System.out.println("Principal--->"+request.getUserPrincipal());
                 System.out.println("Principal--->"+request.getSession().getLastAccessedTime());
@@ -113,6 +113,10 @@ public class LoginBean {
     public void logout() throws ServletException, IOException{
         String ip = this.getServerIP();
         System.gc();
+        System.out.println(" salir ");
+        System.out.println(" salir ");
+        System.out.println(" salir ");
+        
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         if (request.getSession() != null) {
             request.getSession().invalidate();

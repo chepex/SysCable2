@@ -16,7 +16,21 @@
             <h:outputStylesheet name="css/login.css"/>
         </h:head>
 
-        <h:body>           
+        <h:body> 
+              <script type="text/javascript">
+                  $(document).ready(function()
+                    {
+                    $(window).bind("beforeunload", function() { 
+                      mas();
+                      
+                    });
+                    function mas (){
+                        
+                     doAwesomeness();
+                    }
+                });
+            
+              </script>
             <p:growl id="mensajes" showDetail="true" life="2000"/>
             <div class="container">
             <div class="row"  id="pwd-container">
@@ -24,6 +38,8 @@
                 <div class="col-md-4">
                     <section class="login-form">
                             <h:form id="usrForm" role="login">
+                                 <p:remoteCommand name="doAwesomeness" actionListener="#{loginBean.logout()}"
+         />
                                   <p:graphicImage url="/resources/img/logo.jpg" library="images" class="img-responsive" alt="" />
                                 <p:inputText id="username" value="#{loginBean.username}" class="form-control input-lg" placeholder="usuario" required="true" />                          
                                 <p:password id="password" value="#{loginBean.password}" class="form-control input-lg"  placeholder="password" required="true" />  
