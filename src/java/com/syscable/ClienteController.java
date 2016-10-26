@@ -4,6 +4,8 @@ import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import java.util.List;
@@ -38,6 +40,8 @@ public class ClienteController implements Serializable {
     private com.syscable.NacionalidadFacade nacionalidadFacade; 
     @EJB
     private com.syscable.MunicipioFacade municipioFacade;     
+    @EJB
+    private com.syscable.DepartamentoFacade departamentoFacade;      
     private List<Cliente> items = null;
     private List<Cliente> lclientesbusqueda = null;
     private List<Contrato> lcontrato = null;
@@ -48,6 +52,8 @@ public class ClienteController implements Serializable {
     private List<Municipio> lmunicipios;
     private List<Colonia> lcolonia;    
     private Contrato vcontrato;
+    private Ordentrabajo vordentrabajo;
+    
     private String vbuscar;
     @ManagedProperty(value="#{ordentrabajoController}")
     private OrdentrabajoController ordentrabajoController;
@@ -56,6 +62,16 @@ public class ClienteController implements Serializable {
     public ClienteController() {
     }
 
+    public Ordentrabajo getVordentrabajo() {
+        return vordentrabajo;
+    }
+
+    public void setVordentrabajo(Ordentrabajo vordentrabajo) {
+        this.vordentrabajo = vordentrabajo;
+    }
+
+    
+    
     public List<Contrato> getLcontrato() {
         if(selected!=null){
         lcontrato=   contratoFacade.findByIdcliente(this.selected.getIdcliente());
@@ -197,14 +213,19 @@ public class ClienteController implements Serializable {
     }
     
     public void selecionar(){
-        System.out.println("cliente--->"+selected);
     
-    
-    if(ordentrabajoFacade.findByCliente(selected.getIdcliente())!=null){
-        ordentrabajoController.setLordenes(ordentrabajoFacade.findByCliente(selected.getIdcliente()));
-    }
+        if(ordentrabajoFacade.findByCliente(selected.getIdcliente())!=null){
+            ordentrabajoController.setLordenes(ordentrabajoFacade.findByCliente(selected.getIdcliente()));
+        }
         
+        Departamento d = departamentoFacade.find(selected.getDepartamentoIddepartamento().getIddepartamento());
+        Municipio m= municipioFacade.find(selected.getMunicipioIdmunicipio().getIdmunicipio());
+        selected.setDepartamentoIddepartamento(d);
+        selected.setMunicipioIdmunicipio(m);
+        System.out.println("municipio --->"+selected.getMunicipioIdmunicipio());
         
+         lmunicipios  =  municipioFacade.findByDepartamento(selected.getDepartamentoIddepartamento().getIddepartamento());
+           this.lcolonia  =  coloniaFacade.findByDeptoMuni(selected.getDepartamentoIddepartamento().getIddepartamento(),selected.getMunicipioIdmunicipio().getIdmunicipio());
         System.out.println("lordenes--->"+ordentrabajoController.lordenes);
     
     }
@@ -237,8 +258,11 @@ public class ClienteController implements Serializable {
 
     public void create() {
         try{
-            long vid = this.ejbFacade.GenerateId();
-            this.selected.setIdcliente((int)vid);        
+            if(selected.getIdcliente()==0){
+                long vid = this.ejbFacade.GenerateId();
+                this.selected.setIdcliente((int)vid);        
+            }
+            
             persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ClienteCreated"));
         }catch(Exception ex){
               JsfUtil.addSuccessMessage("Surgio un error "+ex);   
@@ -378,15 +402,40 @@ public class ClienteController implements Serializable {
     
     }
     
+    public void prepareCreateOrden( ) {     
+        vordentrabajo = new Ordentrabajo();
+        vordentrabajo.setIdordenTrabajo(0);
+        vordentrabajo.setClienteIdcliente(selected);
+        Date fechaOrden = new Date();
+        vordentrabajo.setFechaIng(fechaOrden);
+        
+        System.out.println("orden creada"+vordentrabajo);
+        
+        
+    }    
+    
     public void crearOrden(){
-        System.out.println("---aqui 1");
-        ordentrabajoController.prepareCreate(selected);
+        
+        try{
+    
+            //vordentrabajo.setIdordenTrabajo(Integer.parseInt(ordenId)+1);        
+            ordentrabajoFacade.edit(vordentrabajo);
+            selected.getOrdentrabajoList().add(vordentrabajo);
+            JsfUtil.addSuccessMessage("Contrato almacenado correctamente");   
+        }catch(Exception ex){
+             JsfUtil.addErrorMessage("Surgio un error " +ex);  
+        
+        }
+        
+        
+         
     }
     
     public void creaContrato(){
         try{
             vcontrato.setEstado("A");
             contratoFacade.edit(vcontrato);
+            selected.getContratoList().add(vcontrato);
             JsfUtil.addSuccessMessage("Contrato almacenado correctamente");   
         }catch(Exception ex){
             JsfUtil.addErrorMessage("Surgio un error "+ex);   

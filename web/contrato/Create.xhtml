@@ -24,7 +24,7 @@
                         <p:outputLabel value="#{bundle.CreateContratoLabel_cuotas}" for="cuotas" />
                         <p:inputText id="cuotas" value="#{clienteController.vcontrato.cuotas}" title="#{bundle.CreateContratoTitle_cuotas}" />                      
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{clienteController.creaContrato()}" update=":growl :ClienteBtnForm:datalist2" value="#{bundle.Save}"  oncomplete="handleSubmit(args,'ContratoCreateDialog');"/>
+                    <p:commandButton actionListener="#{clienteController.creaContrato()}" update=":growl :ClienteBtnForm" value="#{bundle.Save}"  oncomplete="handleSubmit(args,'ContratoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="ContratoCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

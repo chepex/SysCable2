@@ -1,15 +1,13 @@
 
 package com.syscable;
   
-import com.syscable.LoginBean;
+
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;

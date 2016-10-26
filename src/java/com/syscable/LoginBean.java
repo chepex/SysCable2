@@ -75,7 +75,7 @@ public class LoginBean {
         try {   
             
              
-            
+             FacesContext.getCurrentInstance().getExternalContext().redirect("index.xhtml");
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             
             

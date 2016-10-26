@@ -23,7 +23,7 @@
                                  rowKey="#{item.idcliente}"
                                   scrollable="true"  
                                  >        
-                        <p:ajax event="rowDblselect"  listener="#{clienteController.selecionar}" update="@all" global="false"  oncomplete="clienteBuscaDialog.hide()"/>
+                        <p:ajax event="rowDblselect"  listener="#{clienteController.selecionar}" update=":ClienteBtnForm" global="false"  oncomplete="PF('clienteBuscaDialog').hide();"/>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="nombres"/>

@@ -120,8 +120,7 @@ public class OrdentrabajoController implements Serializable {
     }
 
     public Ordentrabajo prepareCreate(Cliente vcliente) {
-        System.out.println("---aqui 2");
-        System.out.println("---aqui 3"+vcliente);
+     
         selected = new Ordentrabajo();
         initializeEmbeddableKey();
         cliente = vcliente;
