@@ -236,6 +236,7 @@ public class ClienteController implements Serializable {
         c.setDepartamentoIddepartamento(selected.getDepartamentoIddepartamento());
         c.setMunicipioIdmunicipio(selected.getMunicipioIdmunicipio());
         coloniaFacade.edit(c);
+        actualizaColonia();
         this.selected.setColoniaIdcolonia(c);
         JsfUtil.addSuccessMessage("Colonia creada correctament");   
     }

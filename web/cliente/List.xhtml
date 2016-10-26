@@ -31,7 +31,7 @@
                         
                         <div class="row">
                             <div class="col-md-2">                                
-                                <p:outputLabel value="#{bundle.CreateClienteLabel_idcliente}" for="idcliente" />
+                                <p:outputLabel value="#{bundle.CreateClienteLabel_idcliente}" for="idcliente"  />
                             </div>
                                 <div class="col-md-2">   
                                 <p:inputText  id="idcliente" readonly="true" value="#{clienteController.selected.idcliente}" title="#{bundle.CreateClienteTitle_idcliente}" required="true" requiredMessage="#{bundle.CreateClienteRequiredMessage_idcliente}"/>                        
@@ -118,10 +118,13 @@
                         </div>
                             <div class="col-md-2">  
    
-                        <p:outputLabel value="#{bundle.CreateClienteLabel_estado}" for="estado" />
+                        <p:outputLabel value="Activo" for="estado" />
                         </div>
                             <div class="col-md-2">  
-                        <p:inputText id="estado" value="#{clienteController.selected.estado}" title="#{bundle.CreateClienteTitle_estado}" />
+                                <p:selectBooleanCheckbox id="estado" value="#{clienteController.selected.estado}" />
+                            
+ 
+                        
                                    </div>
                             
                             </div>
