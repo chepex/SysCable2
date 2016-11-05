@@ -23,3 +23,8 @@
 .ui-selectonemenu-trigger{
      left: 75%;
 }
+
+.panelNoBorder, .panelNoBorder tr, .panelNoBorder td{
+     border: hidden;
+     border-color: white;
+}

@@ -50,22 +50,20 @@ public class OrdentrabajoFacade extends AbstractFacade<Ordentrabajo> {
         return q.getResultList();
     }
     
-    public int findByMaxOrdenId() {
-        int ordenId = 0;
-        
+    public long findByMaxOrdenId() {
+        long ordenId = 0;
+        Logger logger = Logger.getAnonymousLogger();
         try {
             StringBuilder jpql = new StringBuilder();
             
-            jpql.append("Select idordentrabajo  from syscable.ordentrabajo");
+            jpql.append("select ifnull(max(idordenTrabajo),0) + 1 id from ordentrabajo");
             
             Query q = em.createNativeQuery(jpql.toString());
             
-            ordenId = (int) q.getSingleResult();
+            ordenId = (long) q.getSingleResult();
         
         } catch (Exception e) {
-            
-            System.out.println("id malo "+e);
-            ordenId =1;
+            logger.log(Level.SEVERE,"Error en findByMaxOrdenId", e.getMessage());
         }
         return ordenId;
     }

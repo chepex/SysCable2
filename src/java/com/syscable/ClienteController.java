@@ -48,7 +48,7 @@ public class ClienteController implements Serializable {
     private Cliente selected;
     private String vprofesion;
     private String vcolonia;
-    private String vnacionalidad;   
+    private String vnacionalidad,horaOrden;   
     private List<Municipio> lmunicipios;
     private List<Colonia> lcolonia;    
     private Contrato vcontrato;
@@ -60,6 +60,16 @@ public class ClienteController implements Serializable {
     
     
     public ClienteController() {
+    }
+
+    public String getHoraOrden() {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
+        horaOrden = dateFormat.format(new Date());
+        return horaOrden;
+    }
+
+    public void setHoraOrden(String horaOrden) {
+        this.horaOrden = horaOrden;
     }
 
     public Ordentrabajo getVordentrabajo() {
@@ -403,33 +413,28 @@ public class ClienteController implements Serializable {
     
     }
     
-    public void prepareCreateOrden( ) {     
+    public void prepareCreateOrden( ) {
         vordentrabajo = new Ordentrabajo();
-        vordentrabajo.setIdordenTrabajo(0);
+        vordentrabajo.setIdordenTrabajo(Integer.parseInt(String.valueOf(ordentrabajoFacade.findByMaxOrdenId())));
         vordentrabajo.setClienteIdcliente(selected);
         Date fechaOrden = new Date();
         vordentrabajo.setFechaIng(fechaOrden);
-        
-        System.out.println("orden creada"+vordentrabajo);
-        
-        
     }    
     
     public void crearOrden(){
-        
-        try{
-    
-            //vordentrabajo.setIdordenTrabajo(Integer.parseInt(ordenId)+1);        
+        try {
+            if (vordentrabajo.getDescripcion() != null && !vordentrabajo.getDescripcion().isEmpty()) {
+                vordentrabajo.setDescripcion(vordentrabajo.getDescripcion());
+            } else {
+                vordentrabajo.setDescripcion("No se reporto falla");
+            }
+            vordentrabajo.setEstado("A");
             ordentrabajoFacade.edit(vordentrabajo);
             selected.getOrdentrabajoList().add(vordentrabajo);
-            JsfUtil.addSuccessMessage("Contrato almacenado correctamente");   
-        }catch(Exception ex){
-             JsfUtil.addErrorMessage("Surgio un error " +ex);  
-        
+            JsfUtil.addSuccessMessage("Contrato almacenado correctamente");
+        } catch(Exception ex) {
+            JsfUtil.addErrorMessage("Surgio un error " +ex);
         }
-        
-        
-         
     }
     
     public void creaContrato(){
