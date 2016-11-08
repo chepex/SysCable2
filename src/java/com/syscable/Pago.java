@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Pago.findAll", query = "SELECT p FROM Pago p"),
     @NamedQuery(name = "Pago.findByIdpagos", query = "SELECT p FROM Pago p WHERE p.idpagos = :idpagos"),
+    @NamedQuery(name = "Pago.findByIdContrato", query = "SELECT p FROM Pago p WHERE p.contratoIdcontrato.idcontrato = :idcontrato"),
     @NamedQuery(name = "Pago.findByFecha", query = "SELECT p FROM Pago p WHERE p.fecha = :fecha"),
     @NamedQuery(name = "Pago.findByValor", query = "SELECT p FROM Pago p WHERE p.valor = :valor"),
     @NamedQuery(name = "Pago.findByNumCuota", query = "SELECT p FROM Pago p WHERE p.numCuota = :numCuota"),
@@ -232,3 +233,4 @@ public class Pago implements Serializable {
     }
     
 }
+

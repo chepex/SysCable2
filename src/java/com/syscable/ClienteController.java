@@ -465,9 +465,9 @@ public class ClienteController implements Serializable {
             System.out.println("p-->0");
             pagadas = pagadas.add(vcontrato.getCuotasPagadas());
             String id = pagoFacade.maxId();
-            int vid =Integer.parseInt(id);
+            int vid =Integer.parseInt(id)+1;
             Pago p = new Pago(vid);
-            System.out.println("p-->1");
+            System.out.println("p-->id-->"+id);
             p.setClienteIdcliente(selected);
             System.out.println("p-->2");
             p.setContratoIdcontrato(vcontrato);
@@ -480,8 +480,10 @@ public class ClienteController implements Serializable {
             p.setTotal(vcontrato.getValorCuota());
             System.out.println("p-->6");
             System.out.println("p-->"+p);
-            pagoFacade.edit(p);  
             this.vcontrato.getPagoList().add(p);
+            pagoFacade.edit(p);  
+            
+            consultaPago();
             JsfUtil.addSuccessMessage("Pago realizado correctamente");   
             
         }catch(Exception ex){
@@ -492,6 +494,12 @@ public class ClienteController implements Serializable {
     
     }
     
+    public void consultaPago(){
+    
+       vcontrato.setPagoList(pagoFacade.findByIdContrato(vcontrato));  
+    }
+    
+   
     
      
         

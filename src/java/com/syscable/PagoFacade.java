@@ -6,10 +6,12 @@
 package com.syscable;
 
 import java.math.BigDecimal;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -39,5 +41,17 @@ public class PagoFacade extends AbstractFacade<Pago> {
         return val;
        
     } 
+  
+    public List<Pago> findByIdContrato( Contrato contrato ) {
+        TypedQuery<Pago> q;
+        
+        q = em.createNamedQuery("Pago.findByIdContrato", Pago.class)                
+                .setParameter("idcontrato", contrato.getIdcontrato());
+                
+                
+                
+        
+        return q.getResultList();
+    }   
     
 }
