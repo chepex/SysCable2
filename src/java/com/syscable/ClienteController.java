@@ -4,6 +4,7 @@ import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,7 +42,10 @@ public class ClienteController implements Serializable {
     @EJB
     private com.syscable.MunicipioFacade municipioFacade;     
     @EJB
-    private com.syscable.DepartamentoFacade departamentoFacade;      
+    private com.syscable.DepartamentoFacade departamentoFacade;    
+    @EJB
+    private com.syscable.PagoFacade pagoFacade;    
+    
     private List<Cliente> items = null;
     private List<Cliente> lclientesbusqueda = null;
     private List<Contrato> lcontrato = null;
@@ -51,7 +55,7 @@ public class ClienteController implements Serializable {
     private String vnacionalidad,horaOrden;   
     private List<Municipio> lmunicipios;
     private List<Colonia> lcolonia;    
-    private Contrato vcontrato;
+    private Contrato vcontrato;    
     private Ordentrabajo vordentrabajo;
     
     private String vbuscar;
@@ -440,6 +444,7 @@ public class ClienteController implements Serializable {
     public void creaContrato(){
         try{
             vcontrato.setEstado("A");
+            vcontrato.setCuotasPagadas(BigDecimal.ZERO);
             contratoFacade.edit(vcontrato);
             selected.getContratoList().add(vcontrato);
             JsfUtil.addSuccessMessage("Contrato almacenado correctamente");   
@@ -449,5 +454,48 @@ public class ClienteController implements Serializable {
         
         
     }
+    
+    public void crearPago(){
+        System.out.println("realizar pago --!");
+        try{
+            Date d = new Date();
+            BigDecimal pagadas = new BigDecimal(1);
+            
+            System.out.println("vcontrato"+vcontrato);
+            System.out.println("p-->0");
+            pagadas = pagadas.add(vcontrato.getCuotasPagadas());
+            String id = pagoFacade.maxId();
+            int vid =Integer.parseInt(id);
+            Pago p = new Pago(vid);
+            System.out.println("p-->1");
+            p.setClienteIdcliente(selected);
+            System.out.println("p-->2");
+            p.setContratoIdcontrato(vcontrato);
+            System.out.println("p-->3");            
+            p.setFecha(d.toString());
+            System.out.println("p-->4");
+            p.setNumCuota(pagadas.intValue());
+            System.out.println("p-->5");
+            p.setValor(vcontrato.getValorCuota());
+            p.setTotal(vcontrato.getValorCuota());
+            System.out.println("p-->6");
+            System.out.println("p-->"+p);
+            pagoFacade.edit(p);  
+            this.vcontrato.getPagoList().add(p);
+            JsfUtil.addSuccessMessage("Pago realizado correctamente");   
+            
+        }catch(Exception ex){
+            System.out.println("error-->"+ex);
+            JsfUtil.addErrorMessage("Surgio un error "+ex);   
+        }
+    
+    
+    }
+    
+    
+     
+        
+            
+            
 
 }

@@ -78,7 +78,7 @@ public class Pago implements Serializable {
     @Column(name = "total")
     private BigDecimal total;
     @JoinColumn(name = "ordenTrabajo_idordenTrabajo", referencedColumnName = "idordenTrabajo")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     private Ordentrabajo ordenTrabajoidordenTrabajo;
     @JoinColumn(name = "contrato_idcontrato", referencedColumnName = "idcontrato")
     @ManyToOne(optional = false)

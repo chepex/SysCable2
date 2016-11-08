@@ -5,9 +5,11 @@
  */
 package com.syscable;
 
+import java.math.BigDecimal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,5 +28,16 @@ public class PagoFacade extends AbstractFacade<Pago> {
     public PagoFacade() {
         super(Pago.class);
     }
+    
+  public String maxId( ){
+	 
+	   
+	
+		Query q =  em.createNativeQuery("Select max( idpagos) from pago " );		                        
+                
+                String val = String.valueOf(q.getSingleResult());
+        return val;
+       
+    } 
     
 }

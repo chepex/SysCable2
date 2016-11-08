@@ -307,6 +307,82 @@
                                 </f:facet>
                             </p:dataTable>        
                         </p:tab>
+                          <p:tab title="Pagos">
+                        <div class="row">
+                            <div class="col-md-2">  
+
+                                <h:outputText value="Contratos"/>
+                            </div>
+                            <div class="col-md-2">  
+                                <p:selectOneMenu  id="lcontrato" value="#{clienteController.vcontrato}"   >
+                                    <f:selectItem  itemLabel="Selecione un contrato" itemValue="" />
+                                    <f:selectItems value="#{clienteController.selected.contratoList}"
+                                    var="contratoItem"
+                                    itemLabel="Contrato #{contratoItem.idcontrato}"
+                                    itemValue="#{contratoItem}"/>
+                                     <p:ajax   update="valor listPago" />
+                                </p:selectOneMenu>      
+                            </div>
+                            <div class="col-md-2">  
+                                <h:outputText value="Valor cuota"/>
+                            </div>
+                            <div class="col-md-2">  
+                                <p:inputText id="valor" value="#{clienteController.vcontrato.valorCuota}"/>
+                            </div>
+                            <div class="col-md-2">  
+                                <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.crearPago}" update="@form :growl" />
+                                <p:commandButton id="btnPagar" value="Pagar" actionListener="#{clienteController.crearPago}" update="@form :growl listPago" />
+                            </div>
+                        </div>
+                        
+                        <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listPago">
+                        <p:dataTable id="datalistPago" value="#{clienteController.vcontrato.pagoList}" var="item"
+                                 selectionMode="single" selection="#{pagoController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.idpagos}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                      
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_idpagos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idpagos}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_fecha}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fecha}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.valor}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_numCuota}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.numCuota}"/>
+                        </p:column>
+                       
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_total}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.total}"/>
+                        </p:column>
+                       
+                        
+                    </p:dataTable>      
+                             </p:panel> 
+                              
+                          </p:tab>
                       </p:tabView>
             
                     
