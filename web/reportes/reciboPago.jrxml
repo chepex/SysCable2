@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="300" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="acfe9755-0490-4bf4-a524-44db5c7e2538">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["/home/mmixco/NetBeansProjects/SysCable2/web/reportes/"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idPago" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select p.fecha, c.nombres, c.apellidos, p.valor, p.descripcion  from syscable.pago p , syscable.cliente c
+where p.cliente_idcliente = c.idcliente
+and idpagos= $P{idPago}]]>
+	</queryString>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellidos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="valor_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="200" height="64" uuid="4feb84b7-c364-4759-8acd-faab071284fe"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "encabezado.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="12" y="0" width="76" height="20" uuid="0f048d9e-681c-4d8f-bdd7-fcfd1b2fcf02"/>
+				<text><![CDATA[Factura para:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="0" width="100" height="20" uuid="3ac2c026-f5b8-4675-b06e-dc103cb7a8a8"/>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="211" y="0" width="100" height="20" uuid="55cae0c6-323f-42f4-9dac-836502031df7"/>
+				<textFieldExpression><![CDATA[$F{apellidos}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="12" y="0" width="100" height="20" uuid="dba955b2-42f5-4fae-8ada-6aba915c87f7"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="455" y="0" width="100" height="20" uuid="7c2f6f65-3760-4ce3-a8f2-e60b466c4f37"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[valor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" uuid="19752563-d642-4c60-be92-8b8408b12ac8"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Prevent">
+			<textField isStretchWithOverflow="true" pattern="#,##0.00">
+				<reportElement x="455" y="3" width="100" height="20" uuid="907dc34b-f75b-41a3-a613-3fdd42066fcf"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="2" width="188" height="20" uuid="f0875ed8-e831-4ccf-b896-c7268be6375d"/>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="25" width="555" height="1" uuid="6fec661d-b309-4dba-8f7d-3c242758f8e1"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="26" splitType="Prevent">
+			<textField pattern="$#,##0.00">
+				<reportElement x="455" y="3" width="100" height="20" uuid="a8b0b06a-6318-4821-9e9d-ecf290191a52"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="233" y="3" width="100" height="20" uuid="b74e9053-4844-461e-8af6-379986ebe138"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

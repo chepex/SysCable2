@@ -1,12 +1,10 @@
 package com.syscable;
 
+ 
+
 import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
-import java.io.IOException;
-
 import java.io.Serializable;
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -19,28 +17,24 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import javax.naming.NamingException;
-import net.sf.jasperreports.engine.JRException;
 
-@ManagedBean(name = "pagoController")
+@ManagedBean(name = "companiaController")
 @SessionScoped
-public class PagoController implements Serializable {
+public class CompaniaController implements Serializable {
 
     @EJB
-    private com.syscable.PagoFacade ejbFacade;
-    @EJB
-    private com.ejb.SB_Reportes reportes;    
-    private List<Pago> items = null;
-    private Pago selected;
+    private  CompaniaFacade ejbFacade;
+    private List<Compania> items = null;
+    private Compania selected;
 
-    public PagoController() {
+    public CompaniaController() {
     }
 
-    public Pago getSelected() {
+    public Compania getSelected() {
         return selected;
     }
 
-    public void setSelected(Pago selected) {
+    public void setSelected(Compania selected) {
         this.selected = selected;
     }
 
@@ -50,36 +44,36 @@ public class PagoController implements Serializable {
     protected void initializeEmbeddableKey() {
     }
 
-    private PagoFacade getFacade() {
+    private CompaniaFacade getFacade() {
         return ejbFacade;
     }
 
-    public Pago prepareCreate() {
-        selected = new Pago();
+    public Compania prepareCreate() {
+        selected = new Compania(0);
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PagoCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("CompaniaCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("PagoUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("CompaniaUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("PagoDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("CompaniaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Pago> getItems() {
+    public List<Compania> getItems() {
         if (items == null) {
             items = getFacade().findAll();
         }
@@ -114,24 +108,24 @@ public class PagoController implements Serializable {
         }
     }
 
-    public List<Pago> getItemsAvailableSelectMany() {
+    public List<Compania> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Pago> getItemsAvailableSelectOne() {
+    public List<Compania> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Pago.class)
-    public static class PagoControllerConverter implements Converter {
+    @FacesConverter(forClass = Compania.class)
+    public static class CompaniaControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            PagoController controller = (PagoController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "pagoController");
+            CompaniaController controller = (CompaniaController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "companiaController");
             return controller.getFacade().find(getKey(value));
         }
 
@@ -152,25 +146,15 @@ public class PagoController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Pago) {
-                Pago o = (Pago) object;
-                return getStringKey(o.getIdpagos());
+            if (object instanceof Compania) {
+                Compania o = (Compania) object;
+                return getStringKey(o.getIdcompania());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Pago.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Compania.class.getName()});
                 return null;
             }
         }
 
     }
-    
-    public String reciboPago()  throws NamingException, SQLException, JRException, IOException{  
-        
-        HashMap params = new HashMap(); 
-        params.put("idPago",selected.getIdpagos() ); 
-        System.out.println("idPago*-->"+selected.getIdpagos());
-        reportes.GenerarReporte("/reportes/reciboPago.jasper", params);
-        
-        return "";           
-    }     
 
 }

@@ -330,7 +330,7 @@
                                 <p:inputText id="valor" value="#{clienteController.vcontrato.valorCuota}"/>
                             </div>
                             <div class="col-md-2">  
-                                <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.crearPago}" update="@form :growl" />
+                                <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago()}" update="@form :growl" />
                                 <p:commandButton id="btnPagar" value="Pagar" actionListener="#{clienteController.crearPago}" update="@form :growl" />
                             </div>
                         </div>
@@ -343,7 +343,8 @@
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
-
+                        <p:ajax event="rowSelect"   update="btnImprimir"/>
+                        <p:ajax event="rowUnselect" update="btnImprimir"/>
                       
 
                         <p:column>
@@ -377,8 +378,9 @@
                             </f:facet>
                             <h:outputText value="#{item.total}"/>
                         </p:column>
-                       
-                        
+                        <f:facet name="footer">
+                            <p:commandButton id="btnImprimir"   icon="ui-icon ui-icon-print"  value="Recibo" actionListener="#{pagoController.reciboPago}" ajax="false" update="@form :growl" disabled="#{pagoController.selected==null}" />                        
+                        </f:facet>
                     </p:dataTable>      
                              </p:panel> 
                               
