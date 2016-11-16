@@ -407,11 +407,15 @@ public class ClienteController implements Serializable {
     
     
     public void precreateContrato(){
-        Contrato c= new Contrato(0);
+        
+        String vid= this.contratoFacade.maxId();
+        int id  =  Integer.parseInt(vid)+1;
+
+        Contrato c= new Contrato(id);
         c.setClienteIdcliente(selected);
         Date d = new Date();
         c.setFecha(d);
-        c.setFechainicio(d);
+        c.setFechainicio(d);        
         this.vcontrato = c;
         
     
@@ -467,20 +471,22 @@ public class ClienteController implements Serializable {
             String id = pagoFacade.maxId();
             int vid =Integer.parseInt(id)+1;
             Pago p = new Pago(vid);
-            System.out.println("p-->id-->"+id);
+            
             p.setClienteIdcliente(selected);
-            System.out.println("p-->2");
+            
             p.setContratoIdcontrato(vcontrato);
-            System.out.println("p-->3");            
+            
             p.setFecha(d.toString());
-            System.out.println("p-->4");
+            
             p.setNumCuota(pagadas.intValue());
-            System.out.println("p-->5");
+            p.setDescripcion("Pago cuota :"+pagadas.intValue()+" contrato #"+vcontrato.getIdcontrato());
             p.setValor(vcontrato.getValorCuota());
             p.setTotal(vcontrato.getValorCuota());
-            System.out.println("p-->6");
-            System.out.println("p-->"+p);
+            
+            
             this.vcontrato.getPagoList().add(p);
+            vcontrato.setCuotasPagadas(pagadas);
+            this.contratoFacade.edit(vcontrato);
             pagoFacade.edit(p);  
             
             consultaPago();

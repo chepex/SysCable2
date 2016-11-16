@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -39,4 +40,16 @@ public class ContratoFacade extends AbstractFacade<Contrato> {
         
         return q.getResultList();
     }    
+   
+  public String maxId( ){
+	 
+	   
+	
+		Query q =  em.createNativeQuery("Select max( idcontrato) from contrato " );		                        
+                
+                String val = String.valueOf(q.getSingleResult());
+        return val;
+       
+    } 
+     
 }
