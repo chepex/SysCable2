@@ -74,6 +74,8 @@ public class Pago implements Serializable {
     @Size(max = 145)
     @Column(name = "descripcion")
     private String descripcion;
+    @Column(name = "aniomes")
+    private String aniomes;    
     @Column(name = "descuento")
     private BigDecimal descuento;
     @Column(name = "total")
@@ -91,6 +93,14 @@ public class Pago implements Serializable {
     public Pago() {
     }
 
+    public String getAniomes() {
+        return aniomes;
+    }
+
+    public void setAniomes(String aniomes) {
+        this.aniomes = aniomes;
+    }    
+    
     public Pago(Integer idpagos) {
         this.idpagos = idpagos;
     }

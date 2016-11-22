@@ -57,6 +57,7 @@ public class ClienteController implements Serializable {
     private List<Colonia> lcolonia;    
     private Contrato vcontrato;    
     private Ordentrabajo vordentrabajo;
+    private String vaniomes;
     
     private String vbuscar;
     @ManagedProperty(value="#{ordentrabajoController}")
@@ -66,6 +67,16 @@ public class ClienteController implements Serializable {
     public ClienteController() {
     }
 
+    public String getVaniomes() {
+        return vaniomes;
+    }
+
+    public void setVaniomes(String vaniomes) {
+        this.vaniomes = vaniomes;
+    }
+
+    
+    
     public String getHoraOrden() {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
         horaOrden = dateFormat.format(new Date());
