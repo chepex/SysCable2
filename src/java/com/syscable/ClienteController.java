@@ -1,5 +1,6 @@
 package com.syscable;
 
+import com.ejb.SB_GenerarCuotas;
 import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
 
@@ -44,7 +45,10 @@ public class ClienteController implements Serializable {
     @EJB
     private com.syscable.DepartamentoFacade departamentoFacade;    
     @EJB
-    private com.syscable.PagoFacade pagoFacade;    
+    private com.syscable.PagoFacade pagoFacade;   
+    @EJB
+    private SB_GenerarCuotas sb_GenerarCuotas;       
+    
     
     private List<Cliente> items = null;
     private List<Cliente> lclientesbusqueda = null;
@@ -58,6 +62,7 @@ public class ClienteController implements Serializable {
     private Contrato vcontrato;    
     private Ordentrabajo vordentrabajo;
     private String vaniomes;
+    private List<String> lvaniomes;
     
     private String vbuscar;
     @ManagedProperty(value="#{ordentrabajoController}")
@@ -67,6 +72,20 @@ public class ClienteController implements Serializable {
     public ClienteController() {
     }
 
+    public List<String> getLvaniomes() {
+        
+        if(vcontrato !=null){
+            
+        }
+        return lvaniomes;
+    }
+
+    public void setLvaniomes(List<String> lvaniomes) {
+        this.lvaniomes = lvaniomes;
+    }
+
+    
+    
     public String getVaniomes() {
         return vaniomes;
     }
@@ -479,16 +498,18 @@ public class ClienteController implements Serializable {
             System.out.println("vcontrato"+vcontrato);
             System.out.println("p-->0");
             pagadas = pagadas.add(vcontrato.getCuotasPagadas());
+            System.out.println("p-->01");
             String id = pagoFacade.maxId();
             int vid =Integer.parseInt(id)+1;
             Pago p = new Pago(vid);
-            
+             System.out.println("p-->1");
             p.setClienteIdcliente(selected);
-            
+            System.out.println("p-->2");
             p.setContratoIdcontrato(vcontrato);
-            
+             System.out.println("p-->3");
             p.setFecha(d.toString());
-            
+            p.setAniomes("201605");
+             System.out.println("p-->4");
             p.setNumCuota(pagadas.intValue());
             p.setDescripcion("Pago cuota :"+pagadas.intValue()+" contrato #"+vcontrato.getIdcontrato());
             p.setValor(vcontrato.getValorCuota());
@@ -514,6 +535,8 @@ public class ClienteController implements Serializable {
     public void consultaPago(){
     
        vcontrato.setPagoList(pagoFacade.findByIdContrato(vcontrato));  
+       
+       sb_GenerarCuotas.generarCuotas(vcontrato);
     }
     
    

@@ -31,13 +31,16 @@ public class PagoFacade extends AbstractFacade<Pago> {
         super(Pago.class);
     }
     
-  public String maxId( ){
+    public String maxId( ){
 	 
-	   
-	
-		Query q =  em.createNativeQuery("Select max( idpagos) from pago " );		                        
-                
-                String val = String.valueOf(q.getSingleResult());
+	    String val ="";
+	try{
+            Query q =  em.createNativeQuery("Select IFNULL(max( idpagos),0)  from pago " );
+            val= String.valueOf(q.getSingleResult());
+        }catch(Exception ex){
+              val ="0";
+            }
+		
         return val;
        
     } 
@@ -46,12 +49,25 @@ public class PagoFacade extends AbstractFacade<Pago> {
         TypedQuery<Pago> q;
         
         q = em.createNamedQuery("Pago.findByIdContrato", Pago.class)                
-                .setParameter("idcontrato", contrato.getIdcontrato());
-                
-                
-                
-        
+                .setParameter("idcontrato", contrato.getIdcontrato());                 
         return q.getResultList();
     }   
+    
+    public String findPago(Contrato c ){
+	 
+	    String val ="";
+	try{
+            Query q =  em.createNativeQuery("Select IFNULL(max( idpagos),0)  from pago where contrato_idcontrato = ?" );
+            q.setParameter(1, c.getIdcontrato());
+            val= String.valueOf(q.getSingleResult());
+        }catch(Exception ex){
+              val ="0";
+            }
+		
+        return val;
+       
+    }     
+
+     
     
 }
