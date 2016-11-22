@@ -236,29 +236,30 @@
                       <p:tabView rendered="#{clienteController.selected!=null}" id="tab">
                         <p:tab title="Contratos">
                            <p:commandButton id="createButton2" icon="ui-icon-plus"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.precreateContrato()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
-                           <p:dataTable id="datalist2" value="#{clienteController.selected.contratoList}" var="item"
+                           
+                           <p:dataTable id="datalist2" value="#{clienteController.selected.contratoList}" var="item2"
                                  selectionMode="single" selection="#{contratoController.selected}"                               
-                                 rowKey="#{item.idcontrato}"
+                                 rowKey="#{item2.idcontrato}"
                                  scrollable="true"                                
                                  >  
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListContratoTitle_fecha}"/>
                             </f:facet>
-                            <h:outputText value="#{item.fecha}"/>
+                            <h:outputText value="#{item2.fecha}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListContratoTitle_estado}"/>
                             </f:facet>
-                            <h:outputText value="#{item.estado}"/>
+                            <h:outputText value="#{item2.estado}"/>
                         </p:column>
                       
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="ValorCuota"/>
                             </f:facet>
-                            <h:outputText value="#{item.valorCuota}"/>
+                            <h:outputText value="#{item2.valorCuota}"/>
                         </p:column>  
                     </p:dataTable>                        
       
@@ -308,6 +309,7 @@
                             </p:dataTable>        
                         </p:tab>
                           <p:tab title="Pagos">
+                              
                         <div class="row">
                             <div class="col-md-2">  
 
@@ -320,21 +322,24 @@
                                     var="contratoItem"
                                     itemLabel="Contrato #{contratoItem.idcontrato}"
                                     itemValue="#{contratoItem}"/>
-                                     <p:ajax   update="valor listPago" />
+                                     <p:ajax event="valueChange"   update="idvalor, listPago" />
                                 </p:selectOneMenu>      
                             </div>
                             <div class="col-md-2">  
-                                <h:outputText value="Valor cuota"/>
+                                <h:outputText value="Valor cuota"   />
                             </div>
                             <div class="col-md-2">  
-                                <p:inputText id="valor" value="#{clienteController.vcontrato.valorCuota}"/>
+                                <p:inputText id="idvalor" value="#{clienteController.vcontrato.valorCuota}"  rendered="#{clienteController.vcontrato!=null}"/>
                             </div>
                             <div class="col-md-2">  
+
                                 <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago}" update="@form :growl" />
+
+                                
+
                                 <p:commandButton id="btnPagar" value="Pagar" actionListener="#{clienteController.crearPago}" update="@form :growl" />
                             </div>
-                        </div>
-                        
+                        </div>                        
                         <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listPago">
                         <p:dataTable id="datalistPago" value="#{clienteController.vcontrato.pagoList}" var="item"
                                  selectionMode="single" selection="#{pagoController.selected}"
@@ -343,7 +348,8 @@
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
-
+                        <p:ajax event="rowSelect"   update="btnImprimir"/>
+                        <p:ajax event="rowUnselect" update="btnImprimir"/>
                       
 
                         <p:column>
@@ -377,8 +383,9 @@
                             </f:facet>
                             <h:outputText value="#{item.total}"/>
                         </p:column>
-                       
-                        
+                        <f:facet name="footer">
+                            <p:commandButton id="btnImprimir"   icon="ui-icon ui-icon-print"  value="Recibo" actionListener="#{pagoController.reciboPago}" ajax="false" update="@form :growl" disabled="#{pagoController.selected==null}" />                        
+                        </f:facet>
                     </p:dataTable>      
                              </p:panel> 
                               
