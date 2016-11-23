@@ -329,10 +329,10 @@
                                   </div>
                             <div class="col-md-2">
                                 <p:selectOneMenu  id="lcuota" value="#{clienteController.vcuota}"   >
-                                    <f:selectItem  itemLabel="Selecione una cuota" itemValue="" />
+                                    
                                     <f:selectItems value="#{clienteController.lcuota}"
                                     var="cuotaItem"
-                                    itemLabel="Contrato #{cuotaItem.nombre}"
+                                    itemLabel="Cuota #{cuotaItem.nombre}"
                                     itemValue="#{cuotaItem}"/>                                    
                                 </p:selectOneMenu>      
                             </div>                            

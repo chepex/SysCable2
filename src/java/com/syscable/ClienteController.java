@@ -81,6 +81,7 @@ public class ClienteController implements Serializable {
         this.vcuota = vcuota;
     }
 
+ 
     
     
     public List<Cuota> getLcuota() {
@@ -517,7 +518,7 @@ public class ClienteController implements Serializable {
             p.setContratoIdcontrato(vcontrato);
              System.out.println("p-->3");
             p.setFecha(d.toString());
-            p.setAniomes("201605");
+            p.setAniomes(String.valueOf(this.vcuota.getIdcuota()));
              System.out.println("p-->4");
             p.setNumCuota(pagadas.intValue());
             p.setDescripcion("Pago cuota :"+pagadas.intValue()+" contrato #"+vcontrato.getIdcontrato());

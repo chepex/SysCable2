@@ -52,13 +52,13 @@ public class SB_GenerarCuotas {
                       System.out.println("vmes:"+vmes);
                        List<Cuota> lcuota2 = cuotaFacade.findByAnioMes(vanio,vmes);
                        Cuota cc = lcuota2.get(0);                       
-                       lcuota = cuotaFacade.findByAnioMes12(cc.getIdcuota(),cc.getIdcuota()+12);
+                       lcuota = cuotaFacade.findByAnioMes12(cc.getIdcuota()+1,cc.getIdcuota()+12);
                        /*recorrer desde este hay mas 12*/
                   }else{
                       String  vcontrato =cuotaFacade.maxPago(contrato.getIdcontrato());                      
                       int vid = Integer.valueOf(vcontrato);
                       System.out.println("id pago>"+vid);
-                      lcuota = cuotaFacade.findByAnioMes12(vid,vid+12);
+                      lcuota = cuotaFacade.findByAnioMes12(vid+1,vid+12);
                       /*recorrer desde el ultimo pago encontrado hasta 12*/
                   }
         }    

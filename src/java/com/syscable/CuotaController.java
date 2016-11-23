@@ -1,7 +1,5 @@
 package com.syscable;
 
-
-
 import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
 import java.io.Serializable;
@@ -11,15 +9,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
-
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+ 
 
-@Named("cuotaController")
+@ManagedBean(name = "cuotaController")
 @SessionScoped
 public class CuotaController implements Serializable {
 
@@ -131,7 +129,7 @@ public class CuotaController implements Serializable {
             }
             CuotaController controller = (CuotaController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "cuotaController");
-            return controller.getCuota(getKey(value));
+                return controller.getFacade().find(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -159,6 +157,8 @@ public class CuotaController implements Serializable {
                 return null;
             }
         }
+
+     
 
     }
 
