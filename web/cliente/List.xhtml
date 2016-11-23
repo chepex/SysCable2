@@ -311,32 +311,39 @@
                           <p:tab title="Pagos">
                               
                         <div class="row">
-                            <div class="col-md-2">  
-
-                                <h:outputText value="Contratos"/>
+                            <div class="col-md-1"> 
+                                <h:outputText value="Contratos"/>                            
                             </div>
-                            <div class="col-md-2">  
+                            <div class="col-md-2"> 
                                 <p:selectOneMenu  id="lcontrato" value="#{clienteController.vcontrato}"   >
                                     <f:selectItem  itemLabel="Selecione un contrato" itemValue="" />
                                     <f:selectItems value="#{clienteController.selected.contratoList}"
                                     var="contratoItem"
                                     itemLabel="Contrato #{contratoItem.idcontrato}"
                                     itemValue="#{contratoItem}"/>
-                                     <p:ajax event="valueChange"   update="idvalor, listPago" />
+                                     <p:ajax event="valueChange"   update="idvalor, listPago, lcuota" />
                                 </p:selectOneMenu>      
                             </div>
-                            <div class="col-md-2">  
+                            <div class="col-md-1"> 
+                                <h:outputText value="Cuota"/> 
+                                  </div>
+                            <div class="col-md-2">
+                                <p:selectOneMenu  id="lcuota" value="#{clienteController.vcuota}"   >
+                                    <f:selectItem  itemLabel="Selecione una cuota" itemValue="" />
+                                    <f:selectItems value="#{clienteController.lcuota}"
+                                    var="cuotaItem"
+                                    itemLabel="Contrato #{cuotaItem.nombre}"
+                                    itemValue="#{cuotaItem}"/>                                    
+                                </p:selectOneMenu>      
+                            </div>                            
+                            <div class="col-md-1">  
                                 <h:outputText value="Valor cuota"   />
                             </div>
                             <div class="col-md-2">  
                                 <p:inputText id="idvalor" value="#{clienteController.vcontrato.valorCuota}"  rendered="#{clienteController.vcontrato!=null}"/>
                             </div>
-                            <div class="col-md-2">  
-
+                            <div class="col-md-3">  
                                 <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago}" update="@form :growl" />
-
-                                
-
                                 <p:commandButton id="btnPagar" value="Pagar" actionListener="#{clienteController.crearPago}" update="@form :growl" />
                             </div>
                         </div>                        

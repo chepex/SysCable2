@@ -62,7 +62,8 @@ public class ClienteController implements Serializable {
     private Contrato vcontrato;    
     private Ordentrabajo vordentrabajo;
     private String vaniomes;
-    private List<String> lvaniomes;
+    private List<Cuota> lcuota;
+    private Cuota vcuota;
     
     private String vbuscar;
     @ManagedProperty(value="#{ordentrabajoController}")
@@ -72,17 +73,25 @@ public class ClienteController implements Serializable {
     public ClienteController() {
     }
 
-    public List<String> getLvaniomes() {
-        
-        if(vcontrato !=null){
-            
-        }
-        return lvaniomes;
+    public Cuota getVcuota() {
+        return vcuota;
     }
 
-    public void setLvaniomes(List<String> lvaniomes) {
-        this.lvaniomes = lvaniomes;
+    public void setVcuota(Cuota vcuota) {
+        this.vcuota = vcuota;
     }
+
+    
+    
+    public List<Cuota> getLcuota() {
+        return lcuota;
+    }
+
+    public void setLcuota(List<Cuota> lcuota) {
+        this.lcuota = lcuota;
+    }
+
+  
 
     
     
@@ -536,7 +545,9 @@ public class ClienteController implements Serializable {
     
        vcontrato.setPagoList(pagoFacade.findByIdContrato(vcontrato));  
        
-       sb_GenerarCuotas.generarCuotas(vcontrato);
+       lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
+       
+       
     }
     
    
