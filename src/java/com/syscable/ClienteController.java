@@ -23,6 +23,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "clienteController")
 @SessionScoped
@@ -476,13 +477,18 @@ public class ClienteController implements Serializable {
             } else {
                 vordentrabajo.setDescripcion("No se reporto falla");
             }
-            vordentrabajo.setEstado("A");
+            vordentrabajo.setEstado("P");
             ordentrabajoFacade.edit(vordentrabajo);
             selected.getOrdentrabajoList().add(vordentrabajo);
             JsfUtil.addSuccessMessage("Contrato almacenado correctamente");
         } catch(Exception ex) {
             JsfUtil.addErrorMessage("Surgio un error " +ex);
         }
+    }
+    
+    public void onRowEdit(RowEditEvent event) {
+        /*FacesMessage msg = new FacesMessage("Car Edited", ((Car) event.getObject()).getId());
+        FacesContext.getCurrentInstance().addMessage(null, msg);*/
     }
     
     public void creaContrato(){

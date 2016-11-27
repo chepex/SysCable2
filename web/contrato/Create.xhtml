@@ -9,23 +9,23 @@
     <ui:composition>
 
         
-        <p:dialog id="ContratoCreateDlg" widgetVar="ContratoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateContratoTitle}">
+        <p:dialog id="ContratoCreateDlg" widgetVar="ContratoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nuevo Contrato">
             <h:form id="ContratoCreateForm">
                 <h:panelGroup id="display" >
                     <p:panelGrid columns="4" rendered="#{clienteController.vcontrato != null}" >
                         <p:outputLabel value="Cliente" for="cliente" />
                         <p:inputText id="cliente" value="#{clienteController.selected.nombres}"   />                          
                         <p:outputLabel value="Fecha Documento" for="fecha" />
-                        <p:calendar id="fecha"  pattern="MM/dd/yyyy" value="#{clienteController.vcontrato.fecha}" title="#{bundle.CreateContratoTitle_fecha}" />                         
-                        <p:outputLabel value="Fecha Ini Contrato    " for="fechainicio" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{clienteController.vcontrato.fecha}" title="#{bundle.CreateContratoTitle_fecha}" />                         
+                        <p:outputLabel value="Fecha de Instalacion" for="fechainicio" />
                         <p:calendar id="fechainicio" pattern="MM/dd/yyyy" value="#{clienteController.vcontrato.fechainicio}" title="#{bundle.EditContratoTitle_fechainicio}"  showOn="button"/>
-                        <p:outputLabel value="#{bundle.CreateContratoLabel_valorCuota}" for="valorCuota" />
+                        <p:outputLabel value="Valor de Cuota" for="valorCuota" />
                         <p:inputText id="valorCuota" value="#{clienteController.vcontrato.valorCuota}" title="#{bundle.CreateContratoTitle_valorCuota}" />
-                        <p:outputLabel value="#{bundle.CreateContratoLabel_cuotas}" for="cuotas" />
+                        <p:outputLabel value="Cuotas/Meses:" for="cuotas" />
                         <p:inputText id="cuotas" value="#{clienteController.vcontrato.cuotas}" title="#{bundle.CreateContratoTitle_cuotas}" />                      
                     </p:panelGrid>
                     <p:commandButton actionListener="#{clienteController.creaContrato()}" update=":growl :ClienteBtnForm" value="#{bundle.Save}"  oncomplete="handleSubmit(args,'ContratoCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="ContratoCreateDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('ContratoCreateDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
