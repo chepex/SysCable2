@@ -166,6 +166,7 @@ public class PagoController implements Serializable {
     public String reciboPago()  throws NamingException, SQLException, JRException, IOException{  
         
         HashMap params = new HashMap(); 
+       // params.put("SUBREPORT_DIR", "/reportes/");
         params.put("idPago",selected.getIdpagos() ); 
         System.out.println("idPago*-->"+selected.getIdpagos());
         reportes.GenerarReporte("/reportes/reciboPago.jasper", params);

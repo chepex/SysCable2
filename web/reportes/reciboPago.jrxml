@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["/home/mmixco/NetBeansProjects/SysCable2/web/reportes/"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="idPago" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -38,7 +38,7 @@ and idpagos= $P{idPago}]]>
 	<title>
 		<band height="70" splitType="Stretch">
 			<subreport>
-				<reportElement x="0" y="0" width="200" height="64" uuid="4feb84b7-c364-4759-8acd-faab071284fe"/>
+				<reportElement x="0" y="0" width="200" height="56" uuid="4feb84b7-c364-4759-8acd-faab071284fe"/>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "encabezado.jasper"]]></subreportExpression>
 			</subreport>

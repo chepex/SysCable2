@@ -50,7 +50,7 @@ public class SB_GenerarCuotas {
                   if(contrato.getPagoList().isEmpty()){
                       System.out.println("anio:"+vanio);
                       System.out.println("vmes:"+vmes);
-                       List<Cuota> lcuota2 = cuotaFacade.findByAnioMes(vanio,vmes);
+                       List<Cuota> lcuota2 = cuotaFacade.findByAnioMes(vanio,vmes); 
                        Cuota cc = lcuota2.get(0);                       
                        lcuota = cuotaFacade.findByAnioMes12(cc.getIdcuota()+1,cc.getIdcuota()+12);
                        /*recorrer desde este hay mas 12*/

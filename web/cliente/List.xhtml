@@ -276,10 +276,10 @@
                             </div>
                         </div>                        
                         <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listPago">
-                        <p:dataTable id="datalistPago" value="#{clienteController.vcontrato.pagoList}" var="item"
+                        <p:dataTable id="datalistPago" value="#{clienteController.vcontrato.pagoList}" var="item2"
                                  selectionMode="single" selection="#{pagoController.selected}"
                                  paginator="true"
-                                 rowKey="#{item.idpagos}"
+                                 rowKey="#{item2.idpagos}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
@@ -291,34 +291,34 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_idpagos}"/>
                             </f:facet>
-                            <h:outputText value="#{item.idpagos}"/>
+                            <h:outputText value="#{item2.idpagos}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Fecha2"/>
                             </f:facet>
-                            <h:outputText value="#{item.fecha}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            <h:outputText value="#{item2.cuota.nombre}">
+                               
                             </h:outputText>                            
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_valor}"/>
                             </f:facet>
-                            <h:outputText value="#{item.valor}"/>
+                            <h:outputText value="#{item2.valor}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_numCuota}"/>
                             </f:facet>
-                            <h:outputText value="#{item.numCuota}"/>
+                            <h:outputText value="#{item2.numCuota}"/>
                         </p:column>
                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_total}"/>
                             </f:facet>
-                            <h:outputText value="#{item.total}"/>
+                            <h:outputText value="#{item2.total}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="btnImprimir"   icon="ui-icon ui-icon-print"  value="Recibo" actionListener="#{pagoController.reciboPago}" ajax="false" update="@form :growl" disabled="#{pagoController.selected==null}" />                        

@@ -535,6 +535,7 @@ public class ClienteController implements Serializable {
             this.vcontrato.getPagoList().add(p);
             vcontrato.setCuotasPagadas(pagadas);
             this.contratoFacade.edit(vcontrato);
+            p.setCuota(vcuota);
             pagoFacade.edit(p);  
             
             consultaPago();

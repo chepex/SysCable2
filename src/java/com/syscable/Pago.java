@@ -89,9 +89,23 @@ public class Pago implements Serializable {
     @JoinColumn(name = "cliente_idcliente", referencedColumnName = "idcliente")
     @ManyToOne(optional = false)
     private Cliente clienteIdcliente;
+    @JoinColumn(name = "aniomes", referencedColumnName = "idcuota",  insertable=false, updatable=false)
+    @ManyToOne(optional = false)
+    private Cuota cuota;    
+    
 
     public Pago() {
     }
+
+    public Cuota getCuota() {
+        return cuota;
+    }
+
+    public void setCuota(Cuota cuota) {
+        this.cuota = cuota;
+    }
+    
+    
 
     public String getAniomes() {
         return aniomes;
