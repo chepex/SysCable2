@@ -7,7 +7,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-        <p:dialog id="OrdentrabajoCreateDlg" widgetVar="OrdentrabajoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nueva Orden de Trabajo">
+        <p:dialog id="OrdentrabajoCreateDlg" widgetVar="OrdentrabajoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Orden de Trabajo">
             <h:form id="OrdentrabajoCreateForm" >
                 <h:panelGroup id="display" rendered="#{clienteController.vordentrabajo != null}">
                     <div align="center"><br/>
@@ -36,6 +36,7 @@
                         <p:panelGrid columns="2">
                             <p:outputLabel value="T&eacute;cnico:"/>
                             <p:selectOneMenu id="tecnico" value="#{clienteController.vordentrabajo.tecnicoIdtecnico}" filter="true" filterMatchMode="contains">
+                                <f:selectItem itemLabel="Seleccione" itemValue="" />
                                 <f:selectItems value="#{tecnicoController.itemsAvailableSelectOne}"
                                                var="tecnicoItem"
                                                itemLabel="#{tecnicoItem.nombre}"
@@ -49,7 +50,9 @@
                                                itemValue="#{tipoOrden}"/>
                             </p:selectOneMenu>                         
                             <p:outputLabel value="Falla:"/>
-                            <p:inputTextarea id="falla" rows="4" cols="50" value="#{clienteController.vordentrabajo.descripcion}"/>
+                            <p:inputTextarea id="falla" rows="4" cols="50" counter="counter" maxlength="150" counterTemplate="{0} Caracteres Restantes." value="#{clienteController.vordentrabajo.descripcion}">
+                                <div align="center"><h:outputText id="counter" /></div>
+                            </p:inputTextarea>
                         </p:panelGrid>
                         <p:panelGrid columns="2" class="panelNoBorder">
                             <p:commandButton id="cmbGuardar" value="Guardar" update=":ClienteBtnForm :growl"  actionListener="#{clienteController.crearOrden()}" oncomplete="PF('OrdentrabajoCreateDialog').hide();"/>

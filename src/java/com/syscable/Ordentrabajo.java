@@ -55,7 +55,7 @@ public class Ordentrabajo implements Serializable {
     @NotNull
     @Column(name = "idordenTrabajo")
     private Integer idordenTrabajo;
-    @Size(max = 45)
+    @Size(max = 150)
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "fecha_ing")
@@ -64,7 +64,7 @@ public class Ordentrabajo implements Serializable {
     @Column(name = "fecha_fin")
     @Temporal(TemporalType.DATE)
     private Date fechaFin;
-    @Size(max = 45)
+    @Size(max = 150)
     @Column(name = "descripcionSolucion")
     private String descripcionSolucion;
     @Size(max = 45)
