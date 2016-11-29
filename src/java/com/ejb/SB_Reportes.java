@@ -73,27 +73,35 @@ public class SB_Reportes {
     public String GenerarReporte(String rep, HashMap params) {
         try {
             String reporPath = "";
+            System.out.println("aqui------->1");
             reporPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath(rep);
+            System.out.println("aqui------->2");
             Context ctx= new InitialContext();
             //LoginBean lb = new LoginBean();
             //String ip = lb.getServerIP();
             DataSource ds;
+            System.out.println("aqui------->3");
             //Desarrollo
             //ds = (DataSource)ctx.lookup("jdbc/desa");
             //Produccion 
             ds = (DataSource)ctx.lookup("jdbc/syscable");
-
+            System.out.println("aqui------->4");
             Connection cn = ds.getConnection();
+            
             JasperPrint jasperprint = JasperFillManager.fillReport(reporPath, params, cn);
+            System.out.println("aqui------->5");
             HttpServletResponse httpserveltresponse= (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             httpserveltresponse.setContentType("application/pdf");
             ServletOutputStream servletOutputStream = httpserveltresponse.getOutputStream();
+            System.out.println("aqui------->6");
             JasperExportManager.exportReportToPdfStream(jasperprint, servletOutputStream);
             FacesContext.getCurrentInstance().responseComplete();
+            System.out.println("aqui------->7");
         } catch (NamingException | SQLException | JRException | IOException ex) {
             System.out.println("Error"+ex);
             System.out.println("Error"+ex);
             System.out.println("Error"+ex);
+            System.out.println("aqui------->8");
         }
         return "";
     }
