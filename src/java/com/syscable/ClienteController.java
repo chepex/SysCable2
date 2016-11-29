@@ -517,7 +517,7 @@ public class ClienteController implements Serializable {
             System.out.println("p-->2");
             p.setContratoIdcontrato(vcontrato);
              System.out.println("p-->3");
-            p.setFecha(d.toString());
+            p.setFecha(d);
             p.setAniomes(String.valueOf(this.vcuota.getIdcuota()));
              System.out.println("p-->4");
             p.setNumCuota(pagadas.intValue());
@@ -535,7 +535,8 @@ public class ClienteController implements Serializable {
             JsfUtil.addSuccessMessage("Pago realizado correctamente");   
             
         }catch(Exception ex){
-            System.out.println("error-->"+ex);
+            System.out.println("error-->"+ex.getMessage());
+             System.out.println("error-->"+ex.getCause());
             JsfUtil.addErrorMessage("Surgio un error "+ex);   
         }
     
@@ -559,3 +560,4 @@ public class ClienteController implements Serializable {
             
 
 }
+

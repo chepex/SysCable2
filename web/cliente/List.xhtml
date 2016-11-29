@@ -19,8 +19,9 @@
             <div class="container-fluid">
 
                 </div>
-            <h:form id="ClienteBtnForm">             
-                <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"  disabled="#{clienteController.selected!=null}"/>                     
+            <h:form id="ClienteBtnForm">     
+                <p:hotkey bind="ctrl+b" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"   />
+                    <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"  disabled="#{clienteController.selected!=null}"/>                     
                     <p:commandButton id="createButton"  icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl"   disabled ="#{clienteController.selected!=null}" />                            
                     <p:commandButton id="saveButton"   icon="ui-icon-disk" value="F7" actionListener="#{clienteController.create}" update=" :ClienteBtnForm :growl," rendered="#{clienteController.selected!=null}"  disabled="#{empty clienteController.selected}"/>
                     <p:commandButton id="editButton"   icon="ui-icon-pencil" value="F8" actionListener="#{clienteController.update}" update=" :ClienteBtnForm :growl" rendered="#{clienteController.selected==null}"  disabled="#{empty clienteController.selected}"/>
@@ -367,9 +368,11 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoTitle_fecha}"/>
+                                <h:outputText value="Fecha2"/>
                             </f:facet>
-                            <h:outputText value="#{item.fecha}"/>
+                            <h:outputText value="#{item.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>                            
                         </p:column>
                         <p:column>
                             <f:facet name="header">

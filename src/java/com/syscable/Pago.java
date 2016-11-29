@@ -50,10 +50,10 @@ public class Pago implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "idpagos")
-    private Integer idpagos;
-    @Size(max = 45)
+    private Integer idpagos;    
     @Column(name = "fecha")
-    private String fecha;
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor")
     private BigDecimal valor;
@@ -113,13 +113,15 @@ public class Pago implements Serializable {
         this.idpagos = idpagos;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
+
 
     public BigDecimal getValor() {
         return valor;
