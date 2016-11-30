@@ -75,11 +75,15 @@ public class Pago implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "aniomes")
-    private String aniomes;    
+    private Integer aniomes;    
     @Column(name = "descuento")
     private BigDecimal descuento;
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "iva")
+    private BigDecimal iva;  
+    @Column(name = "cescc")
+    private BigDecimal cescc;        
     @JoinColumn(name = "ordenTrabajo_idordenTrabajo", referencedColumnName = "idordenTrabajo")
     @ManyToOne(optional = true)
     private Ordentrabajo ordenTrabajoidordenTrabajo;
@@ -97,6 +101,22 @@ public class Pago implements Serializable {
     public Pago() {
     }
 
+    public BigDecimal getIva() {
+        return iva;
+    }
+
+    public void setIva(BigDecimal iva) {
+        this.iva = iva;
+    }
+
+    public BigDecimal getCescc() {
+        return cescc;
+    }
+
+    public void setCescc(BigDecimal cescc) {
+        this.cescc = cescc;
+    }    
+    
     public Cuota getCuota() {
         return cuota;
     }
@@ -104,16 +124,18 @@ public class Pago implements Serializable {
     public void setCuota(Cuota cuota) {
         this.cuota = cuota;
     }
-    
-    
 
-    public String getAniomes() {
+    public Integer getAniomes() {
         return aniomes;
     }
 
-    public void setAniomes(String aniomes) {
+    public void setAniomes(Integer aniomes) {
         this.aniomes = aniomes;
-    }    
+    }
+    
+    
+
+  
     
     public Pago(Integer idpagos) {
         this.idpagos = idpagos;

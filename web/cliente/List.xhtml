@@ -249,7 +249,7 @@
                                     var="contratoItem"
                                     itemLabel="Contrato #{contratoItem.idcontrato}"
                                     itemValue="#{contratoItem}"/>
-                                     <p:ajax event="valueChange"   update="idvalor, listPago, lcuota" />
+                                    <p:ajax event="valueChange"   update="idvalor, listPago, lcuota" listener="#{clienteController.actualizaValor()}"  />
                                 </p:selectOneMenu>      
                             </div>
                             <div class="col-md-1"> 
@@ -268,7 +268,7 @@
                                 <h:outputText value="Valor cuota"   />
                             </div>
                             <div class="col-md-2">  
-                                <p:inputText id="idvalor" value="#{clienteController.vcontrato.valorCuota}"  rendered="#{clienteController.vcontrato!=null}"/>
+                                <p:inputText id="idvalor" value="#{clienteController.valorCuota}"  rendered="#{clienteController.vcontrato!=null}"/>
                             </div>
                             <div class="col-md-3">  
                                 <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago}" update="@form :growl" />
@@ -278,10 +278,11 @@
                         <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listPago">
                         <p:dataTable id="datalistPago" value="#{clienteController.vcontrato.pagoList}" var="item2"
                                  selectionMode="single" selection="#{pagoController.selected}"
-                                 paginator="true"
+                             
                                  rowKey="#{item2.idpagos}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
+                                    
+                                 scrollHeight="250"
+                                 scrollable="true"
                                  >
                         <p:ajax event="rowSelect"   update="btnImprimir"/>
                         <p:ajax event="rowUnselect" update="btnImprimir"/>
@@ -414,6 +415,8 @@
                            <p:dataTable id="datalist2" value="#{clienteController.selected.contratoList}" var="item2"
                                  selectionMode="single" selection="#{contratoController.selected}"                               
                                  rowKey="#{item2.idcontrato}"
+                                 
+                                 scrollHeight="250"
                                  scrollable="true">
                                
                         <p:column>
@@ -443,6 +446,26 @@
                             </f:facet>
                             <h:outputText value="#{item2.valorCuota}"/>
                         </p:column>  
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cuotas Pagadas"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.cuotasPagadas}"/>
+                        </p:column>
+                       <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Saldo"/>
+                            </f:facet>
+                           <h:outputText value="#{item2.saldo}"/>
+                        </p:column>    
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ultimpo Pago"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.ultimoPago}">
+                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>                                 
                     </p:dataTable>                        
       
                         

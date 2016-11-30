@@ -68,10 +68,19 @@ public class Compania implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "iva")
     private BigDecimal iva;
-
+    @Column(name = "cescc")
+    private BigDecimal cescc;    
+       
     public Compania() {
     }
-
+    
+    public BigDecimal getCescc() {
+        return cescc;
+    }
+    public void setCescc(BigDecimal cescc) {
+        this.cescc = cescc;
+    }
+    
     public Compania(Integer idcompania) {
         this.idcompania = idcompania;
     }

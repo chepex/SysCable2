@@ -47,9 +47,32 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
                 .setParameter("nombres", "%"+valor+"%")
                 .setParameter("apellidos",  "%"+valor+"%")
                 .setParameter("dui", "%"+valor+"%")
+                .setParameter("tel", "%"+valor+"%")
+                .setParameter("colonia", "%"+valor+"%")
                 .setParameter("nit", "%"+valor+"%");
         
         return q.getResultList();
     }
+
+    public List<Cliente> findByDui(String valor) {
+        TypedQuery<Cliente> q;        
+        q = em.createNamedQuery("Cliente.findByDui",Cliente.class)                
+                .setParameter("dui",  valor);
+        return q.getResultList();
+    }    
+
+    public List<Cliente> findByTel(String valor) {
+        TypedQuery<Cliente> q;        
+        q = em.createNamedQuery("Cliente.findByTelefono",Cliente.class)                
+                .setParameter("telefono",  valor);
+        return q.getResultList();
+    }   
+
+    public List<Cliente> findByNit(String valor) {
+        TypedQuery<Cliente> q;        
+        q = em.createNamedQuery("Cliente.findByNit",Cliente.class)                
+                .setParameter("nit",  valor);
+        return q.getResultList();
+    }      
     
 }

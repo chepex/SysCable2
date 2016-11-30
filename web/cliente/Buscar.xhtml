@@ -10,7 +10,7 @@
         <p:dialog id="ClienteBuscaDlg" widgetVar="clienteBuscaDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar Cliente">
             <h:form id="ClienteBuscaForm">
                 <p:panelGrid columns="3">
-                <p:outputLabel value="Nombre/Nit/Dui" for="vbuscar" />
+                <p:outputLabel value="Nombre/Nit/Dui/Tel/Colonia" for="vbuscar" />
                 <p:inputText id="vbuscar" value="#{clienteController.vbuscar}" title="buscar" required="true" requiredMessage="buscar"/>
                 <p:commandButton actionListener="#{clienteController.buscar()}" value="Buscar"  update="@form :growl"   />
                 </p:panelGrid>
@@ -41,7 +41,19 @@
                                 <h:outputText value="dui"/>
                             </f:facet>
                             <h:outputText value="#{item.dui}"/>
-                        </p:column>                             
+                        </p:column>  
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="tel"/>
+                            </f:facet>
+                              <h:outputText value="#{item.telefono}"/>
+                        </p:column> 
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="colonia"/>
+                            </f:facet>
+                             <h:outputText value="#{item.coloniaIdcolonia.nombre}"/>
+                        </p:column> 
                     </p:dataTable>
                 </p:panel>                
             </h:form>
