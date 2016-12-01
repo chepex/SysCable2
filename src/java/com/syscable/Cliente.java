@@ -83,6 +83,8 @@ public class Cliente implements Serializable {
     @Size(max = 45)
     @Column(name = "telefono")
     private String telefono;
+    @Column(name = "direccion_referencia")
+    private String direccionReferencia;    
     @Size(max = 45)
     @Column(name = "lugar_trabajo")
     private String lugarTrabajo;
@@ -153,6 +155,16 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
+    public String getDireccionReferencia() {
+        return direccionReferencia;
+    }
+
+    public void setDireccionReferencia(String direccionReferencia) {
+        this.direccionReferencia = direccionReferencia;
+    }
+
+    
+    
     public Cliente(Integer idcliente) {
         this.idcliente = idcliente;
     }

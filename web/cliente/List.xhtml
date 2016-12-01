@@ -174,15 +174,20 @@
                         <p:inputText id="conyuTelTrabajo" value="#{clienteController.selected.telTrabajoConyugue}" title="#{bundle.CreateClienteTitle_dirTrabajo}" />
                                   </div>
                         </div>   
-                           <div class="row">
+                        <div class="row">
                         <div class="col-md-2">  
                         <p:outputLabel value="#{bundle.CreateClienteLabel_dirInstalacion}" for="dirInstalacion" />
+                        </div>                             
+                        <div class="col-md-4">  
+                            <p:inputTextarea rows="6" cols="30" id="dirInstalacion" class="form-control input-sm " value="#{clienteController.selected.dirInstalacion}" title="#{bundle.CreateClienteTitle_dirInstalacion}" />
                         </div>
-                              
-                            <div class="col-md-10">  
-                                <p:inputText id="dirInstalacion" class="form-control input-sm " value="#{clienteController.selected.dirInstalacion}" title="#{bundle.CreateClienteTitle_dirInstalacion}" />
+                        <div class="col-md-2">  
+                        <p:outputLabel value="Referencia:" for="dirReferencia" />
+                        </div>                              
+                        <div class="col-md-4">  
+                            <p:inputTextarea  rows="6" cols="30" id="dirReferencia" class="form-control input-sm " value="#{clienteController.selected.direccionReferencia}" title="#{bundle.CreateClienteTitle_dirInstalacion}" />
+                        </div>                               
                         </div>
-                                  </div>
                                  <div class="row">
                             <div class="col-md-2">  
                         
