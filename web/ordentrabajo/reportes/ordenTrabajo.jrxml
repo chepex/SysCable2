@@ -7,7 +7,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="fecha" class="java.lang.String"/>
-	<parameter name="orden" class="java.lang.String"/>
+	<parameter name="hora" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[select b.idcliente,concat(b.nombres,' ',b.apellidos) nombre,
 ifnull(b.dirinstalacion,'No tiene') direccion,a.descripcion,
@@ -209,11 +209,11 @@ and idordentrabajo = $P{idorden}]]>
 				<textFieldExpression><![CDATA[$P{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="297" y="37" width="127" height="20" uuid="c7361ecf-51f6-486d-b3ba-ed6050ea8a72"/>
+				<reportElement x="294" y="37" width="150" height="20" uuid="1f1376bb-8865-44fe-a721-40167b6a71a1"/>
 				<textElement verticalAlignment="Middle">
 					<font size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{orden}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{hora}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

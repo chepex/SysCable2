@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -520,8 +521,18 @@ public class ClienteController implements Serializable {
     }
     
     public void onRowEdit(RowEditEvent event) {
-        /*FacesMessage msg = new FacesMessage("Car Edited", ((Car) event.getObject()).getId());
-        FacesContext.getCurrentInstance().addMessage(null, msg);*/
+        Ordentrabajo ot = (Ordentrabajo) event.getObject();
+        
+        System.out.println("Orden trabajo N° " + ot.getIdordenTrabajo());
+        
+        ot.setTecnicoIdtecnico(ot.getTecnicoIdtecnico());
+        ot.setEstado(ot.getEstado());
+        ot.setDescripcionSolucion(ot.getDescripcionSolucion());
+        
+        ordentrabajoFacade.edit(ot);
+        
+        FacesMessage msg = new FacesMessage("Actualización Completada","Orden Trabajo # " + ot.getIdordenTrabajo().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
     public void creaContrato(){
@@ -535,8 +546,6 @@ public class ClienteController implements Serializable {
         }catch(Exception ex){
             JsfUtil.addErrorMessage("Surgio un error "+ex);   
         }
-        
-        
     }
     
     public void crearPago(){
@@ -592,8 +601,6 @@ public class ClienteController implements Serializable {
              System.out.println("error-->"+ex.getCause());
             JsfUtil.addErrorMessage("Surgio un error "+ex);   
         }
-    
-    
     }
     
     public void consultaPago(){
@@ -601,20 +608,12 @@ public class ClienteController implements Serializable {
        vcontrato.setPagoList(pagoFacade.findByIdContrato(vcontrato));  
        
        lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
-       
-       
     }
-    
-   
-    
      
     public String actualizaValor(){
         valorCuota = vcontrato.getValorCuota();
          lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
         return "ok";
-    }   
-            
-            
-
+    }
 }
 

@@ -190,24 +190,19 @@ public class OrdentrabajoController implements Serializable {
      * Imprime el reporte de orden de trabajo por cliente.
      * @return msj de ejecución correcta. 
      */
-    public String rptOrdenTrabajo() {
+    public String despacharOrden() {
         try {
-            if (selected != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
-                HashMap params = new HashMap();
-                System.out.println("orden trabajo " + selected.getIdordenTrabajo());
-                System.out.println("fecha " + sdf.format(new Date()));
-                System.out.println("hora " + dateFormat.format(new Date()));
-                params.put("idorden",selected.getIdordenTrabajo());
-                params.put("fecha",sdf.format(new Date()));
-                params.put("hora",dateFormat.format(new Date()));
-                System.out.println("idOrden*-->"+selected.getIdordenTrabajo());
-                reportes.GenerarReporte("/ordentrabajo/reporte/ordenTrabajo.jasper", params);
-            } else{
-                JsfUtil.addErrorMessage("Seleccion una orden de trabajo.");
-                return " ";
-            }
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
+            HashMap params = new HashMap();
+            System.out.println("orden trabajo " + selected.getIdordenTrabajo());
+            System.out.println("fecha " + sdf.format(new Date()));
+            System.out.println("hora " + dateFormat.format(new Date()));
+            params.put("idorden",selected.getIdordenTrabajo());
+            params.put("fecha",sdf.format(new Date()));
+            params.put("hora",dateFormat.format(new Date()));
+            System.out.println("idOrden*-->"+selected.getIdordenTrabajo());
+            reportes.GenerarReporte("/ordentrabajo/reportes/ordenTrabajo.jasper", params);
         } catch (Exception e) {
             System.out.println("que paso!!!");
             e.printStackTrace();
