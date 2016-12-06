@@ -62,7 +62,7 @@
                                 <h:outputText value="Valor cuota"   />
                             </div>
                             <div class="col-md-2">  
-                                <p:inputText id="idvalor" value="#{clienteController.valorCuota}"  rendered="#{clienteController.vcontrato!=null}"/>
+                                <p:inputText id="idvalor" value="#{clienteController.valorCuota}" disabled="true"  rendered="#{clienteController.vcontrato!=null}"/>
                             </div>
                             <div class="col-md-3">  
                                 <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago}" update="@form :growl" />
