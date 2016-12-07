@@ -91,4 +91,14 @@ public class JsfUtil {
         // clave encriptada
         return h.toString();
     }      
+    
+    public static String  stringLike(String valor){
+        if(valor!=null){
+            if(valor.length()>0){
+                valor = "%"+valor+"%";
+            }
+        }
+        return valor;
+    }
+
 }

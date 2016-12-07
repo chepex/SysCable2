@@ -66,6 +66,8 @@ public class ClienteController implements Serializable {
     private Contrato vcontrato;    
     private Ordentrabajo vordentrabajo;
     private String vaniomes;
+    private String fcolonia;    
+    private String fdireccion;        
     private List<Cuota> lcuota;
     private Cuota vcuota;
     private BigDecimal valorCuota;
@@ -78,6 +80,24 @@ public class ClienteController implements Serializable {
     public ClienteController() {
     }
 
+    public String getFcolonia() {
+        return fcolonia;
+    }
+
+    public void setFcolonia(String fcolonia) {
+        this.fcolonia = fcolonia;
+    }
+
+    public String getFdireccion() {
+        return fdireccion;
+    }
+
+    public void setFdireccion(String fdireccion) {
+        this.fdireccion = fdireccion;
+    }
+
+    
+    
     public BigDecimal getValorCuota() {
         return valorCuota;
     }
@@ -273,11 +293,9 @@ public class ClienteController implements Serializable {
         System.out.println("--<<>>");
     }
     
-    public void buscar(){
-    
-    this.lclientesbusqueda= this.ejbFacade.findByNombres(this.vbuscar);
-     
-    
+    public void buscar(){   
+        limpiar() ;
+        this.lclientesbusqueda= this.ejbFacade.findByNombres(this.vbuscar,this.fcolonia, this.fdireccion);    
     }
     
     public void selecionar(){
@@ -465,7 +483,7 @@ public class ClienteController implements Serializable {
    public void limpiar() {        
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
-        
+        lclientesbusqueda =null;
     }    
 
     public void actualizaMunicipio(){

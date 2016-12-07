@@ -5,6 +5,7 @@
  */
 package com.syscable;
 
+import com.syscable.util.JsfUtil;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
@@ -40,16 +41,22 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
     
     }   
 
-    public List<Cliente> findByNombres(String valor) {
+    public List<Cliente> findByNombres(String valor, String colonia, String direccion) {
         TypedQuery<Cliente> q;
-        
+          valor = JsfUtil.stringLike(valor);
+          colonia = JsfUtil.stringLike(colonia);
+          direccion = JsfUtil.stringLike(direccion);
+          System.out.println("valor-->"+valor);
+          System.out.println("colonia-->"+colonia);
+          System.out.println("direccion-->"+direccion);
         q = em.createNamedQuery("Cliente.findByNombres",Cliente.class)
-                .setParameter("nombres", "%"+valor+"%")
-                .setParameter("apellidos",  "%"+valor+"%")
-                .setParameter("dui", "%"+valor+"%")
-                .setParameter("tel", "%"+valor+"%")
-                .setParameter("colonia", "%"+valor+"%")
-                .setParameter("nit", "%"+valor+"%");
+                .setParameter("nombres", valor)
+                .setParameter("apellidos",  valor)
+                .setParameter("dui", valor)
+                .setParameter("tel", valor)
+                .setParameter("colonia",colonia)
+                .setParameter("direccion", direccion)                
+                .setParameter("nit", valor);
         
         return q.getResultList();
     }
