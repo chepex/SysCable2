@@ -524,11 +524,13 @@ public class ClienteController implements Serializable {
     
     public void crearOrden(){
         try {
+            LoginBean lb = new LoginBean();
             if (vordentrabajo.getDescripcion() != null && !vordentrabajo.getDescripcion().isEmpty()) {
                 vordentrabajo.setDescripcion(vordentrabajo.getDescripcion());
             } else {
                 vordentrabajo.setDescripcion("No se reporto falla");
             }
+            vordentrabajo.setUserCreate(lb.ssuser());
             vordentrabajo.setEstado("P");
             ordentrabajoFacade.edit(vordentrabajo);
             selected.getOrdentrabajoList().add(vordentrabajo);
@@ -549,8 +551,7 @@ public class ClienteController implements Serializable {
         
         ordentrabajoFacade.edit(ot);
         
-        FacesMessage msg = new FacesMessage("Actualización Completada","Orden Trabajo # " + ot.getIdordenTrabajo().toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        JsfUtil.addSuccessMessage("Orden Actualizada.");
     }
     
     public void creaContrato(){
