@@ -57,6 +57,7 @@ public class ClienteController implements Serializable {
     private List<Cliente> items = null;
     private List<Cliente> lclientesbusqueda = null;
     private List<Contrato> lcontrato = null;
+    private List<Ordentrabajo> lordenes = null;
     private Cliente selected;
     private String vprofesion;
     private String vcolonia;
@@ -80,6 +81,16 @@ public class ClienteController implements Serializable {
     public ClienteController() {
     }
 
+    public List<Ordentrabajo> getLordenes() {
+        return lordenes;
+    }
+
+    public void setLordenes(List<Ordentrabajo> lordenes) {
+        this.lordenes = lordenes;
+    }
+
+    
+    
     public String getFcolonia() {
         return fcolonia;
     }
@@ -309,7 +320,7 @@ public class ClienteController implements Serializable {
         selected.setDepartamentoIddepartamento(d);
         selected.setMunicipioIdmunicipio(m);
         System.out.println("municipio --->"+selected.getMunicipioIdmunicipio());
-        
+        lordenes = this.ordentrabajoFacade.findByCliente(selected.getIdcliente());
          lmunicipios  =  municipioFacade.findByDepartamento(selected.getDepartamentoIddepartamento().getIddepartamento());
            this.lcolonia  =  coloniaFacade.findByDeptoMuni(selected.getDepartamentoIddepartamento().getIddepartamento(),selected.getMunicipioIdmunicipio().getIdmunicipio());
         System.out.println("lordenes--->"+ordentrabajoController.lordenes);
@@ -531,7 +542,8 @@ public class ClienteController implements Serializable {
             }
             vordentrabajo.setEstado("P");
             ordentrabajoFacade.edit(vordentrabajo);
-            selected.getOrdentrabajoList().add(vordentrabajo);
+            selected.getOrdentrabajoList().add(vordentrabajo);            
+             lordenes = this.ordentrabajoFacade.findByCliente(selected.getIdcliente());
             JsfUtil.addSuccessMessage("Contrato almacenado correctamente");
         } catch(Exception ex) {
             JsfUtil.addErrorMessage("Surgio un error " +ex);

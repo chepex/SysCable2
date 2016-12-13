@@ -127,7 +127,7 @@
                           
                         <p:tab title="Ordenes">
                             <p:commandButton id="createButton3" icon="ui-icon-plus" title="Nueva Orden" actionListener="#{clienteController.prepareCreateOrden()}"  update=":OrdentrabajoCreateForm" oncomplete="PF('OrdentrabajoCreateDialog').show()"/>
-                            <p:dataTable id="datalist" value="#{clienteController.selected.ordentrabajoList}" var="item"
+                            <p:dataTable id="datalist" value="#{clienteController.lordenes}" var="item"
                                          selectionMode="single" 
                                          selection="#{ordentrabajoController.selected}"
                                          scrollable="true"
