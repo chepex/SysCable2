@@ -50,10 +50,10 @@ public class Pago implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "idpagos")
-    private Integer idpagos;
-    @Size(max = 45)
+    private Integer idpagos;    
     @Column(name = "fecha")
-    private String fecha;
+    @Temporal(TemporalType.DATE)
+    private Date fecha;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor")
     private BigDecimal valor;
@@ -75,13 +75,17 @@ public class Pago implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "aniomes")
-    private String aniomes;  
-    @Column(name = "idcuota")
-    private int idcuota;        
+
+    private Integer aniomes;    
+
     @Column(name = "descuento")
     private BigDecimal descuento;
     @Column(name = "total")
     private BigDecimal total;
+    @Column(name = "iva")
+    private BigDecimal iva;  
+    @Column(name = "cescc")
+    private BigDecimal cescc;        
     @JoinColumn(name = "ordenTrabajo_idordenTrabajo", referencedColumnName = "idordenTrabajo")
     @ManyToOne(optional = true)
     private Ordentrabajo ordenTrabajoidordenTrabajo;
@@ -91,22 +95,32 @@ public class Pago implements Serializable {
     @JoinColumn(name = "cliente_idcliente", referencedColumnName = "idcliente")
     @ManyToOne(optional = false)
     private Cliente clienteIdcliente;
-    @JoinColumn(name = "idcuota", referencedColumnName = "idcuota",   insertable = false, updatable = false)
-    @ManyToOne(optional = true)
+
+    @JoinColumn(name = "aniomes", referencedColumnName = "idcuota",  insertable=false, updatable=false)
+    @ManyToOne(optional = false)
     private Cuota cuota;    
+    
+
 
     public Pago() {
     }
 
-    public int getIdcuota() {
-        return idcuota;
+
+    public BigDecimal getIva() {
+        return iva;
     }
 
-    public void setIdcuota(int idcuota) {
-        this.idcuota = idcuota;
+    public void setIva(BigDecimal iva) {
+        this.iva = iva;
     }
 
-    
+    public BigDecimal getCescc() {
+        return cescc;
+    }
+
+    public void setCescc(BigDecimal cescc) {
+        this.cescc = cescc;
+    }    
     
     public Cuota getCuota() {
         return cuota;
@@ -116,15 +130,18 @@ public class Pago implements Serializable {
         this.cuota = cuota;
     }
 
-    
-    
-    public String getAniomes() {
+    public Integer getAniomes() {
+
         return aniomes;
     }
 
-    public void setAniomes(String aniomes) {
+    public void setAniomes(Integer aniomes) {
         this.aniomes = aniomes;
-    }    
+    }
+    
+    
+
+  
     
     public Pago(Integer idpagos) {
         this.idpagos = idpagos;
@@ -138,13 +155,15 @@ public class Pago implements Serializable {
         this.idpagos = idpagos;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
+
+
 
     public BigDecimal getValor() {
         return valor;

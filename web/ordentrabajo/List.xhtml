@@ -8,73 +8,66 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="Orden de Trabajo"></h:outputText>
+            <h:outputText value="Historial Orden De Trabajo"></h:outputText>
         </ui:define>
         
         <ui:define name="body">
-            <h:form id="OrdentrabajoListForm">
+            <h:form id="HistOrdentrabajoForm">
                 <div align="center"><br/>
-                    <p:panelGrid columns="6">
+                    <p:panelGrid columns="8">
                         <p:outputLabel value="Fecha:"/>
-                        <p:outputLabel value="#{ordentrabajoController.fechaOrden}">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </p:outputLabel>
-                        <p:outputLabel value="Hora:"/>
-                        <p:outputLabel value="#{ordentrabajoController.horaOrden}">
-                            <f:convertDateTime pattern="HH:mm:ss a"/>
-                        </p:outputLabel>
-                        <p:outputLabel value="No:"/>
-                        <p:outputLabel id="ordenId" value="#{ordentrabajoController.ordenId}"/>
+                        <p:calendar id="fecha" value="#{ordentrabajoController.fecha}" pattern="dd/MM/yyyy" mask="99/99/9999" showOn="button" />
+                        <p:outputLabel value="N° Orden:"/>
+                        <p:inputText id="orden1" value="#{ordentrabajoController.numOrden1}"/>
+                        <p:outputLabel value="al"/>
+                        <p:inputText id="orden2" value="#{ordentrabajoController.numOrden2}"/>
+                        <p:outputLabel value="N° Cliente:"/>
+                        <p:inputText id="clienteId" value="#{ordentrabajoController.noCliente}"/>
                     </p:panelGrid><br/>  
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="C&oacute;digo:"/>
-                        <p:outputLabel id="clienteId" value="#{ordentrabajoController.cliente.idcliente}"/>
-                        <p:outputLabel value="Nombre del Cliente:"/>
-                        <p:outputLabel id="nombre" value="#{ordentrabajoController.cliente.nombres} #{ordentrabajoController.cliente.apellidos}"/>
-                        <p:outputLabel value="Direcci&oacute;n:"/>
-                        <p:outputLabel id="dirCliente" value="#{ordentrabajoController.cliente.dirInstalacion}"/>
-                        <p:outputLabel value="Tel&eacute;fono:"/>
-                        <p:outputLabel id="telefono" value="#{ordentrabajoController.cliente.telefono}"/>
-                    </p:panelGrid><br/>
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value="Falla:"/>
-                        <p:inputTextarea id="falla" rows="4" cols="50" value="#{ordentrabajoController.falla}"/>
-                    </p:panelGrid>
                     <p:panelGrid columns="2" class="panelNoBorder">
-                        <p:commandButton id="cmbGuardar" value="Guardar" update=":OrdentrabajoListForm:datalist :OrdentrabajoListForm:ordenId :OrdentrabajoListForm:cmbGuardar :growl" actionListener="#{ordentrabajoController.guardarOrdenTrabajo()}" disabled="#{ordentrabajoController.ordenId != null}"/>
-                        <p:commandButton id="cmbLimpiar" value="Limpiar" update=":OrdentrabajoListForm" actionListener="#{ordentrabajoController.limpiar()}"/>
+                        <p:commandButton id="cmbBuscar" value="Buscar" update=":HistOrdentrabajoForm:datalist :HistOrdentrabajoForm:datalist:tOdenes :growl" actionListener="#{ordentrabajoController.mostrarHistorialOrden()}"/>
+                        <p:commandButton id="cmbLimpiar" value="Limpiar" update=":HistOrdentrabajoForm" actionListener="#{ordentrabajoController.limpiar()}"/>
                     </p:panelGrid>
                 </div><br/>
-                <!--<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false" >
-                    <p:outputLabel value="Procesando..."/>
-                    <p:graphicImage name="../resources/img/ajax_loading_bar.gif" />
-                </p:dialog>-->
-                <p:panel header="#{bundle.ListOrdentrabajoTitle}">
+                <p:panel header="Historial">
                     <p:dataTable id="datalist" value="#{ordentrabajoController.items}" var="item"
                                  selectionMode="single" selection="#{ordentrabajoController.selected}"
                                  paginator="true"
+                                 editable="true"
                                  rowKey="#{item.idordenTrabajo}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50">
 
-                        <p:ajax event="rowSelect" update="cmbImprimir :OrdentrabajoListForm:ordenId :OrdentrabajoListForm:falla" listener="#{ordentrabajoController.seleccionOT()}"/>
+                        <p:ajax event="rowEdit" listener="#{ordentrabajoController.onRowEdit}" update=":growl"/>
 
+                        <f:facet name="header">
+                            <div align="right">
+                                <p:outputLabel value="Total Ordenes:"/>&nbsp;
+                                <p:outputLabel id="tOdenes" value="#{ordentrabajoController.totalOrden}"/>
+                            </div>
+                        </f:facet>
+                        
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Fecha"/>
+                                <h:outputText value="Hecho por"/>
                             </f:facet>
-                            <h:outputText value="#{item.fechaIng}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
+                            <h:outputText value="#{item.userCreate}"/>
                         </p:column>
                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha Orden"/>
+                            </f:facet>
+                            <h:outputText value="#{item.fechaIng}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Orden"/>
                             </f:facet>
                             <h:outputText value="#{item.idordenTrabajo}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Codigo"/>
                             </f:facet>
@@ -82,9 +75,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Cliente"/>
+                                <h:outputText value="Nombre"/>
                             </f:facet>
-                            <h:outputText value="#{item.clienteIdcliente.nombres}"/>
+                            <h:outputText value="#{item.clienteIdcliente.nombres} #{item.clienteIdcliente.apellidos}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -98,16 +91,49 @@
                             </f:facet>
                             <h:outputText value="#{item.descripcion}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Tecnico Asignado"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tecnicoIdtecnico.nombre}"/>
+                        <p:column  headerText="Estado" style="text-align: center">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{item.estado eq 'P' ? 'Pendiente' : null or item.estado eq 'E' ? 'Efectuado' : null or item.estado eq 'N' ? 'No se puede efectuar' : null}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu value="#{item.estado}" filter="true" filterMatchMode="contains">
+                                        <f:selectItem itemLabel="Pendiente" itemValue="P"/>
+                                        <f:selectItem itemLabel="Efectuado" itemValue="E"/>
+                                        <f:selectItem itemLabel="No se puede efectuar" itemValue="N"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
                         </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="cmbImprimir" value="Imprimir Orden" actionListener="#{ordentrabajoController.rptOrdenTrabajo()}" disabled="#{ordentrabajoController.items != null}"/>
-                            <p:commandButton id="cmbHistorial" value="Historial Ordenes" update=":OrdentrabajoListForm:datalist :growl" actionListener="#{ordentrabajoController.historialOrden()}"/>
-                        </f:facet>
+                        <p:column headerText="T&eacute;cnico" style="text-align: center">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{item.tecnicoIdtecnico.nombre}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu value="#{item.tecnicoIdtecnico}" filter="true" filterMatchMode="contains">
+                                        <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                        <f:selectItems value="#{tecnicoController.itemsAvailableSelectOne}"
+                                                       var="tecnicoItem"
+                                                       itemLabel="#{tecnicoItem.nombre}"
+                                                       itemValue="#{tecnicoItem}"/>
+                                    </p:selectOneMenu>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Comentario">
+                            <p:cellEditor>
+                                <f:facet name="output">
+                                    <h:outputText value="#{item.descripcionSolucion}"/>
+                                </f:facet>
+                                <f:facet name="input">
+                                    <p:inputTextarea rows="4" cols="15" maxlength="150" value="#{item.descripcionSolucion}"/>
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column style="width:32px">
+                            <p:rowEditor />
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </h:form>

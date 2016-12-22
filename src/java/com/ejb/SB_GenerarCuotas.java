@@ -49,9 +49,11 @@ public class SB_GenerarCuotas {
             crearCuotas(contrato.getFechainicio());
         }else{
                   if(contrato.getPagoList().isEmpty()){
-                       System.out.println("anio:"+vanio);
-                       System.out.println("vmes:"+vmes);
-                       List<Cuota> lcuota2 = cuotaFacade.findByAnioMes(vanio,vmes);
+
+                      System.out.println("anio:"+vanio);
+                      System.out.println("vmes:"+vmes);
+                       List<Cuota> lcuota2 = cuotaFacade.findByAnioMes(vanio,vmes); 
+
                        Cuota cc = lcuota2.get(0);                       
                        lcuota = cuotaFacade.findByAnioMes12(cc.getIdcuota(),cc.getIdcuota()+12);
                        /*recorrer desde este hay mas 12*/

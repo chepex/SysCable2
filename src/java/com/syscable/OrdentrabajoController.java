@@ -3,10 +3,12 @@ package com.syscable;
 import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -20,6 +22,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "ordentrabajoController")
 @SessionScoped
@@ -28,12 +31,14 @@ public class OrdentrabajoController implements Serializable {
     //<editor-fold defaultstate="collapsed" desc="Variables">
     @EJB
     private com.syscable.OrdentrabajoFacade ejbFacade;
-    private List<Ordentrabajo> items =  new ArrayList<Ordentrabajo>();
-    List<Ordentrabajo> lordenes =  new ArrayList<Ordentrabajo>();
+    @EJB
+    private com.ejb.SB_Reportes reportes;
+    private List<Ordentrabajo> items =  new ArrayList<>();
+    List<Ordentrabajo> lordenes =  new ArrayList<>();
     private Ordentrabajo selected;
-    private Cliente cliente;
-    private Date fechaOrden;
-    private String ordenId,falla,horaOrden,vitacora;
+    private Date fecha;
+    private String numOrden1,numOrden2,noCliente;
+    private int totalOrden = 0;
     //</editor-fold>
 
     public OrdentrabajoController() {
@@ -41,62 +46,52 @@ public class OrdentrabajoController implements Serializable {
 
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
 
+    public int getTotalOrden() {
+        return totalOrden;
+    }
+
+    public void setTotalOrden(int totalOrden) {
+        this.totalOrden = totalOrden;
+    }
+
+    public String getNoCliente() {
+        return noCliente;
+    }
+
+    public void setNoCliente(String noCliente) {
+        this.noCliente = noCliente;
+    }
+
+    public String getNumOrden1() {
+        return numOrden1;
+    }
+
+    public void setNumOrden1(String numOrden1) {
+        this.numOrden1 = numOrden1;
+    }
+
+    public String getNumOrden2() {
+        return numOrden2;
+    }
+
+    public void setNumOrden2(String numOrden2) {
+        this.numOrden2 = numOrden2;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+    
     public List<Ordentrabajo> getLordenes() {
-       
         return lordenes;
     }
 
     public void setLordenes(List<Ordentrabajo> lordenes) {
         this.lordenes = lordenes;
-    }
-
-    
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-    
-    public String getVitacora() {
-        return vitacora;
-    }
-
-    public void setVitacora(String vitacora) {
-        this.vitacora = vitacora;
-    }
-    
-    public Date getFechaOrden() {
-        return fechaOrden;
-    }
-
-    public void setFechaOrden(Date fechaOrden) {
-        this.fechaOrden = fechaOrden;
-    }
-
-    public String getHoraOrden() {
-        return horaOrden;
-    }
-
-    public void setHoraOrden(String horaOrden) {
-        this.horaOrden = horaOrden;
-    }
-
-    public String getOrdenId() {
-        return ordenId;
-    }
-
-    public void setOrdenId(String ordenId) {
-        this.ordenId = ordenId;
-    }
-
-    public String getFalla() {
-        return falla;
-    }
-
-    public void setFalla(String falla) {
-        this.falla = falla;
     }
     
     public Ordentrabajo getSelected() {
@@ -123,7 +118,6 @@ public class OrdentrabajoController implements Serializable {
      
         selected = new Ordentrabajo();
         initializeEmbeddableKey();
-        cliente = vcliente;
         return selected;
     }
 
@@ -233,99 +227,54 @@ public class OrdentrabajoController implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Metodos">
-    /**
-     * Limpia la información en pantalla.
-     */
     public void limpiar() {
+        fecha = null;
+        numOrden1 = null;
+        numOrden2 = null;
+        noCliente = null;
+        items = new ArrayList<>();
         selected = null;
-        cliente = null;
-        ordenId = null;
-        falla = null;
-        vitacora = null;
-        items = new ArrayList<>();
+        totalOrden = 0;
     }
     
-    /**
-     * Muestra el historial de orden de trabajo por cliente.
-     */
-    public void historialOrden() {
-        items = new ArrayList<>();
-        if (cliente != null) {
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
-            items = ejbFacade.findByCliente(cliente.getIdcliente());
-            if (items.isEmpty()) {
-                JsfUtil.addErrorMessage("No se encontraron registros.");
-            } else {
-                for (Ordentrabajo item : items) {
-                    this.setFechaOrden(item.getFechaIng());
-                    horaOrden = dateFormat.format(item.getFechaIng());
-                    this.setHoraOrden(horaOrden);
-                    cliente.setIdcliente(item.getClienteIdcliente().getIdcliente());
-                    cliente.setNombres(item.getClienteIdcliente().getNombres());
-                    cliente.setDirInstalacion(item.getClienteIdcliente().getDirInstalacion());
-                    cliente.setTelefono(item.getClienteIdcliente().getTelefono());
-                    this.setFalla(item.getDescripcion());
-                    this.setVitacora(item.getDescripcionSolucion());
-                }
+    public String mostrarHistorialOrden() {
+        if (fecha == null) {
+            fecha = new Date();
+        }
+        if (numOrden2 == null || numOrden2.isEmpty()) {
+            numOrden2 = numOrden1;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String ssfecha = sdf.format(fecha);
+        items = ejbFacade.findByHistorialOrden(ssfecha, numOrden1, numOrden2, noCliente);
+        if (items.isEmpty()) {
+            JsfUtil.addErrorMessage("No se encontraron registros.");
+            return "";
+        } else {
+            totalOrden = 0;
+            System.out.println("Tamano Lista " + items.size());
+            for (Ordentrabajo item : items) {
+                totalOrden = totalOrden + 1;
             }
-        } else {
-            JsfUtil.addErrorMessage("No se encuentro un cliente valido, no se puede ver el historial.");
         }
+        return "Ok";
     }
     
-    /**
-     * Asigna el valor de la vitacora del cliente.
-     */
-    public void vitocora_x_historialCliente() {
-        if (selected != null) {
-            this.setVitacora(selected.getDescripcionSolucion());
-        }
+    public void onRowEdit(RowEditEvent event) {
+        Ordentrabajo ot = (Ordentrabajo) event.getObject();
+        
+        System.out.println("Orden trabajo N° " + ot.getIdordenTrabajo());
+        
+        ot.setTecnicoIdtecnico(ot.getTecnicoIdtecnico());
+        ot.setEstado(ot.getEstado());
+        ot.setDescripcionSolucion(ot.getDescripcionSolucion());
+        
+        ejbFacade.edit(ot);
+        
+        JsfUtil.addSuccessMessage("Orden Actualizada.");
+        
     }
     
-    /**
-     * Guarda la vitacora del cliente.
-     */
-    public void guardarVitacoraCliente() {
-        if (vitacora != null && !vitacora.isEmpty()) {
-            selected.setDescripcionSolucion(vitacora);
-            ejbFacade.edit(selected);
-        } else {
-            JsfUtil.addErrorMessage("No tiene informacion disponible en la vitacora para guardar.");
-        }
-    }
-    
-    /**
-     * Guarda la orden de trabajo a despachar del cliente.
-     */
-    public void guardarOrdenTrabajo() {
-        try {
-            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
-            fechaOrden = new Date();
-            Ordentrabajo o = new Ordentrabajo();
-            ordenId = String.valueOf(ejbFacade.findByMaxOrdenId());
-            o.setIdordenTrabajo(Integer.parseInt(ordenId));
-            o.setFechaIng(fechaOrden);
-            this.setFechaOrden(fechaOrden);
-            this.setHoraOrden(dateFormat.format(fechaOrden));
-            o.getClienteIdcliente().setIdcliente(cliente.getIdcliente());
-            o.getClienteIdcliente().setNombres(cliente.getNombres());
-            o.getClienteIdcliente().setDirInstalacion(cliente.getDirInstalacion());
-            o.getClienteIdcliente().setTelefono(cliente.getTelefono());
-            o.setDescripcion(falla);
-            o.setEstado("P");
-            o.setDateCreate(new Date());
-            
-            ejbFacade.edit(o);
-            
-            JsfUtil.addSuccessMessage("Orden de trabajo " + ordenId + " guardada correctamente!!!");
-            
-            items = ejbFacade.findByOrdenId(ordenId);
-            
-        } catch (Exception e) {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage("Error", new FacesMessage("Error en guardarOrdenTrabajo " + e.getMessage()));
-        }
-    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Reportes">
@@ -333,10 +282,17 @@ public class OrdentrabajoController implements Serializable {
      * Imprime el reporte de orden de trabajo por cliente.
      * @return msj de ejecución correcta. 
      */
-    public String rptOrdenTrabajo() {
+    public String despacharOrden() {
         try {
-            String url = "/ordentrabajo/reporte/ordenTrabajo.jasper";
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
+            HashMap params = new HashMap();
+            params.put("idorden",selected.getIdordenTrabajo());
+            params.put("fecha",sdf.format(new Date()));
+            params.put("hora",dateFormat.format(new Date()));
+            reportes.GenerarReporte("/ordentrabajo/reportes/ordenTrabajo.jasper", params);
         } catch (Exception e) {
+            e.printStackTrace();
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage("Error", new FacesMessage("Error en rptOrdenTrabajo " + e.getMessage()));
         }

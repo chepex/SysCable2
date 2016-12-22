@@ -48,7 +48,7 @@ where idcompania=1]]>
 			</staticText>
 			<image>
 				<reportElement x="19" y="14" width="106" height="34" uuid="d3712a24-2f93-408d-aed8-0b597d455093"/>
-				<imageExpression><![CDATA["/home/mmixco/NetBeansProjects/SysCable2/web/resources/img/logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["../resources/img/logo.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="392" y="34" width="40" height="20" uuid="0827586f-72e6-42e1-b116-d466891f1170"/>

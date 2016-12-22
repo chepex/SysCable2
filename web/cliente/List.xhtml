@@ -19,13 +19,263 @@
             <div class="container-fluid">
 
                 </div>
-            <h:form id="ClienteBtnForm">             
-                <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"  disabled="#{clienteController.selected!=null}"/>                     
+            <h:form id="ClienteBtnForm">     
+                <p:hotkey bind="ctrl+b" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"   />
+                    <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"  disabled="#{clienteController.selected!=null}"/>                     
                     <p:commandButton id="createButton"  icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl"   disabled ="#{clienteController.selected!=null}" />                            
                     <p:commandButton id="saveButton"   icon="ui-icon-disk" value="F7" actionListener="#{clienteController.create}" update=" :ClienteBtnForm :growl," rendered="#{clienteController.selected!=null}"  disabled="#{empty clienteController.selected}"/>
                     <p:commandButton id="editButton"   icon="ui-icon-pencil" value="F8" actionListener="#{clienteController.update}" update=" :ClienteBtnForm :growl" rendered="#{clienteController.selected==null}"  disabled="#{empty clienteController.selected}"/>
                     <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="F9" actionListener="#{clienteController.limpiar()}"  disabled="#{empty clienteController.selected}" update=" :ClienteBtnForm :growl"/>
               
+                    
+                    <p:tabView rendered="#{clienteController.selected!=null}" id="tab">
+                          
+                          <p:tab title="Pagos">
+                              
+                        <div class="row">
+                            <div class="col-md-1"> 
+                                <h:outputText value="Contratos"/>                            
+                            </div>
+                            <div class="col-md-2"> 
+                                <p:selectOneMenu  id="lcontrato" value="#{clienteController.vcontrato}"   >
+                                    <f:selectItem  itemLabel="Selecione un contrato" itemValue="" />
+                                    <f:selectItems value="#{clienteController.selected.contratoList}"
+                                    var="contratoItem"
+                                    itemLabel="Contrato #{contratoItem.idcontrato}"
+                                    itemValue="#{contratoItem}"/>
+                                    <p:ajax event="valueChange"   update="idvalor, listPago, lcuota" listener="#{clienteController.actualizaValor()}"  />
+                                </p:selectOneMenu>      
+                            </div>
+                            <div class="col-md-1"> 
+                                <h:outputText value="Cuota"/> 
+                                  </div>
+                            <div class="col-md-2">
+                                <p:selectOneMenu  id="lcuota" value="#{clienteController.vcuota}"   >
+                                    
+                                    <f:selectItems value="#{clienteController.lcuota}"
+                                    var="cuotaItem"
+                                    itemLabel="Cuota #{cuotaItem.nombre}"
+                                    itemValue="#{cuotaItem}"/>                                    
+                                </p:selectOneMenu>      
+                            </div>                            
+                            <div class="col-md-1">  
+                                <h:outputText value="Valor cuota"   />
+                            </div>
+                            <div class="col-md-2">  
+                                <p:inputText id="idvalor" value="#{clienteController.valorCuota}" disabled="true"  rendered="#{clienteController.vcontrato!=null}"/>
+                            </div>
+                            <div class="col-md-3">  
+                                <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago}" update="@form :growl" />
+                                <p:commandButton id="btnPagar" value="Pagar" actionListener="#{clienteController.crearPago}" update="@form :growl" />
+                            </div>
+                        </div>                        
+                        <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listPago">
+                        <p:dataTable id="datalistPago" value="#{clienteController.vcontrato.pagoList}" var="item2"
+                                 selectionMode="single" selection="#{pagoController.selected}"
+                                 paginator="true"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 rowKey="#{item2.idpagos}"
+                                    
+                                 scrollHeight="250"
+                                 scrollable="true"
+                                 >
+                        <p:ajax event="rowSelect"   update="btnImprimir"/>
+                        <p:ajax event="rowUnselect" update="btnImprimir"/>
+                      
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_idpagos}"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.idpagos}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha2"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.cuota.nombre}">
+                               
+                            </h:outputText>                            
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_valor}"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.valor}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_numCuota}"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.numCuota}"/>
+                        </p:column>
+                       
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListPagoTitle_total}"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.total}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="btnImprimir"   icon="ui-icon ui-icon-print"  value="Recibo" actionListener="#{pagoController.reciboPago}" ajax="false" update="@form :growl" disabled="#{pagoController.selected==null}" />                        
+                        </f:facet>
+                    </p:dataTable>      
+                             </p:panel> 
+                              
+                          </p:tab>
+                          
+                        <p:tab title="Ordenes">
+                            <p:commandButton id="createButton3" icon="ui-icon-plus" title="Nueva Orden" actionListener="#{clienteController.prepareCreateOrden()}"  update=":OrdentrabajoCreateForm" oncomplete="PF('OrdentrabajoCreateDialog').show()"/>
+                            <p:dataTable id="datalist" value="#{clienteController.selected.ordentrabajoList}" var="item"
+                                         selectionMode="single" 
+                                         selection="#{ordentrabajoController.selected}"
+                                         editable="true"
+                                         paginator="true"
+                                         rows="10"
+                                         rowsPerPageTemplate="10,20,30,40,50"
+                                         rowKey="#{item.idordenTrabajo}">
+                                
+                                <p:ajax event="rowEdit" listener="#{clienteController.onRowEdit}" update=":growl" />
+                                <p:ajax event="rowSelect" update="cmbImprimir"/>
+                                
+                                <p:column style="text-align: center;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Numero Orden"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.idordenTrabajo}"/>
+                                </p:column>        
+                                <p:column style="width: 350px;">
+                                    <f:facet name="header">
+                                        <h:outputText value="Falla"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.descripcion}"/>
+                                </p:column>
+                                <p:column style="text-align: center">
+                                    <f:facet name="header">
+                                        <h:outputText value="Fecha"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.fechaIng}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="T&eacute;cnico" style="text-align: center">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.tecnicoIdtecnico.nombre}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:selectOneMenu value="#{item.tecnicoIdtecnico}" filter="true" filterMatchMode="contains">
+                                                <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                                <f:selectItems value="#{tecnicoController.itemsAvailableSelectOne}"
+                                                               var="tecnicoItem"
+                                                               itemLabel="#{tecnicoItem.nombre}"
+                                                               itemValue="#{tecnicoItem}"/>
+                                            </p:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Estado" style="text-align: center">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.estado eq 'P' ? 'Pendiente' : null or item.estado eq 'E' ? 'Efectuado' : null or item.estado eq 'N' ? 'No se puede efectuar' : null}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:selectOneMenu value="#{item.estado}" filter="true" filterMatchMode="contains">
+                                                <f:selectItem itemLabel="Pendiente" itemValue="P"/>
+                                                <f:selectItem itemLabel="Efectuado" itemValue="E"/>
+                                                <f:selectItem itemLabel="No se puede efectuar" itemValue="N"/>
+                                            </p:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column headerText="Comentario" style="text-align: center">
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item.descripcionSolucion}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputTextarea rows="4" cols="15" maxlength="150" value="#{item.descripcionSolucion}"/>
+                                        </f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column style="width:32px">
+                                    <p:rowEditor />
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton id="cmbImprimir" value="Imprimir Orden" ajax="false" update=":growl" actionListener="#{ordentrabajoController.despacharOrden}" disabled="#{empty ordentrabajoController.selected}"/>
+                                </f:facet>
+                            </p:dataTable>        
+                        </p:tab>
+                          
+                          <p:tab title="Contratos">
+                              <p:commandButton id="createButton2" icon="ui-icon-plus" title="Nuevo Contrato"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.precreateContrato()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
+                           
+                           <p:dataTable id="datalist2" value="#{clienteController.selected.contratoList}" var="item2"
+                                 selectionMode="single" selection="#{contratoController.selected}"                               
+                                 rowKey="#{item2.idcontrato}"
+                                 paginator="true"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 scrollHeight="250"
+                                 scrollable="true">
+                               
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Numero de Contrato"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.idcontrato}"/>
+                        </p:column>       
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Fecha Instalaci&oacute;n"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.fecha}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListContratoTitle_estado}"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.estado}"/>
+                        </p:column>
+                      
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Valor Cuota"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.valorCuota}"/>
+                        </p:column>  
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cuotas Pagadas"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.cuotasPagadas}"/>
+                        </p:column>
+                       <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Saldo"/>
+                            </f:facet>
+                           <h:outputText value="#{item2.saldo}"/>
+                        </p:column>    
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ultimpo Pago"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.ultimoPago}">
+                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>                                 
+                    </p:dataTable>                        
+      
+                        
+                          
+                              
+                        </p:tab>
+                          
+                      </p:tabView>
+                    
                     <p:panel header="Cliente"  >
                     <p:panel header="Datos Personales"  rendered="#{clienteController.selected!=null}">                        
                         
@@ -173,15 +423,20 @@
                         <p:inputText id="conyuTelTrabajo" value="#{clienteController.selected.telTrabajoConyugue}" title="#{bundle.CreateClienteTitle_dirTrabajo}" />
                                   </div>
                         </div>   
-                           <div class="row">
+                        <div class="row">
                         <div class="col-md-2">  
                         <p:outputLabel value="#{bundle.CreateClienteLabel_dirInstalacion}" for="dirInstalacion" />
+                        </div>                             
+                        <div class="col-md-4">  
+                            <p:inputTextarea rows="6" cols="30" id="dirInstalacion" class="form-control input-sm " value="#{clienteController.selected.dirInstalacion}" title="#{bundle.CreateClienteTitle_dirInstalacion}" />
                         </div>
-                              
-                            <div class="col-md-10">  
-                                <p:inputText id="dirInstalacion" class="form-control input-sm " value="#{clienteController.selected.dirInstalacion}" title="#{bundle.CreateClienteTitle_dirInstalacion}" />
+                        <div class="col-md-2">  
+                        <p:outputLabel value="Referencia:" for="dirReferencia" />
+                        </div>                              
+                        <div class="col-md-4">  
+                            <p:inputTextarea  rows="6" cols="30" id="dirReferencia" class="form-control input-sm " value="#{clienteController.selected.direccionReferencia}" title="#{bundle.CreateClienteTitle_dirInstalacion}" />
+                        </div>                               
                         </div>
-                                  </div>
                                  <div class="row">
                             <div class="col-md-2">  
                         
@@ -232,186 +487,6 @@
                     </p:panel>
                             
                 </p:panel>
-                    
-                      <p:tabView rendered="#{clienteController.selected!=null}" id="tab">
-                        <p:tab title="Contratos">
-                           <p:commandButton id="createButton2" icon="ui-icon-plus"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.precreateContrato()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
-                           
-                           <p:dataTable id="datalist2" value="#{clienteController.selected.contratoList}" var="item2"
-                                 selectionMode="single" selection="#{contratoController.selected}"                               
-                                 rowKey="#{item2.idcontrato}"
-                                 scrollable="true"                                
-                                 >  
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Contrato"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.idcontrato}"/>
-                        </p:column>                               
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListContratoTitle_fecha}"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.fecha}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListContratoTitle_estado}"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.estado}"/>
-                        </p:column>
-                      
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="ValorCuota"/>
-                            </f:facet>
-                            <h:outputText value="#{item2.valorCuota}"/>
-                        </p:column>  
-                    </p:dataTable>                        
-      
-                        
-                          
-                              
-                        </p:tab>
-                        <p:tab title="Ordenes">
-                            <p:commandButton id="createButton3" icon="ui-icon-plus" title="Nueva Orden Trabajo" actionListener="#{clienteController.prepareCreateOrden()}"  update=":OrdentrabajoCreateForm" oncomplete="PF('OrdentrabajoCreateDialog').show()"/>
-                            <p:dataTable id="datalist" value="#{clienteController.selected.ordentrabajoList}" var="item"
-                                         selectionMode="single" 
-                                         selection="#{ordentrabajoController.selected}"
-                                         scrollable="true"  
-                                         rowKey="#{item.idordenTrabajo}">
-                                
-                                <p:ajax event="rowSelect" update="cmbImprimir"/>
-                                
-                                <p:column style="text-align: center; width: 100px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="Numero"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.idordenTrabajo}"/>
-                                </p:column>        
-                                <p:column style="width: 600px;">
-                                    <f:facet name="header">
-                                        <h:outputText value="Falla"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.descripcion}"/>
-                                </p:column>
-                                <p:column style="text-align: center">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListOrdentrabajoTitle_fechaIng}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.fechaIng}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                                    </h:outputText>
-                                </p:column>
-                                <p:column style="text-align: center">
-                                    <f:facet name="header">
-                                        <h:outputText value="#{bundle.ListOrdentrabajoTitle_estado}"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.estado eq 'A' ? 'Abierto' : null or item.estado eq 'C' ? 'Cerrado' : null}"/>
-                                </p:column>
-                                <f:facet name="footer">
-                                    <p:commandButton id="cmbImprimir" value="Imprimir Orden" ajax="false" actionListener="#{ordentrabajoController.rptOrdenTrabajo()}" disabled="#{empty ordentrabajoController.selected}"/>
-                                </f:facet>
-                            </p:dataTable>        
-                        </p:tab>
-                          <p:tab title="Pagos">
-                              
-                        <div class="row">
-                            <div class="col-md-1"> 
-                                <h:outputText value="Contratos"/>                            
-                            </div>
-                            <div class="col-md-2"> 
-                                <p:selectOneMenu  id="lcontrato" value="#{clienteController.vcontrato}"   >
-                                    <f:selectItem  itemLabel="Selecione un contrato" itemValue="" />
-                                    <f:selectItems value="#{clienteController.selected.contratoList}"
-                                    var="contratoItem"
-                                    itemLabel="Contrato #{contratoItem.idcontrato}"
-                                    itemValue="#{contratoItem}"/>
-                                     <p:ajax event="valueChange"   update="idvalor, listPago, lcuota" />
-                                </p:selectOneMenu>      
-                            </div>
-                            <div class="col-md-1"> 
-                                <h:outputText value="Cuota"/> 
-                                  </div>
-                            <div class="col-md-2">
-                                <p:selectOneMenu  id="lcuota" value="#{clienteController.vcuota}"   >
-                                    
-                                    <f:selectItems value="#{clienteController.lcuota}"
-                                    var="cuotaItem"
-                                    itemLabel="Cuota #{cuotaItem.nombre}"
-                                    itemValue="#{cuotaItem}"/>                                    
-                                </p:selectOneMenu>      
-                            </div>                            
-                            <div class="col-md-1">  
-                                <h:outputText value="Valor cuota"   />
-                            </div>
-                            <div class="col-md-2">  
-                                <p:inputText id="idvalor" value="#{clienteController.vcontrato.valorCuota}"  rendered="#{clienteController.vcontrato!=null}"/>
-                            </div>
-                            <div class="col-md-3">  
-                                <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago}" update="@form :growl" />
-                                <p:commandButton id="btnPagar" value="Pagar" actionListener="#{clienteController.crearPago}" update="@form :growl" />
-                            </div>
-                        </div>                        
-                        <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listPago">
-                        <p:dataTable id="datalistPago" value="#{clienteController.vcontrato.pagoList}" var="item"
-                                 selectionMode="single" selection="#{pagoController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.idpagos}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
-                        <p:ajax event="rowSelect"   update="btnImprimir"/>
-                        <p:ajax event="rowUnselect" update="btnImprimir"/>
-                      
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoTitle_idpagos}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idpagos}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="Cuota"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cuota.nombre}"/>
-                        </p:column>                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoTitle_fecha}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fecha}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoTitle_valor}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.valor}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoTitle_numCuota}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.numCuota}"/>
-                        </p:column>
-                       
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoTitle_total}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.total}"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="btnImprimir"   icon="ui-icon ui-icon-print"  value="Recibo" actionListener="#{pagoController.reciboPago}" ajax="false" update="@form :growl" disabled="#{pagoController.selected==null}" />                        
-                        </f:facet>
-                    </p:dataTable>      
-                             </p:panel> 
-                              
-                          </p:tab>
-                      </p:tabView>
-            
-                    
                         
             </h:form>
             <ui:include src="Colonia.xhtml"/>

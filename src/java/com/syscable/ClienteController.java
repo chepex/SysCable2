@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -23,6 +24,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "clienteController")
 @SessionScoped
@@ -45,7 +47,9 @@ public class ClienteController implements Serializable {
     @EJB
     private com.syscable.DepartamentoFacade departamentoFacade;    
     @EJB
-    private com.syscable.PagoFacade pagoFacade;   
+    private com.syscable.PagoFacade pagoFacade; 
+    @EJB
+    private com.syscable.CompaniaFacade companiaFacade;     
     @EJB
     private SB_GenerarCuotas sb_GenerarCuotas;       
     
@@ -62,8 +66,11 @@ public class ClienteController implements Serializable {
     private Contrato vcontrato;    
     private Ordentrabajo vordentrabajo;
     private String vaniomes;
+    private String fcolonia;    
+    private String fdireccion;        
     private List<Cuota> lcuota;
     private Cuota vcuota;
+    private BigDecimal valorCuota;
     
     private String vbuscar;
     @ManagedProperty(value="#{ordentrabajoController}")
@@ -73,6 +80,33 @@ public class ClienteController implements Serializable {
     public ClienteController() {
     }
 
+    public String getFcolonia() {
+        return fcolonia;
+    }
+
+    public void setFcolonia(String fcolonia) {
+        this.fcolonia = fcolonia;
+    }
+
+    public String getFdireccion() {
+        return fdireccion;
+    }
+
+    public void setFdireccion(String fdireccion) {
+        this.fdireccion = fdireccion;
+    }
+
+    
+    
+    public BigDecimal getValorCuota() {
+        return valorCuota;
+    }
+
+    public void setValorCuota(BigDecimal valorCuota) {
+        this.valorCuota = valorCuota;
+    }
+
+    
     public Cuota getVcuota() {
         return vcuota;
     }
@@ -259,11 +293,9 @@ public class ClienteController implements Serializable {
         System.out.println("--<<>>");
     }
     
-    public void buscar(){
-    
-    this.lclientesbusqueda= this.ejbFacade.findByNombres(this.vbuscar);
-     
-    
+    public void buscar(){   
+        limpiar() ;
+        this.lclientesbusqueda= this.ejbFacade.findByNombres(this.vbuscar,this.fcolonia, this.fdireccion);    
     }
     
     public void selecionar(){
@@ -311,12 +343,32 @@ public class ClienteController implements Serializable {
         JsfUtil.addSuccessMessage("Profesion creada correctament");   
     }
 
-    public void create() {
+    public String  create() {
         try{
             if(selected.getIdcliente()==0){
+                    
+                List<Cliente> lc = this.ejbFacade.findByDui(this.selected.getDui());
+                if(!lc.isEmpty()){
+                    JsfUtil.addErrorMessage("Dui ya esta registrado favor verificar"); 
+                    return "error";
+                }
+                List<Cliente> lc2 = this.ejbFacade.findByTel(this.selected.getTelefono());
+                if(!lc2.isEmpty()){
+                    JsfUtil.addErrorMessage("Telefono ya esta registrado favor verificar"); 
+                    return "error";
+                }
+                List<Cliente> lc3 = this.ejbFacade.findByNit(this.selected.getNit());
+                if(!lc3.isEmpty()){
+                    JsfUtil.addErrorMessage("Nit ya esta registrado favor verificar"); 
+                    return "error";
+                }                
+                
+                
                 long vid = this.ejbFacade.GenerateId();
-                this.selected.setIdcliente((int)vid);        
+                this.selected.setIdcliente((int)vid);  
+                
             }
+            
             
             persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("ClienteCreated"));
         }catch(Exception ex){
@@ -327,6 +379,7 @@ public class ClienteController implements Serializable {
       if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+      return "ok";
     }
 
     public void update() {
@@ -430,7 +483,7 @@ public class ClienteController implements Serializable {
    public void limpiar() {        
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
-        
+        lclientesbusqueda =null;
     }    
 
     public void actualizaMunicipio(){
@@ -471,12 +524,14 @@ public class ClienteController implements Serializable {
     
     public void crearOrden(){
         try {
+            LoginBean lb = new LoginBean();
             if (vordentrabajo.getDescripcion() != null && !vordentrabajo.getDescripcion().isEmpty()) {
                 vordentrabajo.setDescripcion(vordentrabajo.getDescripcion());
             } else {
                 vordentrabajo.setDescripcion("No se reporto falla");
             }
-            vordentrabajo.setEstado("A");
+            vordentrabajo.setUserCreate(lb.ssuser());
+            vordentrabajo.setEstado("P");
             ordentrabajoFacade.edit(vordentrabajo);
             selected.getOrdentrabajoList().add(vordentrabajo);
             JsfUtil.addSuccessMessage("Contrato almacenado correctamente");
@@ -485,18 +540,31 @@ public class ClienteController implements Serializable {
         }
     }
     
+    public void onRowEdit(RowEditEvent event) {
+        Ordentrabajo ot = (Ordentrabajo) event.getObject();
+        
+        System.out.println("Orden trabajo N° " + ot.getIdordenTrabajo());
+        
+        ot.setTecnicoIdtecnico(ot.getTecnicoIdtecnico());
+        ot.setEstado(ot.getEstado());
+        ot.setDescripcionSolucion(ot.getDescripcionSolucion());
+        
+        ordentrabajoFacade.edit(ot);
+        
+        JsfUtil.addSuccessMessage("Orden Actualizada.");
+    }
+    
     public void creaContrato(){
         try{
             vcontrato.setEstado("A");
             vcontrato.setCuotasPagadas(BigDecimal.ZERO);
+            vcontrato.setSaldo(vcontrato.getCuotas().multiply(vcontrato.getValorCuota()));
             contratoFacade.edit(vcontrato);
             selected.getContratoList().add(vcontrato);
             JsfUtil.addSuccessMessage("Contrato almacenado correctamente");   
         }catch(Exception ex){
             JsfUtil.addErrorMessage("Surgio un error "+ex);   
         }
-        
-        
     }
     
     public void crearPago(){
@@ -506,6 +574,7 @@ public class ClienteController implements Serializable {
             BigDecimal pagadas = new BigDecimal(1);
             
             System.out.println("vcontrato"+vcontrato);
+            System.out.println("cuotas"+vcontrato.getCuotasPagadas());
             System.out.println("p-->0");
             pagadas = pagadas.add(vcontrato.getCuotasPagadas());
             System.out.println("p-->01");
@@ -516,50 +585,62 @@ public class ClienteController implements Serializable {
             p.setClienteIdcliente(selected);
             System.out.println("p-->2");
             p.setContratoIdcontrato(vcontrato);
-            System.out.println("p-->3");
-            p.setFecha(d.toString());
-            p.setAniomes(vcuota.getIdcuota().toString());
-            p.setCuota(vcuota);
-            p.setIdcuota(vcuota.getIdcuota());
-            System.out.println("p-->4");
+
+             System.out.println("p-->3");
+            p.setFecha(d);
+            p.setAniomes(this.vcuota.getIdcuota());
+             System.out.println("p-->4");
+
             p.setNumCuota(pagadas.intValue());
             p.setDescripcion("Pago cuota :"+pagadas.intValue()+" contrato #"+vcontrato.getIdcontrato());
-            p.setValor(vcontrato.getValorCuota());
-            p.setTotal(vcontrato.getValorCuota());
-            
-            
+            p.setValor(valorCuota);
+            Compania comp =companiaFacade.find(1);
+            System.out.println("compania ---->"+comp);
+            System.out.println("iva ---->"+comp.getIva());
+            System.out.println("Cescc ---->"+comp.getCescc());
+            BigDecimal iva  = valorCuota.multiply(comp.getIva());
+            BigDecimal cescc  = valorCuota.multiply(comp.getCescc());
+            p.setIva(iva);
+            p.setCescc(cescc);            
+            p.setTotal(valorCuota.add(cescc).add(iva));           
+            System.out.println("iva ---->"+iva);
+             System.out.println("cescc ---->"+cescc);
+             System.out.println("total ---->"+p.getTotal());
             this.vcontrato.getPagoList().add(p);
             vcontrato.setCuotasPagadas(pagadas);
+            vcontrato.setUltimoPago(new Date());
+            vcontrato.setSaldo(vcontrato.getSaldo().subtract(valorCuota));
             this.contratoFacade.edit(vcontrato);
+            p.setCuota(vcuota);
             pagoFacade.edit(p);  
             
             consultaPago();
             JsfUtil.addSuccessMessage("Pago realizado correctamente");   
             
         }catch(Exception ex){
-            System.out.println("error-->"+ex);
+            System.out.println("error-->"+ex.getMessage());
+             System.out.println("error-->"+ex.getCause());
             JsfUtil.addErrorMessage("Surgio un error "+ex);   
         }
-    
-    
     }
     
     public void consultaPago(){
-    
+        valorCuota = vcontrato.getValorCuota();
        vcontrato.setPagoList(pagoFacade.findByIdContrato(vcontrato));  
        
        lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
+
        
        vcuota =null;
        
        
-    }
-    
-   
-    
-     
-        
-            
-            
 
+    }
+     
+    public String actualizaValor(){
+        valorCuota = vcontrato.getValorCuota();
+         lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
+        return "ok";
+    }
 }
+
