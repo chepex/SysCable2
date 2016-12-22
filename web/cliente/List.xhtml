@@ -244,6 +244,12 @@
                                  >  
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="Contrato"/>
+                            </f:facet>
+                            <h:outputText value="#{item2.idcontrato}"/>
+                        </p:column>                               
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListContratoTitle_fecha}"/>
                             </f:facet>
                             <h:outputText value="#{item2.fecha}"/>
@@ -365,6 +371,12 @@
                             </f:facet>
                             <h:outputText value="#{item.idpagos}"/>
                         </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cuota"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cuota.nombre}"/>
+                        </p:column>                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_fecha}"/>

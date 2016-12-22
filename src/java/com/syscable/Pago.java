@@ -75,7 +75,9 @@ public class Pago implements Serializable {
     @Column(name = "descripcion")
     private String descripcion;
     @Column(name = "aniomes")
-    private String aniomes;    
+    private String aniomes;  
+    @Column(name = "idcuota")
+    private int idcuota;        
     @Column(name = "descuento")
     private BigDecimal descuento;
     @Column(name = "total")
@@ -89,10 +91,33 @@ public class Pago implements Serializable {
     @JoinColumn(name = "cliente_idcliente", referencedColumnName = "idcliente")
     @ManyToOne(optional = false)
     private Cliente clienteIdcliente;
+    @JoinColumn(name = "idcuota", referencedColumnName = "idcuota",   insertable = false, updatable = false)
+    @ManyToOne(optional = true)
+    private Cuota cuota;    
 
     public Pago() {
     }
 
+    public int getIdcuota() {
+        return idcuota;
+    }
+
+    public void setIdcuota(int idcuota) {
+        this.idcuota = idcuota;
+    }
+
+    
+    
+    public Cuota getCuota() {
+        return cuota;
+    }
+
+    public void setCuota(Cuota cuota) {
+        this.cuota = cuota;
+    }
+
+    
+    
     public String getAniomes() {
         return aniomes;
     }

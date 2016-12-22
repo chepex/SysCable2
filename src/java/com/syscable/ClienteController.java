@@ -512,14 +512,16 @@ public class ClienteController implements Serializable {
             String id = pagoFacade.maxId();
             int vid =Integer.parseInt(id)+1;
             Pago p = new Pago(vid);
-             System.out.println("p-->1");
+            System.out.println("p-->1");
             p.setClienteIdcliente(selected);
             System.out.println("p-->2");
             p.setContratoIdcontrato(vcontrato);
-             System.out.println("p-->3");
+            System.out.println("p-->3");
             p.setFecha(d.toString());
-            p.setAniomes(String.valueOf(this.vcuota.getIdcuota()));
-             System.out.println("p-->4");
+            p.setAniomes(vcuota.getIdcuota().toString());
+            p.setCuota(vcuota);
+            p.setIdcuota(vcuota.getIdcuota());
+            System.out.println("p-->4");
             p.setNumCuota(pagadas.intValue());
             p.setDescripcion("Pago cuota :"+pagadas.intValue()+" contrato #"+vcontrato.getIdcontrato());
             p.setValor(vcontrato.getValorCuota());
@@ -547,6 +549,8 @@ public class ClienteController implements Serializable {
        vcontrato.setPagoList(pagoFacade.findByIdContrato(vcontrato));  
        
        lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
+       
+       vcuota =null;
        
        
     }
