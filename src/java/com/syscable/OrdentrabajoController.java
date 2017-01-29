@@ -3,6 +3,7 @@ package com.syscable;
 import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "ordentrabajoController")
 @SessionScoped
@@ -34,12 +36,55 @@ public class OrdentrabajoController implements Serializable {
     private List<Ordentrabajo> items =  new ArrayList<>();
     List<Ordentrabajo> lordenes =  new ArrayList<>();
     private Ordentrabajo selected;
+    private Date fecha;
+    private String numOrden1,numOrden2,noCliente;
+    private int totalOrden = 0;
     //</editor-fold>
 
     public OrdentrabajoController() {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter & Setter">
+
+    public int getTotalOrden() {
+        return totalOrden;
+    }
+
+    public void setTotalOrden(int totalOrden) {
+        this.totalOrden = totalOrden;
+    }
+
+    public String getNoCliente() {
+        return noCliente;
+    }
+
+    public void setNoCliente(String noCliente) {
+        this.noCliente = noCliente;
+    }
+
+    public String getNumOrden1() {
+        return numOrden1;
+    }
+
+    public void setNumOrden1(String numOrden1) {
+        this.numOrden1 = numOrden1;
+    }
+
+    public String getNumOrden2() {
+        return numOrden2;
+    }
+
+    public void setNumOrden2(String numOrden2) {
+        this.numOrden2 = numOrden2;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
     
     public List<Ordentrabajo> getLordenes() {
         return lordenes;
@@ -182,6 +227,53 @@ public class OrdentrabajoController implements Serializable {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Metodos">
+    public void limpiar() {
+        fecha = null;
+        numOrden1 = null;
+        numOrden2 = null;
+        noCliente = null;
+        items = new ArrayList<>();
+        selected = null;
+        totalOrden = 0;
+    }
+    
+    public String mostrarHistorialOrden() {
+        if (fecha == null) {
+            fecha = new Date();
+        }
+        if (numOrden2 == null || numOrden2.isEmpty()) {
+            numOrden2 = numOrden1;
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String ssfecha = sdf.format(fecha);
+        items = ejbFacade.findByHistorialOrden(ssfecha, numOrden1, numOrden2, noCliente);
+        if (items.isEmpty()) {
+            JsfUtil.addErrorMessage("No se encontraron registros.");
+            return "";
+        } else {
+            totalOrden = 0;
+            System.out.println("Tamano Lista " + items.size());
+            for (Ordentrabajo item : items) {
+                totalOrden = totalOrden + 1;
+            }
+        }
+        return "Ok";
+    }
+    
+    public void onRowEdit(RowEditEvent event) {
+        Ordentrabajo ot = (Ordentrabajo) event.getObject();
+        
+        System.out.println("Orden trabajo N° " + ot.getIdordenTrabajo());
+        
+        ot.setTecnicoIdtecnico(ot.getTecnicoIdtecnico());
+        ot.setEstado(ot.getEstado());
+        ot.setDescripcionSolucion(ot.getDescripcionSolucion());
+        
+        ejbFacade.edit(ot);
+        
+        JsfUtil.addSuccessMessage("Orden Actualizada.");
+        
+    }
     
     //</editor-fold>
     
@@ -195,16 +287,11 @@ public class OrdentrabajoController implements Serializable {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss a");
             HashMap params = new HashMap();
-            System.out.println("orden trabajo " + selected.getIdordenTrabajo());
-            System.out.println("fecha " + sdf.format(new Date()));
-            System.out.println("hora " + dateFormat.format(new Date()));
             params.put("idorden",selected.getIdordenTrabajo());
             params.put("fecha",sdf.format(new Date()));
             params.put("hora",dateFormat.format(new Date()));
-            System.out.println("idOrden*-->"+selected.getIdordenTrabajo());
             reportes.GenerarReporte("/ordentrabajo/reportes/ordenTrabajo.jasper", params);
         } catch (Exception e) {
-            System.out.println("que paso!!!");
             e.printStackTrace();
             FacesContext context = FacesContext.getCurrentInstance();
             context.addMessage("Error", new FacesMessage("Error en rptOrdenTrabajo " + e.getMessage()));

@@ -535,11 +535,13 @@ public class ClienteController implements Serializable {
     
     public void crearOrden(){
         try {
+            LoginBean lb = new LoginBean();
             if (vordentrabajo.getDescripcion() != null && !vordentrabajo.getDescripcion().isEmpty()) {
                 vordentrabajo.setDescripcion(vordentrabajo.getDescripcion());
             } else {
                 vordentrabajo.setDescripcion("No se reporto falla");
             }
+            vordentrabajo.setUserCreate(lb.ssuser());
             vordentrabajo.setEstado("P");
             ordentrabajoFacade.edit(vordentrabajo);
             selected.getOrdentrabajoList().add(vordentrabajo);            
@@ -561,8 +563,7 @@ public class ClienteController implements Serializable {
         
         ordentrabajoFacade.edit(ot);
         
-        FacesMessage msg = new FacesMessage("Actualización Completada","Orden Trabajo # " + ot.getIdordenTrabajo().toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        JsfUtil.addSuccessMessage("Orden Actualizada.");
     }
     
     public void creaContrato(){
@@ -592,14 +593,16 @@ public class ClienteController implements Serializable {
             String id = pagoFacade.maxId();
             int vid =Integer.parseInt(id)+1;
             Pago p = new Pago(vid);
-             System.out.println("p-->1");
+            System.out.println("p-->1");
             p.setClienteIdcliente(selected);
             System.out.println("p-->2");
             p.setContratoIdcontrato(vcontrato);
+
              System.out.println("p-->3");
             p.setFecha(d);
             p.setAniomes(this.vcuota.getIdcuota());
              System.out.println("p-->4");
+
             p.setNumCuota(pagadas.intValue());
             p.setDescripcion("Pago cuota :"+pagadas.intValue()+" contrato #"+vcontrato.getIdcontrato());
             p.setValor(valorCuota);
@@ -638,6 +641,12 @@ public class ClienteController implements Serializable {
        vcontrato.setPagoList(pagoFacade.findByIdContrato(vcontrato));  
        
        lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
+
+       
+       vcuota =null;
+       
+       
+
     }
      
     public String actualizaValor(){

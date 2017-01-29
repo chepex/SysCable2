@@ -9,16 +9,20 @@
     <ui:composition>
         <p:dialog id="ClienteBuscaDlg" widgetVar="clienteBuscaDialog" modal="true" resizable="false" appendTo="@(body)" header="Buscar Cliente">
             <h:form id="ClienteBuscaForm">
-                <p:panelGrid columns="4">
-                <p:outputLabel value="Colonia" for="fcolonia" />
-                <p:inputText id="fcolonia" value="#{clienteController.fcolonia}" title="buscar" />
-                <p:outputLabel value="Direccion" for="fdireccion" />
-                <p:inputText id="fdireccion" value="#{clienteController.fdireccion}" title="direccion"/>                
-                <p:outputLabel value="Nombre/Nit/Dui/Tel/Colonia" for="vbuscar" />
-                <p:inputText id="vbuscar" value="#{clienteController.vbuscar}" title="buscar" />
-                <p:commandButton actionListener="#{clienteController.buscar()}" value="Buscar"  update="@form :growl"   />
-                <p:commandButton actionListener="#{clienteController.limpiar()}" value="Limpiar"  update="@form :growl"   />
-                </p:panelGrid>
+                <div align="center">
+                    <p:panelGrid columns="6">               
+                        <p:outputLabel value="Nombre/Nit/Dui/Tel/Colonia" for="vbuscar" />
+                        <p:inputText id="vbuscar" value="#{clienteController.vbuscar}" title="buscar" />
+                        <p:outputLabel value="Colonia" for="fcolonia" />
+                        <p:inputText id="fcolonia" value="#{clienteController.fcolonia}" title="buscar" />
+                        <p:outputLabel value="Direccion" for="fdireccion" />
+                        <p:inputText id="fdireccion" value="#{clienteController.fdireccion}" title="direcci&oacute;n"/> 
+                    </p:panelGrid><br/>
+                    <p:panelGrid columns="2" class="panelNoBorder">
+                        <p:commandButton actionListener="#{clienteController.buscar()}" value="Buscar"  update="@form :growl"   />
+                        <p:commandButton actionListener="#{clienteController.limpiar()}" value="Limpiar"  update="@form :growl"   />
+                    </p:panelGrid><br/>
+                </div>
                 
                 <p:panel header="Clientes">
                     

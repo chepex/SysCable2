@@ -5,6 +5,7 @@
  */
 package com.syscable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import sun.nio.cs.HistoricallyNamedCharset;
 
 /**
  *
@@ -66,6 +68,22 @@ public class OrdentrabajoFacade extends AbstractFacade<Ordentrabajo> {
             logger.log(Level.SEVERE,"Error en findByMaxOrdenId", e.getMessage());
         }
         return ordenId;
+    }
+    
+    public List<Ordentrabajo> findByHistorialOrden(String fecha,String noOrden1, 
+            String noOrden2, String noCliente) {
+        Logger logger = Logger.getAnonymousLogger();
+        List<Ordentrabajo> lsHist = new ArrayList<>();
+        try {
+            lsHist = em.createNativeQuery("select * from ordenTrabajo\n" +
+            "where(date_format(fecha_ing,'%d/%m/%Y') = '"+fecha+"'\n" +
+            "or idordenTrabajo between '"+noOrden1+"' and '"+noOrden2+"'\n" +
+            "or cliente_idcliente = '"+noCliente+"')\n" +
+            "order by fecha_ing desc", Ordentrabajo.class).getResultList();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE,"Error en findByHistorialOrden", e.getMessage());
+        }
+        return lsHist;
     }
     
 }
