@@ -3,12 +3,15 @@ package com.syscable;
 import com.ejb.SB_GenerarCuotas;
 import com.syscable.util.JsfUtil;
 import com.syscable.util.JsfUtil.PersistAction;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import java.util.List;
 import java.util.ResourceBundle;
@@ -24,12 +27,15 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.naming.NamingException;
+import net.sf.jasperreports.engine.JRException;
 import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "clienteController")
 @SessionScoped
 public class ClienteController implements Serializable {
-
+    @EJB
+    private com.ejb.SB_Reportes reportes;  
     @EJB
     private com.syscable.ClienteFacade ejbFacade;
     @EJB
@@ -54,12 +60,15 @@ public class ClienteController implements Serializable {
     private SB_GenerarCuotas sb_GenerarCuotas;       
     
     
+    
+    
     private List<Cliente> items = null;
     private List<Cliente> lclientesbusqueda = null;
     private List<Contrato> lcontrato = null;
     private List<Ordentrabajo> lordenes = null;
     private Cliente selected;
     private String vprofesion;
+    private String vdocumento;
     private String vcolonia;
     private String vnacionalidad,horaOrden;   
     private List<Municipio> lmunicipios;
@@ -72,6 +81,8 @@ public class ClienteController implements Serializable {
     private List<Cuota> lcuota;
     private Cuota vcuota;
     private BigDecimal valorCuota;
+    private BigDecimal monto;
+    private BigDecimal cambio;
     
     private String vbuscar;
     @ManagedProperty(value="#{ordentrabajoController}")
@@ -79,8 +90,44 @@ public class ClienteController implements Serializable {
     
     
     public ClienteController() {
+        
+         
     }
 
+    public String getVdocumento() {
+        return vdocumento;
+    }
+
+    public void setVdocumento(String vdocumento) {
+        this.vdocumento = vdocumento;
+    }
+
+
+    
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
+
+    public BigDecimal getCambio() {
+        if(valorCuota!=null && monto != null){
+            cambio =  this.monto.subtract(valorCuota);   
+            System.out.println("Cambio--->"+cambio);
+        }
+        
+        
+       return cambio;
+    }
+
+    public void setCambio(BigDecimal cambio) {
+        this.cambio = cambio;
+    }
+
+    
+    
     public List<Ordentrabajo> getLordenes() {
         return lordenes;
     }
@@ -622,18 +669,24 @@ public class ClienteController implements Serializable {
             vcontrato.setCuotasPagadas(pagadas);
             vcontrato.setUltimoPago(new Date());
             vcontrato.setSaldo(vcontrato.getSaldo().subtract(valorCuota));
+               p.setCuota(vcuota);
+            System.out.println("////"+vdocumento);
+            p.setNumPreimpreso(vdocumento);
             this.contratoFacade.edit(vcontrato);
-            p.setCuota(vcuota);
+         
             pagoFacade.edit(p);  
             
             consultaPago();
             JsfUtil.addSuccessMessage("Pago realizado correctamente");   
-            
+                  reciboPago(p) ;
         }catch(Exception ex){
             System.out.println("error-->"+ex.getMessage());
              System.out.println("error-->"+ex.getCause());
             JsfUtil.addErrorMessage("Surgio un error "+ex);   
         }
+        
+        
+  
     }
     
     public void consultaPago(){
@@ -654,5 +707,17 @@ public class ClienteController implements Serializable {
          lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
         return "ok";
     }
+    
+    
+    public String reciboPago(Pago p)  throws NamingException, SQLException, JRException, IOException{  
+        
+        HashMap params = new HashMap(); 
+       // params.put("SUBREPORT_DIR", "/reportes/");
+        params.put("idPago",p.getIdpagos() ); 
+        System.out.println("idPago*-->"+p.getIdpagos());
+        reportes.GenerarReporte("/reportes/reciboPago.jasper", params);
+        
+        return "";           
+    }    
 }
 

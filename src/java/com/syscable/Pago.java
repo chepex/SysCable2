@@ -68,6 +68,10 @@ public class Pago implements Serializable {
     @Size(max = 45)
     @Column(name = "user_mod")
     private String userMod;
+    @Column(name = "num_preimpreso")
+    private String numPreimpreso;    
+    
+    
     @Column(name = "date_mod")
     @Temporal(TemporalType.DATE)
     private Date dateMod;
@@ -103,6 +107,14 @@ public class Pago implements Serializable {
 
 
     public Pago() {
+    }
+
+    public String getNumPreimpreso() {
+        return numPreimpreso;
+    }
+
+    public void setNumPreimpreso(String numPreimpreso) {
+        this.numPreimpreso = numPreimpreso;
     }
 
 
