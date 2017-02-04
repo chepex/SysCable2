@@ -29,6 +29,10 @@
                         <p:commandButton id="cmbLimpiar" value="Limpiar" update=":HistOrdentrabajoForm" actionListener="#{ordentrabajoController.limpiar()}"/>
                     </p:panelGrid>
                 </div><br/>
+                <!--<p:dialog widgetVar="dlg" modal="true" height="100">
+                    Procesando...<br/>
+                    <img src="../resources/img/ajax-loading-bar.gif" alt=""/>
+                </p:dialog>-->
                 <p:panel header="Historial">
                     <p:dataTable id="datalist" value="#{ordentrabajoController.items}" var="item"
                                  selectionMode="single" selection="#{ordentrabajoController.selected}"

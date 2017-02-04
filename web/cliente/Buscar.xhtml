@@ -11,11 +11,11 @@
             <h:form id="ClienteBuscaForm">
                 <div align="center">
                     <p:panelGrid columns="6">               
-                        <p:outputLabel value="Nombre/Nit/Dui/Tel/Colonia" for="vbuscar" />
+                        <p:outputLabel value="Nombre/Nit/Dui/Tel" for="vbuscar" />
                         <p:inputText id="vbuscar" value="#{clienteController.vbuscar}" title="buscar" />
                         <p:outputLabel value="Colonia" for="fcolonia" />
                         <p:inputText id="fcolonia" value="#{clienteController.fcolonia}" title="buscar" />
-                        <p:outputLabel value="Direccion" for="fdireccion" />
+                        <p:outputLabel value="Direcci&oacute;n" for="fdireccion" />
                         <p:inputText id="fdireccion" value="#{clienteController.fdireccion}" title="direcci&oacute;n"/> 
                     </p:panelGrid><br/>
                     <p:panelGrid columns="2" class="panelNoBorder">
@@ -32,19 +32,13 @@
                                  rowKey="#{item.idcliente}"
                                   scrollable="true"  
                                  >        
-                        <p:ajax event="rowDblselect"  listener="#{clienteController.selecionar}" update=":ClienteBtnForm" global="false"  oncomplete="PF('clienteBuscaDialog').hide();"/>
+                        <p:ajax event="rowSelect" listener="#{clienteController.selecionar}" update=":ClienteBtnForm" global="false"  oncomplete="PF('clienteBuscaDialog').hide();"/>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="nombres"/>
                             </f:facet>
-                            <h:outputText value="#{item.nombres}"/>
+                            <h:outputText value="#{item.nombres} #{item.apellidos}"/>
                         </p:column>
-                       <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="apellidos"/>
-                            </f:facet>
-                            <h:outputText value="#{item.apellidos}"/>
-                        </p:column>  
                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="dui"/>
@@ -56,8 +50,14 @@
                                 <h:outputText value="tel"/>
                             </f:facet>
                               <h:outputText value="#{item.telefono}"/>
-                        </p:column> 
-                         <p:column>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="direcci&oacute;n"/>
+                            </f:facet>
+                            <h:outputText value="#{item.dirInstalacion}"/>
+                        </p:column>
+                        <p:column>
                             <f:facet name="header">
                                 <h:outputText value="colonia"/>
                             </f:facet>
