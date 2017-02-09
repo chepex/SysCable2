@@ -10,9 +10,13 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select p.fecha, c.nombres, c.apellidos, p.valor,p.iva,p.cescc, p.descripcion , p.total from syscable.pago p , syscable.cliente c
+		<![CDATA[select p.fecha, c.nombres, c.apellidos, p.valor,p.iva,p.cescc,  CONCAT(p.descripcion,' ', m.nombre,' ',  c1.anio) descripcion , p.total  
+from syscable.pago p , syscable.cliente c, syscable.cuota c1, syscable.mes m
 where p.cliente_idcliente = c.idcliente
-and idpagos= $P{idPago}]]>
+and idpagos= $P{idPago}
+and p.aniomes  =c1.idcuota
+and c1.mes = m.idmes
+]]>
 	</queryString>
 	<field name="fecha" class="java.sql.Date">
 		<fieldDescription><![CDATA[]]></fieldDescription>

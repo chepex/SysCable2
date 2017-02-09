@@ -6,13 +6,10 @@
 package com.syscable;
 
 import com.syscable.util.JsfUtil;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**

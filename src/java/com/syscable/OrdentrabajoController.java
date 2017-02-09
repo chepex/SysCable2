@@ -252,10 +252,7 @@ public class OrdentrabajoController implements Serializable {
             return "";
         } else {
             totalOrden = 0;
-            System.out.println("Tamano Lista " + items.size());
-            for (Ordentrabajo item : items) {
-                totalOrden = totalOrden + 1;
-            }
+            totalOrden = items.size();
         }
         return "Ok";
     }

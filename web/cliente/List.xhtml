@@ -22,12 +22,12 @@
             <h:form id="ClienteBtnForm">     
                 <p:hotkey bind="ctrl+b" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"   />
                     <p:commandButton id="searchButton2" icon="ui-icon-search"  value="Ctrl+B" oncomplete="PF('clienteBuscaDialog').show()" update=":ClienteBuscaForm"  disabled="#{clienteController.selected!=null}"/>                     
-                    <p:commandButton id="createButton"  icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl"   disabled ="#{clienteController.selected!=null}" />                            
+                    <p:commandButton id="createButton"  icon="ui-icon-plus"   value="F6" actionListener="#{clienteController.prepareCreate}"  update=" :ClienteBtnForm :growl :ClienteBtnForm:tab"   disabled ="#{clienteController.selected!=null}" />                            
                     <p:commandButton id="saveButton"   icon="ui-icon-disk" value="F7" actionListener="#{clienteController.create}" update=" :ClienteBtnForm :growl," rendered="#{clienteController.selected!=null}"  disabled="#{empty clienteController.selected}"/>
                     <p:commandButton id="editButton"   icon="ui-icon-pencil" value="F8" actionListener="#{clienteController.update}" update=" :ClienteBtnForm :growl" rendered="#{clienteController.selected==null}"  disabled="#{empty clienteController.selected}"/>
                     <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="F9" actionListener="#{clienteController.limpiar()}"  disabled="#{empty clienteController.selected}" update=" :ClienteBtnForm :growl"/>
               
-                    
+                    <h:panelGroup rendered="#{clienteController.ocultoCrea eq null}">
                     <p:tabView rendered="#{clienteController.selected!=null}" id="tab">
                           
                           <p:tab title="Pagos">
@@ -84,34 +84,34 @@
                         <p:ajax event="rowUnselect" update="btnImprimir"/>
                       
 
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListPagoTitle_idpagos}"/>
+                                <h:outputText value="ID PAGO"/>
                             </f:facet>
                             <h:outputText value="#{item2.idpagos}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
-                                <h:outputText value="Fecha2"/>
+                                <h:outputText value="Fecha Pago"/>
                             </f:facet>
                             <h:outputText value="#{item2.cuota.nombre}">
                                
                             </h:outputText>                            
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_valor}"/>
                             </f:facet>
                             <h:outputText value="#{item2.valor}"/>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_numCuota}"/>
                             </f:facet>
                             <h:outputText value="#{item2.numCuota}"/>
                         </p:column>
                        
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_total}"/>
                             </f:facet>
@@ -141,25 +141,25 @@
                                 
                                 <p:column style="text-align: center;">
                                     <f:facet name="header">
-                                        <h:outputText value="Numero Orden"/>
+                                        <h:outputText value="NUMERO ORDEN"/>
                                     </f:facet>
                                     <h:outputText value="#{item.idordenTrabajo}"/>
                                 </p:column>        
                                 <p:column style="width: 350px;">
                                     <f:facet name="header">
-                                        <h:outputText value="Falla"/>
+                                        <h:outputText value="FALLA"/>
                                     </f:facet>
                                     <h:outputText value="#{item.descripcion}"/>
                                 </p:column>
                                 <p:column style="text-align: center">
                                     <f:facet name="header">
-                                        <h:outputText value="Fecha"/>
+                                        <h:outputText value="FECHA"/>
                                     </f:facet>
                                     <h:outputText value="#{item.fechaIng}">
                                         <f:convertDateTime pattern="dd/MM/yyyy" />
                                     </h:outputText>
                                 </p:column>
-                                <p:column headerText="T&eacute;cnico" style="text-align: center">
+                                <p:column headerText="T&Eacute;CNICO" style="text-align: center">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{item.tecnicoIdtecnico.nombre}"/>
@@ -175,7 +175,7 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="Estado" style="text-align: center">
+                                <p:column headerText="ESTADO" style="text-align: center">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{item.estado eq 'P' ? 'Pendiente' : null or item.estado eq 'E' ? 'Efectuado' : null or item.estado eq 'N' ? 'No se puede efectuar' : null}"/>
@@ -189,7 +189,7 @@
                                         </f:facet>
                                     </p:cellEditor>
                                 </p:column>
-                                <p:column headerText="Comentario" style="text-align: center">
+                                <p:column headerText="COMENTARIO" style="text-align: center">
                                     <p:cellEditor>
                                         <f:facet name="output">
                                             <h:outputText value="#{item.descripcionSolucion}"/>
@@ -220,13 +220,13 @@
                                  scrollHeight="250"
                                  scrollable="true">
                                
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Numero de Contrato"/>
                             </f:facet>
                             <h:outputText value="#{item2.idcontrato}"/>
                         </p:column>       
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Fecha Instalaci&oacute;n"/>
                             </f:facet>
@@ -234,32 +234,32 @@
                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                             </h:outputText>
                         </p:column>
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListContratoTitle_estado}"/>
                             </f:facet>
-                            <h:outputText value="#{item2.estado}"/>
+                            <h:outputText value="#{item2.estado eq 'A' ? 'ACTIVO' : null}"/>
                         </p:column>
                       
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Valor Cuota"/>
                             </f:facet>
                             <h:outputText value="#{item2.valorCuota}"/>
                         </p:column>  
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Cuotas Pagadas"/>
                             </f:facet>
                             <h:outputText value="#{item2.cuotasPagadas}"/>
                         </p:column>
-                       <p:column>
+                       <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Saldo"/>
                             </f:facet>
                            <h:outputText value="#{item2.saldo}"/>
                         </p:column>    
-                        <p:column>
+                        <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Ultimpo Pago"/>
                             </f:facet>
@@ -275,6 +275,7 @@
                         </p:tab>
                           
                       </p:tabView>
+                        </h:panelGroup>
                     
                     <p:panel header="Cliente"  >
                     <p:panel header="Datos Personales"  rendered="#{clienteController.selected!=null}">                        

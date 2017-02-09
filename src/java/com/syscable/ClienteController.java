@@ -83,6 +83,7 @@ public class ClienteController implements Serializable {
     private BigDecimal valorCuota;
     private BigDecimal monto;
     private BigDecimal cambio;
+     private String ocultoCrea;
     
     private String vbuscar;
     @ManagedProperty(value="#{ordentrabajoController}")
@@ -97,6 +98,16 @@ public class ClienteController implements Serializable {
     public String getVdocumento() {
         return vdocumento;
     }
+
+    public String getOcultoCrea() {
+        return ocultoCrea;
+    }
+
+    public void setOcultoCrea(String ocultoCrea) {
+        this.ocultoCrea = ocultoCrea;
+    }
+    
+    
 
     public void setVdocumento(String vdocumento) {
         this.vdocumento = vdocumento;
@@ -341,6 +352,7 @@ public class ClienteController implements Serializable {
         
         selected = new Cliente();
         selected.setIdcliente(0);
+        ocultoCrea = "E";
         selected.setDepartamentoIddepartamento(d);
         System.out.println("departamento-->"+d);
         initializeEmbeddableKey();
@@ -351,9 +363,16 @@ public class ClienteController implements Serializable {
         System.out.println("--<<>>");
     }
     
-    public void buscar(){   
-        limpiar() ;
-        this.lclientesbusqueda= this.ejbFacade.findByNombres(this.vbuscar,this.fcolonia, this.fdireccion);    
+    public void buscar() {
+        this.lclientesbusqueda= this.ejbFacade.findByNombres(this.vbuscar,this.fcolonia, this.fdireccion);
+        
+        if (lclientesbusqueda.isEmpty()) {
+            JsfUtil.addErrorMessage("No se encontraron registros. Favor de intentar de nuevo.");
+        }
+        
+        vbuscar = null;
+        fcolonia = null;
+        fdireccion = null;
     }
     
     public void selecionar(){
@@ -423,7 +442,8 @@ public class ClienteController implements Serializable {
                 
                 
                 long vid = this.ejbFacade.GenerateId();
-                this.selected.setIdcliente((int)vid);  
+                this.selected.setIdcliente((int)vid);
+                ocultoCrea = null;
                 
             }
             
@@ -538,10 +558,14 @@ public class ClienteController implements Serializable {
     }
     
     
-   public void limpiar() {        
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        lclientesbusqueda =null;
+   public void limpiar() {
+       selected = null; // Remove selection
+       items = null;    // Invalidate list of items to trigger re-query.
+       vbuscar = null;
+       fcolonia = null;
+       fdireccion = null;
+       lclientesbusqueda =null;
+       ocultoCrea = null;
     }    
 
     public void actualizaMunicipio(){
