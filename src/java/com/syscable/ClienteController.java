@@ -664,5 +664,9 @@ public class ClienteController implements Serializable {
          lcuota = sb_GenerarCuotas.generarCuotas(vcontrato);
         return "ok";
     }
+    
+    public String mesPago(String v1,String v2) {
+        return JsfUtil.mesLetras(v2)+"/"+v1;
+    }
 }
 

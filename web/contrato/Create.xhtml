@@ -16,9 +16,9 @@
                         <p:outputLabel value="Cliente" for="cliente" />
                         <p:inputText id="cliente" value="#{clienteController.selected.nombres}"   />                          
                         <p:outputLabel value="Fecha Documento" for="fecha" />
-                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{clienteController.vcontrato.fecha}" title="#{bundle.CreateContratoTitle_fecha}" />                         
+                        <p:calendar id="fecha" pattern="dd/MM/yyyy" value="#{clienteController.vcontrato.fecha}" title="#{bundle.CreateContratoTitle_fecha}" />                         
                         <p:outputLabel value="Fecha de Instalacion" for="fechainicio" />
-                        <p:calendar id="fechainicio" pattern="MM/dd/yyyy" value="#{clienteController.vcontrato.fechainicio}" title="#{bundle.EditContratoTitle_fechainicio}"  showOn="button"/>
+                        <p:calendar id="fechainicio" pattern="dd/MM/yyyy" value="#{clienteController.vcontrato.fechainicio}" title="#{bundle.EditContratoTitle_fechainicio}"  showOn="button"/>
                         <p:outputLabel value="Valor de Cuota" for="valorCuota" />
                         <p:inputText id="valorCuota" value="#{clienteController.vcontrato.valorCuota}" title="#{bundle.CreateContratoTitle_valorCuota}" />
                         <p:outputLabel value="Cuotas/Meses:" for="cuotas" />
