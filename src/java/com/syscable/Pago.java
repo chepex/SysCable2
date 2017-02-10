@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Pago.findAll", query = "SELECT p FROM Pago p"),
     @NamedQuery(name = "Pago.findByIdpagos", query = "SELECT p FROM Pago p WHERE p.idpagos = :idpagos"),
-    @NamedQuery(name = "Pago.findByIdContrato", query = "SELECT p FROM Pago p WHERE p.contratoIdcontrato.idcontrato = :idcontrato"),
+    @NamedQuery(name = "Pago.findByIdContrato", query = "SELECT p FROM Pago p WHERE p.contratoIdcontrato.idcontrato = :idcontrato order by p.idpagos desc"),
     @NamedQuery(name = "Pago.findByFecha", query = "SELECT p FROM Pago p WHERE p.fecha = :fecha"),
     @NamedQuery(name = "Pago.findByValor", query = "SELECT p FROM Pago p WHERE p.valor = :valor"),
     @NamedQuery(name = "Pago.findByNumCuota", query = "SELECT p FROM Pago p WHERE p.numCuota = :numCuota"),
@@ -68,6 +68,10 @@ public class Pago implements Serializable {
     @Size(max = 45)
     @Column(name = "user_mod")
     private String userMod;
+    @Column(name = "num_preimpreso")
+    private String numPreimpreso;    
+    
+    
     @Column(name = "date_mod")
     @Temporal(TemporalType.DATE)
     private Date dateMod;
@@ -103,6 +107,14 @@ public class Pago implements Serializable {
 
 
     public Pago() {
+    }
+
+    public String getNumPreimpreso() {
+        return numPreimpreso;
+    }
+
+    public void setNumPreimpreso(String numPreimpreso) {
+        this.numPreimpreso = numPreimpreso;
     }
 
 
