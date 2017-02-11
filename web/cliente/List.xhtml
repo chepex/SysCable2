@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-md-3">  
                                 <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago}" update="@form :growl" />
-                                <p:commandButton id="btnPagar" value="Pagar" actionListener="#{clienteController.crearPago}" update="@form :growl :ClienteBtnForm:tab:datalist2" />
+                                <p:commandButton id="btnPagar" value="Pagar" oncomplete="PF('pagoDialog').show()" update=":PagoCreateForm" />
                             </div>
                         </div>                        
                         <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listPago">
@@ -498,7 +498,7 @@
             <ui:include src="/contrato/Create.xhtml"/>   
             <ui:include src="/ordentrabajo/Create.xhtml"/>   
             <ui:include src="Buscar.xhtml"/>   
-             <ui:include src="Pagar.xhtml"/>   
+            <ui:include src="Pagar.xhtml"/>   
             
             
         </ui:define>
