@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-md-3">  
                                 <p:commandButton id="btnConsulta" value="Consulta" actionListener="#{clienteController.consultaPago}" update="@form :growl" />
-                                <p:commandButton id="btnPagar" value="Pagar" oncomplete="PF('pagoDialog').show()" update=":PagoCreateForm"/>
+                                <p:commandButton id="btnPagar" value="Pagar" oncomplete="PF('pagoDialog').show()" update=":PagoCreateForm" />
                             </div>
                         </div>                        
                         <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listPago">
@@ -86,7 +86,7 @@
 
                         <p:column style="text-align: center">
                             <f:facet name="header">
-                                <h:outputText value="ID PAGO"/>
+                                <h:outputText value="Id Pago"/>
                             </f:facet>
                             <h:outputText value="#{item2.idpagos}"/>
                         </p:column>
@@ -94,8 +94,8 @@
                             <f:facet name="header">
                                 <h:outputText value="Fecha Pago"/>
                             </f:facet>
-                            <h:outputText value="#{item2.cuota.nombre}">
-                               
+                            <h:outputText value="#{clienteController.mesPago(item2.cuota.anio,item2.cuota.mes)}">
+
                             </h:outputText>                            
                         </p:column>
                         <p:column style="text-align: center">
@@ -115,7 +115,9 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListPagoTitle_total}"/>
                             </f:facet>
-                            <h:outputText value="#{item2.total}"/>
+                            <h:outputText value="#{item2.total}">
+                                <f:convertNumber pattern="#0.0000"/>
+                            </h:outputText>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="btnImprimir"   icon="ui-icon ui-icon-print"  value="Recibo" actionListener="#{pagoController.reciboPago}" ajax="false" update="@form :growl" disabled="#{pagoController.selected==null}" />                        
@@ -496,7 +498,7 @@
             <ui:include src="/contrato/Create.xhtml"/>   
             <ui:include src="/ordentrabajo/Create.xhtml"/>   
             <ui:include src="Buscar.xhtml"/>   
-             <ui:include src="Pagar.xhtml"/>   
+            <ui:include src="Pagar.xhtml"/>   
             
             
         </ui:define>

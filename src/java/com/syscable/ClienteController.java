@@ -741,6 +741,10 @@ public class ClienteController implements Serializable {
         reportes.GenerarReporte("/reportes/reciboPago.jasper", params);
         
         return "";           
-    }    
+    } 
+    
+    public String mesPago(String v1,String v2) {
+        return JsfUtil.mesLetras(v2)+"/"+v1;
+    }
 }
 
