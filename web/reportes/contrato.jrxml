@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="ff519b9b-05fa-4dba-9bf6-83558c704ed4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT c.idcliente, 
+	c.nombres, c.apellidos,
+    c.dirInstalacion,
+    c.dir_trabajo_conyugue,
+    c.dui,
+    c.email,
+    c.lugar_trabajo,
+    c.nombre_conyugue, 	 	
+    c.telefono,
+    c.trabajo_conyugue,
+    c1.idcontrato,
+    c1.fecha,
+    p.nombre,
+    p.precio,
+  YEAR(CURDATE())-YEAR(c.fechaNacimiento) + IF(DATE_FORMAT(CURDATE(),'%m-%d') > DATE_FORMAT(c.fechaNacimiento,'%m-%d'), 0, -1) AS `EDAD_ACTUAL`     
+ FROM syscable.cliente  c,  syscable.contrato c1,  contratoproducto cp, producto p
+where c.idcliente = c1.cliente_idcliente
+and c1.idcontrato = cp.contrato_idcontrato
+and cp.producto_idproducto = p.idproducto
+and c1.idcontrato = 4
+;]]>
+	</queryString>
+	<field name="idcliente" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellidos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dirInstalacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dir_trabajo_conyugue" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dui" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="lugar_trabajo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_conyugue" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="trabajo_conyugue" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="idcontrato" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="precio" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="EDAD_ACTUAL" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="207" splitType="Stretch">
+			<staticText>
+				<reportElement x="149" y="3" width="247" height="23" uuid="c563adeb-e481-441a-9bbb-330e4373cc22"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MOVIE CABLE S.A. DE C.V.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="25" width="247" height="19" uuid="309bbd8e-f7d3-426c-ae3a-20b9c5e0f31e"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SU MEJOR ALTERNATIVA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="43" width="546" height="13" uuid="cbd6e4bc-a32c-48d1-8038-0cfd9e9d2e11"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SISTEMAS COMERCIALES DE TV POR CABLES   ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="54" width="546" height="13" uuid="5941932a-0157-43e0-a326-4f77cde9e79d"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1 a Av Nte y 9a Calle Ote N 14, Apopa Tel 2214-8566]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="71" width="546" height="26" uuid="8ebab9f6-0486-40a6-afba-3dfacb2e32a9"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Recuerde el pago de nuestro servicio es por anticipado , ahorre $1.15 mensuales de recargo pagando puntual su cuota. Gratis 2 meses de transmision si cancela un a;o por anticipado. Si desea cobro a domicio la cuota sera $16.00]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="149" y="97" width="247" height="16" uuid="d4aa144c-2eb9-4949-bbee-59caa5b856d3"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contrato de prestacion de servicios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="123" width="52" height="13" uuid="f41200b7-b56b-4000-9baa-4a1ea35238df"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[idcliente]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="58" y="123" width="100" height="13" uuid="6df29f8a-11d9-41ac-9947-c2d8d6716200"/>
+				<textFieldExpression><![CDATA[$F{idcliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="138" width="52" height="13" uuid="d6c44619-e9f7-44eb-8e23-0357db9e1a37"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[nombres]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="58" y="138" width="100" height="13" uuid="8c9c2151-aec3-4bed-85b6-d90d1a454187"/>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="138" width="100" height="13" uuid="c42639c7-0251-465a-a33d-0363b52f7c48"/>
+				<textFieldExpression><![CDATA[$F{apellidos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="152" width="52" height="13" uuid="6258a7f8-7dce-4e9b-ab92-7eb3bf3987cd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[dui]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="58" y="151" width="100" height="13" uuid="da2e88e6-d350-4c8c-974c-3cedd4207cde"/>
+				<textFieldExpression><![CDATA[$F{dui}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="167" width="52" height="13" uuid="82be409c-8410-4373-9aa2-8b66e4222eb8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[edad:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="188" width="100" height="15" uuid="dc5e25e2-f0d9-4ad8-9520-7e008a03ecad"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[profesion_idprofesion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="185" width="52" height="13" uuid="3cee5a04-5bfd-453e-960c-f695aecca099"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[dirInstalacion]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="58" y="184" width="100" height="13" uuid="f688ff07-1b89-4f76-af2b-4579be28cef9"/>
+				<textFieldExpression><![CDATA[$F{dirInstalacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="58" y="167" width="100" height="14" uuid="6f21643d-461f-458e-b625-352312a27b3b"/>
+				<textFieldExpression><![CDATA[$F{EDAD_ACTUAL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="19" y="2" width="100" height="20" uuid="fec000f2-2a1f-49e6-a396-b5dd05d9042a"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Servicios]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="19" y="1" width="100" height="20" uuid="f84d7601-af6f-40f3-ab3c-71dfab0ac251"/>
+				<text><![CDATA[nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="136" y="1" width="65" height="20" uuid="1cdd39d5-a1f4-4ba3-a41b-c691a8d6154c"/>
+				<text><![CDATA[precio]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Prevent">
+			<textField>
+				<reportElement x="19" y="0" width="100" height="17" uuid="f7f28ef1-fc97-4a6f-86a1-984750a81482"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="136" y="0" width="65" height="17" uuid="0f0bd685-b4b2-4ef9-80c9-1400d01e6797"/>
+				<textFieldExpression><![CDATA[$F{precio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="109" splitType="Stretch">
+			<textField>
+				<reportElement x="106" y="11" width="156" height="13" uuid="d27c9455-42f3-4dbf-a615-425cc8c98028"/>
+				<textFieldExpression><![CDATA[$F{lugar_trabajo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="24" width="130" height="13" uuid="c7b52eaf-75ae-4e7d-a822-ccf176c9a17d"/>
+				<textFieldExpression><![CDATA[$F{trabajo_conyugue}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="10" width="91" height="13" uuid="007e2810-0e9c-420c-9786-23f72b1578da"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar de Trabajo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="24" width="143" height="13" uuid="fd1b7c78-5a13-4023-ba4d-9b2788257907"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lugar de Trabajo Conyuge:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="37" width="546" height="52" uuid="793ec1b7-021b-47ac-883d-7ef2335141a1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[El presente contrato tien una vigencia de VEEINTICUATRO meses prorrogables en el servicio por periodos iguales contratados apartir de la fecha de instalacion y fuifinalizado dicho contrato y el cliente ya no desee el servicio puede solicitar la suspension  siempre yt cuando venga personalmente a nuestras instalciones  a requerirlo con tres dias de anticipacion.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
