@@ -6,12 +6,18 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
-    <ui:composition>
+    <ui:composition template="/template.xhtml">
+
 
         
-        <p:dialog id="ContratoCreateDlg" widgetVar="ContratoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="Nuevo Contrato">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListContratoTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
             <h:form id="ContratoCreateForm">
                 <h:panelGroup id="display" >
+                    <center>
                     <p:panelGrid columns="4" rendered="#{clienteController.vcontrato != null}" >
                         <p:outputLabel value="Cliente" for="cliente" />
                         <p:inputText id="cliente" value="#{clienteController.selected.nombres}"   />                          
@@ -24,11 +30,14 @@
                         <p:outputLabel value="Cuotas/Meses:" for="cuotas" />
                         <p:inputText id="cuotas" value="#{clienteController.vcontrato.cuotas}" title="#{bundle.CreateContratoTitle_cuotas}" />                      
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{clienteController.creaContrato()}" update=":growl :ClienteBtnForm" value="#{bundle.Save}"  oncomplete="handleSubmit(args,'ContratoCreateDialog');"/>
+                    <p:commandButton actionListener="#{clienteController.creaContrato()}" update=":growl  " value="#{bundle.Save}"  oncomplete="handleSubmit(args,'ContratoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PF('ContratoCreateDialog').hide()"/>
+                    </center>
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
+           </h:form>
 
+           
+        </ui:define>
     </ui:composition>
+
 </html>

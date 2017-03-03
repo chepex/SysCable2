@@ -205,14 +205,71 @@
                                     <p:rowEditor />
                                 </p:column>
                                 <f:facet name="footer">
-                                    <p:commandButton id="cmbImprimir" value="Imprimir Orden" ajax="false" update=":growl" actionListener="#{ordentrabajoController.despacharOrden}" disabled="#{empty ordentrabajoController.selected}"/>
+                                    <p:commandButton  id="cmbImprimir" value="Imprimir Orden" ajax="false" update=":growl" actionListener="#{ordentrabajoController.despacharOrden}" disabled="#{empty ordentrabajoController.selected}"/>
                                 </f:facet>
                             </p:dataTable>        
                         </p:tab>
                           
                           <p:tab title="Contratos">
-                              <p:commandButton id="createButton2" icon="ui-icon-plus" title="Nuevo Contrato"   disabled="#{clienteController.selected==null}"    actionListener="#{clienteController.precreateContrato()}"  update=":ContratoCreateForm" oncomplete="PF('ContratoCreateDialog').show()"/>
-                           
+                              
+                                <div class="row">
+                            <div class="col-md-6"> 
+                                    <div class="row">
+                                  <div class="col-md-4"> 
+                                      <p:outputLabel value="Fecha de Instalacion"/>
+                                  </div>
+                                  
+                                  <div class="col-md-4"> 
+                                      <p:outputLabel value="Valor de Cuota "/>
+                                  </div>    
+                                  
+                                  <div class="col-md-4"> 
+                                      <p:outputLabel value="Cuotas/Meses: "/>
+                                          
+                                  </div>
+                                  
+                                  </div>
+                                <div class="row">
+                                    <div class="col-md-4">       
+                                      <p:calendar id="fechainicio" pattern="dd/MM/yyyy" value="#{clienteController.cfinicio}" title="#{bundle.EditContratoTitle_fechainicio}"  showOn="button"/>
+                                  </div>
+                                    <div class="col-md-4">     
+                                        <p:inputText id="valorCuota" value="#{clienteController.cvalorCuota}" title="#{bundle.CreateContratoTitle_valorCuota}" />
+                                  </div>
+                                    <div class="col-md-4"> 
+                                        <p:inputText id="cuotas" value="#{clienteController.ccuotas}" title="#{bundle.CreateContratoTitle_cuotas}" />   
+                                  </div>
+                                </div>
+                             </div>   
+                                <div class="col-md-6"> 
+                                      <div class="row">
+                                    <div class="col-md-2">     
+                                     <p:outputLabel value="Servicios: "/>
+                                    </div>
+                                    <div class="col-md-2"> 
+                                        <p:selectOneMenu id="departamentoIddepartamento" value="#{clienteController.vproducto}"  >
+                                         <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
+                                           var="productoItem"
+                                           itemLabel="#{productoItem.nombre}"
+                                           itemValue="#{productoItem}"/>
+                                        </p:selectOneMenu>
+                                      <p:commandButton id="createButton4" icon="ui-icon-plus" title="Nueva Servicio" actionListener="#{clienteController.addProducto()}"  update="lproducto"  />  
+                                    </div>   
+                                          <div class="col-md-2"> </div>
+                                      <div class="col-md-6"> 
+                                          <center>
+                                          <p:dataList value="#{clienteController.lproductos}" var="producto" type="ordered" id="lproducto">
+                                                        <f:facet name="header">
+                                                            Servicios
+                                                        </f:facet>
+                                                        #{producto.nombre}, #{producto.precio}
+                                                    </p:dataList>
+                                              </center>
+                                      </div>
+                                </div>
+                            </div>
+                              </div>
+                                <p:panel rendered="#{clienteController.vcontrato!=null}"  id="listContrato">
                            <p:dataTable id="datalist2" value="#{clienteController.selected.contratoList}" var="item2"
                                  selectionMode="single" selection="#{contratoController.selected}"                               
                                  rowKey="#{item2.idcontrato}"
@@ -222,12 +279,13 @@
                                  scrollHeight="250"
                                  scrollable="true">
                                
+                        
                         <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Numero de Contrato"/>
                             </f:facet>
                             <h:outputText value="#{item2.idcontrato}"/>
-                        </p:column>       
+                        </p:column>                                
                         <p:column style="text-align: center">
                             <f:facet name="header">
                                 <h:outputText value="Fecha Instalaci&oacute;n"/>
@@ -270,7 +328,7 @@
                             </h:outputText>
                         </p:column>                                 
                     </p:dataTable>                        
-      
+                                </p:panel>
                         
                           
                               
@@ -495,7 +553,7 @@
             <ui:include src="Colonia.xhtml"/>
             <ui:include src="Profesion.xhtml"/>
             <ui:include src="Nacionalidad.xhtml"/>    
-            <ui:include src="/contrato/Create.xhtml"/>   
+           
             <ui:include src="/ordentrabajo/Create.xhtml"/>   
             <ui:include src="Buscar.xhtml"/>   
             <ui:include src="Pagar.xhtml"/>   

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -65,6 +67,7 @@ public class ClienteController implements Serializable {
     private List<Cliente> lclientesbusqueda = null;
     private List<Contrato> lcontrato = null;
     private List<Ordentrabajo> lordenes = null;
+    private List<Producto> lproductos = new ArrayList<Producto>();
     private Cliente selected;
     private String vprofesion;
     private String vdocumento;
@@ -74,6 +77,7 @@ public class ClienteController implements Serializable {
     private List<Colonia> lcolonia;    
     private Contrato vcontrato;    
     private Ordentrabajo vordentrabajo;
+    private Producto vproducto;
     private String vaniomes;
     private String fcolonia;    
     private String fdireccion;        
@@ -83,6 +87,9 @@ public class ClienteController implements Serializable {
     private BigDecimal monto;
     private BigDecimal cambio;
      private String ocultoCrea;
+    private BigDecimal cvalorCuota;     
+    private BigDecimal ccuotas;  
+        private Date cfinicio;  
     
     private String vbuscar;
     @ManagedProperty(value="#{ordentrabajoController}")
@@ -94,6 +101,56 @@ public class ClienteController implements Serializable {
          
     }
 
+    public Date getCfinicio() {
+        return cfinicio;
+    }
+
+    public void setCfinicio(Date cfinicio) {
+        this.cfinicio = cfinicio;
+    }
+    
+    
+
+    public BigDecimal getCcuotas() {
+        return ccuotas;
+    }
+
+    public void setCcuotas(BigDecimal ccuotas) {
+        this.ccuotas = ccuotas;
+    }
+    
+
+    public BigDecimal getCvalorCuota() {
+        return cvalorCuota;
+    }
+
+    public void setCvalorCuota(BigDecimal cvalorCuota) {
+        this.cvalorCuota = cvalorCuota;
+    }
+
+    
+    public Producto getVproducto() {
+        return vproducto;
+    }
+
+    public void setVproducto(Producto vproducto) {
+        this.vproducto = vproducto;
+    }
+
+    
+    
+    public List<Producto> getLproductos() {
+        return lproductos;
+    }
+
+    public void setLproductos(List<Producto> lproductos) {
+        this.lproductos = lproductos;
+    }
+
+    public void addProducto(){
+        lproductos.add(vproducto);
+    }
+    
     public String getVdocumento() {
         return vdocumento;
     }
@@ -636,6 +693,8 @@ public class ClienteController implements Serializable {
         JsfUtil.addSuccessMessage("Orden Actualizada.");
     }
     
+    
+    
     public void creaContrato(){
         try{
             vcontrato.setEstado("A");
@@ -746,5 +805,20 @@ public class ClienteController implements Serializable {
     public String mesPago(String v1,String v2) {
         return JsfUtil.mesLetras(v2)+"/"+v1;
     }
+    
+ public String imprimirContrato() {
+        try {
+           
+            HashMap params = new HashMap();
+            params.put("idContrato",vcontrato.getIdcontrato());
+             
+            reportes.GenerarReporte("/ordentrabajo/reportes/contrato.jasper", params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage("Error", new FacesMessage("Error en rptOrdenTrabajo " + e.getMessage()));
+        }
+        return "Ok";
+    }      
 }
 

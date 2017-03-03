@@ -3,6 +3,9 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="idContrato" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT c.idcliente, 
 	c.nombres, c.apellidos,
@@ -23,7 +26,7 @@
 where c.idcliente = c1.cliente_idcliente
 and c1.idcontrato = cp.contrato_idcontrato
 and cp.producto_idproducto = p.idproducto
-and c1.idcontrato = 4
+and c1.idcontrato =  $P{idContrato}
 ;]]>
 	</queryString>
 	<field name="idcliente" class="java.lang.Integer">
